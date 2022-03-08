@@ -1,4 +1,4 @@
-![Logo](https://github.com/VitrixGame/Vitrix/raw/master/logo.png)
+![Logo](https://github.com//Vitrix/raw/master/logo.png)
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/VitrixGame/Vitrix/graphs/commit-activity) [![GitHub license](https://img.shields.io/github/license/VitrixGame/Vitrix.svg)](https://github.com/VitrixGame/Vitrix/blob/master/LICENSE) [![GitHub issues](https://img.shields.io/github/issues/VitrixGame/Vitrix.svg)](https://GitHub.com/VitrixGame/Vitrix/issues/) [![GitHub pull-requests](https://img.shields.io/github/issues-pr/VitrixGame/Vitrix.svg)](https://GitHub.com/VitrixGame/Vitrix/pull/) [![Github all releases](https://img.shields.io/github/downloads/VitrixGame/Vitrix/total.svg)](https://GitHub.com/VitrixGame/Vitrix/releases/) [![GitHub forks](https://img.shields.io/github/forks/VitrixGame/Vitrix.svg?style=social&label=Fork&maxAge=2592000)](https://GitHub.com/VitrixGame/Vitrix/network/) [![GitHub stars](https://img.shields.io/github/stars/VitrixGame/Vitrix.svg?style=social&label=Star&maxAge=2592000)](https://GitHub.com/VitrixGame/Vitrix/stargazers/)
 
 Vitrix is an open-source FPS video game coded in python
@@ -6,6 +6,7 @@ Vitrix is an open-source FPS video game coded in python
 ## Table of contents
 - [Usage](#usage)
   - [Game](#game)
+    - [controls](#controls)
   - [Server](#server)
 - [Installing](#installing)
   - [Requirements](#requirements)
@@ -17,6 +18,10 @@ Vitrix is an open-source FPS video game coded in python
 ## Usage
 ### Game
 You can start the Vitrix Launcher by running the ```main.py``` file in the root directory. Inside the launcher, you can click the ```start``` button, to run Vitrix. It will open a small window, where you can type your desired username. IP address and port options are in the proceeding input fields.
+#### Controls
+WASD - Move forward, left, backward and right.
+Spacebar - Jump
+Tab - Pause the game and escape mouse cursor grab
 
 ### Server
 Starting your own server is simple.
@@ -53,7 +58,7 @@ And is working on support for:
 ### Instructions
 1. First of all, clone the repository using Git SCM:
 ```
-git clone https://github.com/VitrixGame/Vitrix
+git clone https://github.com/ShadityZ/Vitrix
 ```
 2. ```cd``` into the cloned repository
 3. Install Vitrix's dependencies:
