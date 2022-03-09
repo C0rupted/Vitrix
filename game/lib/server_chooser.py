@@ -21,30 +21,26 @@ root.geometry(f'{window_width}x{window_height}+{center_x}+{center_y}')
 def submit():
     try:
         temp = int(E3.get())
-        a_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        location = (E2.get(), E3.get())
-        result_of_check = a_socket.connect_ex(location)
-        if E1.get().strip() != "":
-            if E2.get().strip() != "":
-                if E3.get().strip() != "":
-                    if result_of_check == 0:
-                        with open("data.txt", "w") as file:
-                            file.writelines([E1.get(), "\n",  E2.get(), "\n",  E3.get()])
-                        root.destroy()
-                    else:
-                        n = Notification("Vitrix Error", "Could not connect to server!")
-                        n.show()
-                else:
-                    n = Notification("Vitrix Error", "Port cannot be blank!")
-                n.show()
-            else:
-                n = Notification("Vitrix Error", "IP Address cannot be blank!")
-                n.show()
-        else:
-            n = Notification("Vitrix Error", "Username cannot be blank!")
-            n.show()
     except:
+        global n
         n = Notification("Vitrix Error", "Invalid Port Number!")
+        n.show()
+        return
+
+    if E1.get().strip() != "":
+        if E2.get().strip() != "":
+            if E3.get().strip() != "":
+                with open("data.txt", "w") as file:
+                    file.writelines([E1.get(), "\n",  E2.get(), "\n",  E3.get()])
+                root.destroy()
+            else:
+                n = Notification("Vitrix Error", "Port cannot be blank!")
+            n.show()
+        else:
+            n = Notification("Vitrix Error", "IP Address cannot be blank!")
+            n.show()
+    else:
+        n = Notification("Vitrix Error", "Username cannot be blank!")
         n.show()
     
 
