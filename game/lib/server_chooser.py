@@ -1,6 +1,8 @@
-from logging import root
 from tkinter import *
+import socket
+from notify2 import Notification, init
 
+init("Vitrix")
 root = Tk()
 root.title("Vitrix")
 screen_width = root.winfo_screenwidth()
@@ -15,12 +17,35 @@ center_y = int(screen_height / 2 - window_height / 2)
 root.geometry(f'{window_width}x{window_height}+{center_x}+{center_y}')
 
 
-is_ready = False
-
 def submit():
-    with open("data.txt", "w") as file:
-        file.writelines([E1.get(), "\n",  E2.get(), "\n",  E3.get()])
-    root.destroy()
+    try:
+        temp = int(E3.get())
+        a_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        location = (E2.get(), E3.get())
+        result_of_check = a_socket.connect_ex(location)
+        if E1.get().strip() != "":
+            if E2.get().strip() != "":
+                if E3.get().strip() != "":
+                    if result_of_check == 0:
+                        with open("data.txt", "w") as file:
+                            file.writelines([E1.get(), "\n",  E2.get(), "\n",  E3.get()])
+                        root.destroy()
+                    else:
+                        n = Notification("Vitrix Error", "Could not connect to server!")
+                        n.show()
+                else:
+                    n = Notification("Vitrix Error", "Port cannot be blank!")
+                n.show()
+            else:
+                n = Notification("Vitrix Error", "IP Address cannot be blank!")
+                n.show()
+        else:
+            n = Notification("Vitrix Error", "Username cannot be blank!")
+            n.show()
+    except:
+        n = Notification("Vitrix Error", "Invalid Port Number!")
+        n.show()
+    
 
 L1 = Label(root, text="Username:")
 L1.place(anchor = CENTER, relx = .10, rely = .1)
