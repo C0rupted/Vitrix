@@ -13,6 +13,7 @@ class Player(FirstPersonController):
             collider="box",
             speed=7
         )
+
         self.cursor.color = ursina.color.rgb(255, 0, 0, 122)
 
         self.gun = ursina.Entity(

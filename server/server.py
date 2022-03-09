@@ -8,15 +8,17 @@ import time
 import random
 import threading
 
+
 ADDR = "0.0.0.0"
 PORT = 26822
 MAX_PLAYERS = 10
 MSG_SIZE = 2048
 
-# Setup server socket
+
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((ADDR, PORT))
 s.listen(MAX_PLAYERS)
+
 
 players = {}
 
@@ -75,7 +77,6 @@ def handle_messages(identifier: str):
             players[identifier]["rotation"] = msg_json["rotation"]
             players[identifier]["health"] = msg_json["health"]
 
-        # Tell other players about player moving
         for player_id in players:
             if player_id != identifier:
                 player_info = players[player_id]
@@ -85,7 +86,6 @@ def handle_messages(identifier: str):
                 except OSError:
                     pass
 
-    # Tell other players about player leaving
     for player_id in players:
         if player_id != identifier:
             player_info = players[player_id]
@@ -104,14 +104,13 @@ def main():
     print("Server started, listening for new connections...")
 
     while True:
-        # Accept new connection and assign unique ID
         conn, addr = s.accept()
         new_id = generate_id(players, MAX_PLAYERS)
         conn.send(new_id.encode("utf8"))
         username = conn.recv(MSG_SIZE).decode("utf8")
         new_player_info = {"socket": conn, "username": username, "position": (0, 1, 0), "rotation": 0, "health": 100}
 
-        # Tell existing players about new player
+
         for player_id in players:
             if player_id != new_id:
                 player_info = players[player_id]
@@ -129,7 +128,6 @@ def main():
                 except OSError:
                     pass
 
-        # Tell new player about existing players
         for player_id in players:
             if player_id != new_id:
                 player_info = players[player_id]
@@ -147,10 +145,8 @@ def main():
                 except OSError:
                     pass
 
-        # Add new player to players list, effectively allowing it to receive messages from other players
         players[new_id] = new_player_info
 
-        # Start thread to receive messages from client
         msg_thread = threading.Thread(target=handle_messages, args=(new_id,), daemon=True)
         msg_thread.start()
 
@@ -160,10 +156,14 @@ def main():
 if __name__ == "__main__":
     try:
         main()
+
     except KeyboardInterrupt:
         pass
+
     except SystemExit:
         pass
+
     finally:
         print("Exiting")
+        
         s.close()

@@ -24,8 +24,10 @@ class Network:
         self.recv_size = 2048
         self.id = 0
 
+
     def settimeout(self, value):
         self.client.settimeout(value)
+
 
     def connect(self):
         """
@@ -35,6 +37,7 @@ class Network:
         self.client.connect((self.addr, self.port))
         self.id = self.client.recv(self.recv_size).decode("utf8")
         self.client.send(self.username.encode("utf8"))
+
 
     def receive_info(self):
         try:
@@ -55,6 +58,7 @@ class Network:
 
         return msg_json
 
+
     def send_player(self, player: Player):
         player_info = {
             "object": "player",
@@ -72,6 +76,7 @@ class Network:
         except socket.error as e:
             print(e)
 
+
     def send_bullet(self, bullet: Bullet):
         bullet_info = {
             "object": "bullet",
@@ -87,6 +92,7 @@ class Network:
             self.client.send(bullet_info_encoded)
         except socket.error as e:
             print(e)
+
 
     def send_health(self, player: Enemy):
         health_info = {

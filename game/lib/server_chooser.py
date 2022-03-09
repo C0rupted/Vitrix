@@ -2,6 +2,7 @@ from tkinter import *
 import socket
 from notify2 import Notification, init
 
+
 init("Vitrix")
 root = Tk()
 root.title("Vitrix")
@@ -62,7 +63,9 @@ L3.place(anchor = CENTER, relx = .10, rely = .5)
 E3 = Entry(root, bd = 5)
 E3.place(anchor = CENTER, relx = .5, rely = .5)
 
+
 submit = Button(root, text="Join", width=10, command=submit)
 submit.place(anchor = CENTER, relx = .5, rely = .8)
+
 
 root.mainloop()

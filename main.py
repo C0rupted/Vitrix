@@ -1,10 +1,12 @@
 from ursina import *
 from threading import Thread
 
+
 app = Ursina()
 window.show_ursina_splash = False
 window.title = "Vitrix Launcher"
 window.borderless = False
+
 
 class MenuButton(Button):
     def __init__(self, text='', **kwargs):
@@ -13,11 +15,12 @@ class MenuButton(Button):
         for key, value in kwargs.items():
             setattr(self, key ,value)
 
-# button_size = (.25, .075)
+
 button_spacing = .075 * 1.25
 menu_parent = Entity(parent=camera.ui, y=.15)
 main_menu = Entity(parent=menu_parent)
 options_menu = Entity(parent=menu_parent)
+
 
 state_handler = Animator({
     'main_menu' : main_menu,
@@ -25,12 +28,13 @@ state_handler = Animator({
     }
 )
 
+
 def start_game():
     menu_parent.enabled = False
     app.destroy()
     os.system("python3 game/game.py")
 
-# main menu content
+
 main_menu.buttons = [
     MenuButton('start', on_click=Func(start_game)),
     MenuButton('options', on_click=Func(setattr, state_handler, 'state', 'options_menu')),
@@ -41,7 +45,6 @@ for i, e in enumerate(main_menu.buttons):
     e.y = (-i-2) * button_spacing
 
 
-# options menu content
 review_text = Text(parent=options_menu, x=.275, y=.25, text='Preview text', origin=(-.5,0))
 for t in [e for e in scene.entities if isinstance(e, Text)]:
     t.original_scale = t.scale
@@ -65,7 +68,6 @@ for i, e in enumerate((text_scale_slider, volume_slider, options_back)):
     e.y = -i * button_spacing
 
 
-# animate the buttons in nicely when changing menu
 for menu in (main_menu, options_menu):
     def animate_in_menu(menu=menu):
         for i, e in enumerate(menu.children):
@@ -84,5 +86,6 @@ for menu in (main_menu, options_menu):
 
 
 background = Entity(model='quad', texture='shore', parent=camera.ui, scale=(camera.aspect_ratio,1), color=color.white, z=1)
+
 
 app.run()

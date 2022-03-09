@@ -35,6 +35,7 @@ class Enemy(ursina.Entity):
         self.id = identifier
         self.username = username
 
+
     def update(self):
         try:
             color_saturation = 1 - self.health / 100

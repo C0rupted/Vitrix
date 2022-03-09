@@ -11,11 +11,13 @@ class Bullet(ursina.Entity):
         dir_rad = ursina.math.radians(direction)
         x_dir_rad = ursina.math.radians(x_direction)
 
+
         self.velocity = ursina.Vec3(
             ursina.math.sin(dir_rad) * ursina.math.cos(x_dir_rad),
             ursina.math.sin(x_dir_rad),
             ursina.math.cos(dir_rad) * ursina.math.cos(x_dir_rad)
         ) * speed
+
 
         super().__init__(
             position=position + self.velocity / speed,
@@ -25,11 +27,13 @@ class Bullet(ursina.Entity):
             scale=0.2
         )
 
+
         self.damage = damage
         self.direction = direction
         self.x_direction = x_direction
         self.slave = slave
         self.network = network
+
 
     def update(self):
         self.position += self.velocity * ursina.time.dt

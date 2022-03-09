@@ -21,6 +21,7 @@ with open("data.txt", "r") as file:
     server_port = lines[2].strip()
     os.remove(file.name)
 
+
 while True:
     print(username, " ", server_addr, " ", server_port)
     try:
@@ -51,6 +52,7 @@ while True:
     if not error_occurred:
         break
 
+
 app = ursina.Ursina()
 ursina.window.borderless = False
 ursina.window.title = "Vitrix"
@@ -65,6 +67,7 @@ sky = ursina.Entity(
     double_sided=True
 )
 player = Player(ursina.Vec3(0, 1, 0))
+
 lock = True
 prev_pos = player.world_position
 prev_dir = player.world_rotation_y
@@ -182,6 +185,7 @@ def main():
     msg_thread = threading.Thread(target=receive, daemon=True)
     msg_thread.start()
     app.run()
+
 
 
 if __name__ == "__main__":
