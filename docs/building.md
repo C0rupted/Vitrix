@@ -1,9 +1,9 @@
 # Building (WIP - THIS ARTICLE IS INCOMPLETE)
 ## Installing prerequisites
 First of all, you should go set up Vitrix, if you haven't already.<br>
-Then, go ahead and install [Nuitka](https://nuitka.net/), it is the compiler we're going to be using to build Vitrix:
+Then, go ahead and install [Nuitka](https://nuitka.net/), it is the compiler we're going to be using to build Vitrix: (You will also need ```imageio```)
 ```
-pip3 install nuitka
+pip3 install nuitka imageio
 ```
 Now ```cd``` into the directory where you have cloned Vitrix:
 ```
