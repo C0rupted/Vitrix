@@ -67,7 +67,7 @@ pip install -r requirements.txt
 ```
 4. On Linux you will also need to install the python3-tk package. Here is an example for Ubuntu:
 ```
-sudo apt install python3-tk
+sudo apt install python3-tk python-is-python3
 ```
 5. Well done! Now you can run the ```main.py``` script in the repository folder to start Vitrix Launcher.
 

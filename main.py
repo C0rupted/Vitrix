@@ -32,7 +32,7 @@ state_handler = Animator({
 def start_game():
     menu_parent.enabled = False
     app.destroy()
-    os.system("python3 game/game.py")
+    os.system("python game/game.py")
 
 
 main_menu.buttons = [
