@@ -14,13 +14,16 @@ from lib.bullet import Bullet
 
 
 import lib.server_chooser as server_chooser
-    
-with open("data.txt", "r") as file:
-    lines =  file.readlines()
-    username = lines[0].strip()
-    server_addr = lines[1].strip()
-    server_port = lines[2].strip()
-    os.remove(file.name)
+
+try:
+    with open("data.txt", "r") as file:
+        lines =  file.readlines()
+        username = lines[0].strip()
+        server_addr = lines[1].strip()
+        server_port = lines[2].strip()
+        os.remove(file.name)
+except FileNotFoundError:
+    exit()
 
 
 while True:
