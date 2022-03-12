@@ -184,6 +184,7 @@ def input(key):
 
     if key == "left mouse down" and player.health > 0:
         b_pos = player.position + ursina.Vec3(0, 2, 0)
+        ursina.Audio("pew").play()
         bullet = Bullet(b_pos, player.world_rotation_y, -player.camera_pivot.world_rotation_x, n)
         n.send_bullet(bullet)
         ursina.destroy(bullet, delay=2)
