@@ -20,7 +20,9 @@ Vitrix is an open-source FPS video game coded in python
 You can start the Vitrix Launcher by running the ```main.py``` file in the root directory. Inside the launcher, you can click the ```start``` button, to run Vitrix. It will open a small window, where you can type your desired username. IP address and port options are in the proceeding input fields.
 #### Controls
 WASD - Move forward, left, backward and right.
+
 Spacebar - Jump
+
 Tab - Pause the game and escape mouse cursor grab
 
 ### Server
@@ -45,7 +47,7 @@ Vitrix has been official tested on the following platforms:
 
 And is working on support for:
 
-![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white) ![Mac OS](https://img.shields.io/badge/mac%20os-000000?style=for-the-badge&logo=macos&logoColor=F0F0F0)
+![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white) ![Mac OS](https://img.shields.io/badge/mac%20os-000000?style=for-the-badge&logo=macos&logoColor=F0F0F0) ![Raspberry Pi](https://img.shields.io/badge/-RaspberryPi-C51A4A?style=for-the-badge&logo=Raspberry-Pi)
 
 ##### Hardware Requirements
 - A 1GHz or faster 64-bit processer (essentially any decent processor)
