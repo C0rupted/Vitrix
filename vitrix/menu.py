@@ -1,11 +1,12 @@
+import os
 from ursina import *
-from threading import Thread
 
 
 app = Ursina()
 window.show_ursina_splash = False
 window.title = "Vitrix Launcher"
 window.borderless = False
+dir_path = os.path.dirname(os.path.realpath(__file__))
 
 
 class MenuButton(Button):
@@ -39,7 +40,7 @@ state_handler = Animator({
 def start_game():
     menu_parent.enabled = False
     app.destroy()
-    os.system("python game/game.py")
+    os.system("python " + dir_path + "/game.py")
     exit()
 
 
