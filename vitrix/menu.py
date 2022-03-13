@@ -1,11 +1,61 @@
 import os
+from direct.stdpy import thread
 from ursina import *
+from ursina.prefabs.health_bar import HealthBar
+
+
+def start_game():
+    app.destroy()
+    os.system("python " + dir_path + "/game.py")
+    exit()
+
+
+class LoadingWheel(Entity):
+    def __init__(self, **kwargs):
+        super().__init__()
+        self.parent = camera.ui
+        self.point = Entity(parent=self, model=Circle(24, mode='point', thickness=.03), color=color.light_gray, y=.75, scale=2, texture='circle')
+        self.point2 = Entity(parent=self, model=Circle(12, mode='point', thickness=.03), color=color.light_gray, y=.75, scale=1, texture='circle')
+
+        self.scale = .025
+        self.text_entity = Text(world_parent=self, text='loading...', origin=(0,1.5), color=color.light_gray)
+        self.y = -.25
+
+        self.bg = Entity(parent=self, model='quad', scale_x=camera.aspect_ratio, color=color.black, z=1)
+        self.bg.scale *= 400
+
+        for key, value in kwargs.items():
+            setattr(self, key ,value)
+
+
+    def update(self):
+        self.point.rotation_y += 5
+        self.point2.rotation_y += 3
+
+is_loaded = False
+
+def load_menu():
+    global is_loaded
+    while not is_loaded == True:
+        pass
+    print('Loaded Menu')
+    loading_screen.enabled = False
+    for i, e in enumerate(main_menu.buttons):
+        e.enabled = True
 
 
 app = Ursina()
+loading_screen = LoadingWheel(enabled=False)
 window.show_ursina_splash = False
-window.title = "Vitrix Launcher"
+window.title = "Vitrix"
 window.borderless = False
+
+loading_screen.enabled = True
+try:
+    thread.start_new_thread(function=load_menu, args='')
+except Exception as e:
+    print('error starting thread', e)
+
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
 
@@ -37,13 +87,6 @@ state_handler = Animator({
 )
 
 
-def start_game():
-    menu_parent.enabled = False
-    app.destroy()
-    os.system("python " + dir_path + "/game.py")
-    exit()
-
-
 main_menu.buttons = [
     MenuButton('Start', on_click=Func(start_game)),
     MenuButton('Options', on_click=Func(setattr, state_handler, 'state', 'options_menu')),
@@ -52,6 +95,7 @@ main_menu.buttons = [
 for i, e in enumerate(main_menu.buttons):
     e.parent = main_menu
     e.y = (-i-2) * button_spacing
+    e.enabled = False
 
 
 review_text = Text(parent=options_menu, x=.275, y=.25, text='Preview text', origin=(-.5,0))
@@ -71,6 +115,7 @@ options_back = MenuButton(parent=options_menu, text='Back', x=-.25, origin_x=-.5
 
 for i, e in enumerate((text_scale_slider, options_back)):
     e.y = -i * button_spacing
+
 
 
 for menu in (main_menu, options_menu):
@@ -97,4 +142,5 @@ background = Entity(model='quad', texture='background', parent=camera.ui,
 
 
 playBackgroundMusic()
+is_loaded = True
 app.run()
