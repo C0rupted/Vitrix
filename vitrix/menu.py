@@ -1,7 +1,6 @@
 import os
 from direct.stdpy import thread
 from ursina import *
-from ursina.prefabs.health_bar import HealthBar
 
 
 def start_game():
