@@ -6,7 +6,7 @@ from ursina import *
 def start_game():
     app.destroy()
     os.system("python " + dir_path + "/game.py")
-    exit()
+    os._exit(0)
 
 
 class LoadingWheel(Entity):
