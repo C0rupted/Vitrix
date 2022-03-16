@@ -23,7 +23,8 @@ class Player(FirstPersonController):
             rotation=ursina.Vec3(-20, -20, -5),
             model="cube",
             texture="white_cube",
-            color=ursina.color.color(0, 0, 0.4)
+            color=ursina.color.color(0, 0, 0.4),
+            on_cooldown=False
         )
 
         self.healthbar_pos = ursina.Vec2(0, 0.45)
