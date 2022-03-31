@@ -23,7 +23,7 @@
     <a href="https://github.com/ShadityZ/Vitrix/graphs/contributors"><img src="https://img.shields.io/github/contributors/ShadityZ/Vitrix" alt="contributors"></a>
     <a href="https://github.com/ShadityZ/Vitrix/pulls"><img src="https://img.shields.io/github/issues-pr/ShadityZ/Vitrix" alt="prs"></a>
     <a href="https://github.com/ShadityZ/Vitrix/issues"><img src="https://img.shields.io/github/issues/ShadityZ/Vitrix" alt="issues"></a>
-    <a href="https://github.com/ShadityZ/Vitrix/blob/master/COPYING"><img src="https://img.shields.io/github/license/ShadityZ/Vitrix" alt="license"></a>
+    <img src="https://img.shields.io/github/license/ShadityZ/Vitrix" alt="license">
 
 <p align="center"><strong>Made with :heart: by <a href="https://github.com/ShadityZ">ShadityZ</a></strong> and <a href="https://github.com/Botspot/pi-apps/graphs/contributors">contributors</a>
 
