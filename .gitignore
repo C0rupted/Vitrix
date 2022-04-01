@@ -1,3 +1,5 @@
 vitrix/lib/__pycache__/
-menu.build/
-menu.dist/
+vitrix/__pycache__/
+venvs-config/
+build/
+dist/
