@@ -1,6 +1,6 @@
-# Installing Vitrix - (WIP) THIS ARTICLE IS INCOMPLETE
+# Installing Vitrix
 
-**NOTICE:** Vitrix has plans to upload prebuilt applications every month. The next prebuilt will be coming out in April. 
+**NOTICE:** Vitrix has plans to upload prebuilt applications every month. The next prebuilt will be coming out in this month. 
 ### Requirements
 Vitrix has been official tested on the following platforms:
 
@@ -20,7 +20,11 @@ And is working on support for:
 ##### Software Requirements
 - Python 3
 
-### Instructions
+### Instructions - Prebuilts
+Prebuilts aren't done yet, but we will be making one soon, so keep an eye out for them. Similarly, 
+a build script for users that would like to build vitrix themselves is also coming out soon.
+
+### Instructions - Running Directly
 1. First of all, clone the repository using Git SCM:
 ```
 git clone https://github.com/ShadityZ/Vitrix
