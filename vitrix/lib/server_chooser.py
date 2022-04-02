@@ -35,7 +35,7 @@ def submit():
                 root.destroy()
             else:
                 n = Notification("Vitrix Error", "Port cannot be blank!")
-            n.show()
+                n.show()
         else:
             n = Notification("Vitrix Error", "IP Address cannot be blank!")
             n.show()
