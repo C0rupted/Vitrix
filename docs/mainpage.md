@@ -3,7 +3,7 @@ Sadly, it's still in development, but many articles can still be accessed and us
 
 #### Below, you can find a TODO list for the docs we need to work on:
 - [ ] Building Vitrix section - Status: Critical - (WIP)
-- [ ] Installing - Status: Medium - (WIP)
-- [ ] Setting up a server - Status: Medium
+- [x] Installing
+- [ ] Setting up a server - Status: Medium - (WIP)
 - [ ] Learning to play - Status: Medium
 - [ ] Official Server List - Status: Low
