@@ -4,7 +4,6 @@ import shutil
 import datetime
 import platform
 import subprocess
-from venvctl import VenvCtl
 
 
 
@@ -26,7 +25,6 @@ def run(command, output=1):
 
 def print_seperator():
     columns = str(os.get_terminal_size()).split("=")[1].split(",")[0]
-
     print()
     print("-" * int(columns))
     print()
@@ -41,9 +39,11 @@ vitrix_ver = d.strftime("%m-%Y")
 if platform.system() == "Linux":
     operating_sys = "linux"
 elif platform.system() == "Windows":
-    operating_sys = "windows"
+    #operating_sys = "windows"
+    print("Sorry, Vitrix doesn't support your platform just yet. :(")
 elif platform.system() == "Darwin":
-    operating_sys = "mac"
+    #operating_sys = "mac"
+    print("Sorry, Vitrix doesn't support your platform just yet. :(")
 else:
     print("Sorry, Vitrix doesn't support your platform just yet. :(")
 
@@ -69,15 +69,18 @@ print("Building...\n\n")
 with open(dir_path + "/requirements.txt") as file:
     packages = file.readlines()
 
-VenvCtl.create_venv(name="python-env", packages=packages,
-                    output_dir=build_path)
+if operating_sys == "linux":
+    from venvctl import VenvCtl
 
-shutil.rmtree(build_path + "/builds")
-shutil.rmtree(build_path + "/reports")
-
-shutil.copytree(dir_path + "/vitrix", build_path + "/vitrix")
-if operating_sys == 'linux':
+    VenvCtl.create_venv(name="python-env", packages=packages,
+                        output_dir=build_path)
+    shutil.rmtree(build_path + "/builds")
+    shutil.rmtree(build_path + "/reports")
     shutil.copy("data/linux/vitrix.sh", "build")
+
+
+shutil.copytree(dir_path + "/vitrix", build_path + "/src", 
+                ignore=shutil.ignore_patterns("__pycache__"))
 
 pkg_name = "Vitrix_" + vitrix_ver + "_" + operating_sys
 
