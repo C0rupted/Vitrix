@@ -42,20 +42,23 @@ while True:
     try:
         n.connect()
     except ConnectionRefusedError:
-        n = notify2.Notification("Vitrix Error", "Connection refused! This can be because server hasn't started or has reached it's player limit.")
-        n.show()
+        note = notify2.Notification("Vitrix Error", "Connection refused! This can be because server hasn't started or has reached it's player limit.")
+        note.show()
         error_occurred = True
     except socket.timeout:
-        n = notify2.Notification("Vitrix Error", "Server took too long to respond, please try again later...")
-        n.show()
+        note = notify2.Notification("Vitrix Error", "Server took too long to respond, please try again later...")
+        note.show()
         error_occurred = True
     except socket.gaierror:
-        n = notify2.Notification("Vitrix Error", "The IP address you entered is invalid, please try again with a valid address...")
-        n.show()
+        note = notify2.Notification("Vitrix Error", "The IP address you entered is invalid, please try again with a valid address...")
+        note.show()
         error_occurred = True
     finally:
         n.settimeout(None)
 
+    if error_occurred:
+        exit()
+    
     if not error_occurred:
         break
 
