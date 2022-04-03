@@ -3,9 +3,14 @@ from direct.stdpy import thread
 from ursina import *
 
 
-def start_game():
+def start_multiplayer():
     app.destroy()
-    os.system("python " + dir_path + "/game.py")
+    os.system("python " + dir_path + "/multiplayer.py")
+    os._exit(0)
+
+def start_singleplayer():
+    app.destroy()
+    os.system("python " + dir_path + "/singleplayer.py")
     os._exit(0)
 
 
@@ -51,18 +56,20 @@ def load_menu():
     button_spacing = .075 * 1.25
     menu_parent = Entity(parent=camera.ui, y=.15)
     main_menu = Entity(parent=menu_parent)
+    load_menu = Entity(parent=menu_parent)
     options_menu = Entity(parent=menu_parent)
 
 
     state_handler = Animator({
         'main_menu' : main_menu,
+        'load_menu' : load_menu,
         'options_menu' : options_menu,
         }
     )
 
 
     main_menu.buttons = [
-        MenuButton('Start', on_click=Func(start_game)),
+        MenuButton('Start', on_click=Func(setattr, state_handler, 'state', 'load_menu')),
         MenuButton('Options', on_click=Func(setattr, state_handler, 'state', 'options_menu')),
         MenuButton('Quit', on_click=Sequence(Wait(.01), Func(sys.exit))),
     ]
@@ -70,9 +77,22 @@ def load_menu():
         e.parent = main_menu
         e.y = (-i-2) * button_spacing
         e.enabled = False
+    
+
+    singleplayer_btn = MenuButton(parent=load_menu, text="Singleplayer", 
+                                  on_click=Func(start_singleplayer), y=(i*button_spacing))
+    
+    multiplayer_btn = MenuButton(parent=load_menu, text="Multiplayer", 
+                                  on_click=Func(start_multiplayer), y=((i-1)*button_spacing))
+
+    load_menu.back_button = MenuButton(parent=load_menu, text='back', 
+                                       y=((-i-2)*button_spacing), 
+                                    on_click=Func(setattr, state_handler, 
+                                                  'state', 'main_menu'))
 
 
-    review_text = Text(parent=options_menu, x=.275, y=.25, text='Preview text', origin=(-.5,0))
+    review_text = Text(parent=options_menu, x=.275, y=.25, text='Preview text', 
+                       origin=(-.5,0))
     for t in [e for e in scene.entities if isinstance(e, Text)]:
         t.original_scale = t.scale
 
@@ -92,7 +112,7 @@ def load_menu():
 
 
 
-    for menu in (main_menu, options_menu):
+    for menu in (main_menu, load_menu, options_menu):
         def animate_in_menu(menu=menu):
             for i, e in enumerate(menu.children):
                 e.original_x = e.x
