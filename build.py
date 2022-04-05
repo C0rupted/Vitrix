@@ -53,8 +53,10 @@ print_seperator()
 
 
 print("Preparing...\n")
-
-shutil.rmtree(build_path)
+try:
+    shutil.rmtree(build_path)
+except:
+    os.mkdir(build_path)
 os.chdir(dir_path)
 
 print("Done!")
@@ -77,6 +79,9 @@ if operating_sys == "linux":
     shutil.rmtree(build_path + "/builds")
     shutil.rmtree(build_path + "/reports")
     shutil.copy("data/linux/vitrix.sh", "build")
+
+if operating_sys == "windows":
+    print("building on windows")
 
 
 shutil.copytree(dir_path + "/vitrix", build_path + "/src", 
