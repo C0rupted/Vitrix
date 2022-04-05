@@ -1,5 +1,5 @@
 import os
-from direct.stdpy import thread
+import threading
 from ursina import *
 
 
@@ -153,8 +153,8 @@ window.size = (600, 600)
 
 loading_screen.enabled = True
 try:
-    thread.start_new_thread(function=load_menu, args='')
-except Exception as e:
+    threading.Thread(target=load_menu).start()
+except:
     print('error starting thread', e)
 
 
