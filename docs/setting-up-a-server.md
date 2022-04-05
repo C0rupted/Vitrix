@@ -2,16 +2,23 @@
 
 Vitrix servers are places to play and communicate with your friends. Setting up a server is easy.
 
-First of all, make sure you have cloned Vitrix or downloaded the [zip](https://github.com/ShadityZ/Vitrix/archive/refs/heads/master.zip).
+
+## Requirements
+Vitrix servers should work on any platform that can run Python. However, it is recommended to use Linux as you may encounter some problems with
+the Windows 10/11 firewall and port-forwarding, but on Linux, all these steps are easy, and as python comes preinstalled, the firewall problems don't apply.
+
+## Starting your server
+1. First of all, make sure you have cloned Vitrix or downloaded the [zip](https://github.com/ShadityZ/Vitrix/archive/refs/heads/master.zip).
 Make sure your terminal's working directory is where you cloned/extracted Vitrix.
 ```
 cd /path/to/Vitrix
 ```
-Then, make sure you have python ```3.9.7``` installed, as it is the only tested version of python for Vitrix. Then starting the Vitrix server is
+2. Then, make sure you have python ```3.9.7``` installed, as it is the only tested version of python for Vitrix. Then starting the Vitrix server is
 as easy as running the following command:
 ```
 python server/server.py
 ```
+#### Finding your Server's IP
 Then you have succesfully started your Vitrix server! On Linux, you can check the IP address by running: ```ifconfig```. If you get an error, saying,
 ```
 Command 'ifconfig' not found
