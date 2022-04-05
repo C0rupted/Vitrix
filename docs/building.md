@@ -1,13 +1,16 @@
 # Building (WIP - THIS ARTICLE IS INCOMPLETE)
 
-Building will allow you create portable binaries for your operating system, essentially apps that don't require python installed to run.
+Building will allow you create portable binaries for your operating system, essentially apps that don't require python installed to run. Building Vitrix is really easy, as there is a script to automate all of it! 
 
 ### NOTE: At the moment, only Linux is supported. Windows and MacOS support will be coming soon.
 
-Building Vitrix is really easy, as there is a script to automate all of it! Simply run:
+First, make sure your terminal has the vitrix folder selected as the main working folder, then just execute the script:
+```
+cd /path/to/Vitrix
 
+python build.py
 ```
-python3 build.py
-```
+
+A zip file will be output in the root folder of the Vitrix repository. It will be something like: ```Vitrix_04-22_linux.zip```
 
 If you have any problems with the build process, please create an issue on the [issues page](https://github.com/ShadityZ/Vitrix/issues).
