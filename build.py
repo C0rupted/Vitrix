@@ -41,11 +41,14 @@ if platform.system() == "Linux":
 elif platform.system() == "Windows":
     #operating_sys = "windows"
     print("Sorry, Vitrix doesn't support your platform just yet. :(")
+    exit()
 elif platform.system() == "Darwin":
     #operating_sys = "mac"
     print("Sorry, Vitrix doesn't support your platform just yet. :(")
+    exit()
 else:
     print("Sorry, Vitrix doesn't support your platform just yet. :(")
+    exit()
 
 print("\nBuild Path:        " + build_path)
 print_seperator()
@@ -79,9 +82,6 @@ if operating_sys == "linux":
     shutil.rmtree(build_path + "/builds")
     shutil.rmtree(build_path + "/reports")
     shutil.copy("data/linux/vitrix.sh", "build")
-
-if operating_sys == "windows":
-    print("building on windows")
 
 
 shutil.copytree(dir_path + "/vitrix", build_path + "/src", 
