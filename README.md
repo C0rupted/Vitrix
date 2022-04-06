@@ -64,4 +64,4 @@ By default the server uses port ```26822```. The IP address can be found using a
 To install Vitrix, check out the [Installation Guide](https://github.com/ShadityZ/Vitrix/blob/docs-development/docs/installing.md) from the docs.
   
 ## Building
-This section is a WIP
+The build process can be found at the docs: [**Building Vitrix**](https://github.com/ShadityZ/Vitrix/blob/docs-development/docs/building.md)
