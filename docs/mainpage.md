@@ -1,9 +1,10 @@
 # Welcome to the Official Vitrix Documentation!
-Sadly, it's still in development, but many articles can still be accessed and used!
+Vitrix is a game for the community to spend their time and play! The following guides help you to learn and get used to Vitrix!
 
-#### Below, you can find a TODO list for the docs we need to work on:
-- [x] Building Vitrix section
-- [x] Installing
-- [x] Setting up a server
-- [ ] Learning to play - Status: Medium - (WIP)
-- [ ] Official Server List - Status: Low
+### Here are some articles for Vitrix players:
+* [**Installing the game**](https://github.com/ShadityZ/Vitrix/blob/docs-development/docs/installing.md)
+* [**Learning to play!**](https://github.com/ShadityZ/Vitrix/blob/docs-development/docs/playing.md)
+* [**Setting up your own server!**](https://github.com/ShadityZ/Vitrix/blob/docs-development/docs/setting-up-a-server.md)
+
+### Here is an article for developers:
+* [**Building Vitrix**](https://github.com/ShadityZ/Vitrix/blob/docs-development/docs/building.md)
