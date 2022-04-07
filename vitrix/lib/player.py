@@ -65,6 +65,9 @@ class Player(FirstPersonController):
     def update(self):
         self.healthbar.scale_x = self.health / 100 * self.healthbar_size.x
 
+        if self.y < -10:
+            self.position = ursina.Vec3(0, 2, 0)
+
         if self.health <= 0:
             if not self.death_message_shown:
                 self.death()
