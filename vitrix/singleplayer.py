@@ -1,12 +1,10 @@
 import os
-import sys
-import threading
 import ursina
 
 from lib.floor import Floor
 from lib.map import Map
 from lib.player import Player
-from lib.enemy import Enemy
+from lib.enemy import Zombie
 from lib.bullet import Bullet
 
 
@@ -28,6 +26,7 @@ sky = ursina.Entity(
 player = Player(ursina.Vec3(0, 1, 0))
 
 lock = True
+quit = False
 prev_pos = player.world_position
 prev_dir = player.world_rotation_y
 enemies = []
@@ -60,6 +59,9 @@ def input(key):
             player.on_disable()
             player.is_paused = False
 
+    if key == "l":
+        enemies.append(Zombie(ursina.Vec3(0, 1.5, 0), player))
+
     if key == "left mouse down" and player.health > 0:
         if not player.gun.on_cooldown:
             player.gun.on_cooldown = True
@@ -76,4 +78,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()  
+    main()

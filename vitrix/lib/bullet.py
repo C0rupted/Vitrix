@@ -1,9 +1,8 @@
 import random
-from numpy import singlecomplex
 import ursina
 import os
 
-from lib.enemy import Enemy
+from lib.enemy import Enemy, Zombie
 
 
 class Bullet(ursina.Entity):
@@ -47,7 +46,7 @@ class Bullet(ursina.Entity):
         if hit_info.hit:
             if not self.slave:
                 for entity in hit_info.entities:
-                    if isinstance(entity, Enemy):
+                    if isinstance(entity, Enemy) or isinstance(entity, Zombie):
                         entity.health -= self.damage
                         if self.singleplayer == False:
                             self.network.send_health(entity)
