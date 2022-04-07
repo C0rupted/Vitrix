@@ -39,10 +39,6 @@ pause_text = ursina.Text(
 
 
 
-def update():
-    pass
-
-
 def input(key):
     global lock
     global pause_text
