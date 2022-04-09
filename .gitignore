@@ -3,3 +3,4 @@ vitrix/__pycache__/
 venvs-config/
 build/
 dist/
+test/
