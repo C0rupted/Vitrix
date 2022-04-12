@@ -38,14 +38,7 @@
 - [Building](#building)
 
 ## Usage
-### Game
-You can start the Vitrix Launcher by running the ```main.py``` file in the root directory. Inside the launcher, you can click the ```start``` button, to run Vitrix. It will open a small window, where you can type your desired username. IP address and port options are in the proceeding input fields.
-#### Controls
-WASD - Move forward, left, backward and right.
-
-Spacebar - Jump
-
-Tab - Pause the game and escape mouse cursor grab
+You can find Vitrix's controls at the [docs page](https://github.com/ShadityZ/Vitrix/blob/docs-development/docs/playing.md).
 
 ### Server
 Starting your own server is simple.
