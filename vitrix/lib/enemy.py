@@ -96,6 +96,7 @@ class Zombie(ursina.Entity):
                 self.position += self.forward * ursina.time.dt * 2
             else:
                 self.player.health -= 10
+                ursina.Audio("hurt").play()
                 self.position += self.forward * ursina.time.dt * -150
 
         

@@ -50,6 +50,10 @@ class Player(FirstPersonController):
     def death(self):
         self.death_message_shown = True
 
+        self.on_disable()
+
+        ursina.Audio("death").play()
+
         ursina.destroy(self.gun)
         self.rotation = 0
         self.camera_pivot.world_rotation_x = -45
