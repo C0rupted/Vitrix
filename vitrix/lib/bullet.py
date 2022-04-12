@@ -35,8 +35,7 @@ class Bullet(ursina.Entity):
         self.direction = direction
         self.x_direction = x_direction
         self.slave = slave
-        if self.singleplayer == False:
-            self.network = network
+
 
 
     def update(self):
