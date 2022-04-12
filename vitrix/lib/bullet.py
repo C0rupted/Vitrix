@@ -6,7 +6,7 @@ from lib.enemy import Enemy, Zombie
 
 
 class Bullet(ursina.Entity):
-    def __init__(self, position: ursina.Vec3, direction: float, x_direction: float, network=False, damage: int = random.randint(5, 20), slave=False):
+    def __init__(self, position: ursina.Vec3, direction: float, x_direction: float, network=False, damage: int = 10, slave=False):
         if network == False:
             self.singleplayer = True
         
