@@ -43,17 +43,15 @@ def input(key):
     global lock
     global pause_text
 
-    if key == "tab":
+    if key == "tab" and player.health > 0:
         if lock == False:
             pause_text.enabled = False
             lock = True
             player.on_enable()
-            player.is_paused = True
         else:
             pause_text.enabled = True
             lock = False
             player.on_disable()
-            player.is_paused = False
 
     if key == "l":
         enemies.append(Zombie(ursina.Vec3(0, 1.5, 0), player))
