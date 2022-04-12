@@ -29,32 +29,4 @@
 
 <br> <br>
 
-## Table of contents
-- [Usage](#usage)
-  - [Game](#game)
-    - [controls](#controls)
-  - [Server](#server)
-- [Installing](#installing)
-- [Building](#building)
-
-## Usage
-You can find Vitrix's controls at the [docs page](https://github.com/ShadityZ/Vitrix/blob/docs-development/docs/playing.md).
-
-### Server
-Starting your own server is simple.
-1. Navigate to the project root.
-2. ```cd``` into the ```server``` directory:
-```
-cd server
-```
-3. And run the ```server.py``` script:
-```
-python server.py
-```
-By default the server uses port ```26822```. The IP address can be found using a tool such as [Angry IP Scanner](https://angryip.org/). The server will print its output to the console, so any crashes will be detailed.
-
-## Installing
-To install Vitrix, check out the [Installation Guide](https://github.com/ShadityZ/Vitrix/blob/docs-development/docs/installing.md) from the docs.
-  
-## Building
-The build process can be found at the docs: [**Building Vitrix**](https://github.com/ShadityZ/Vitrix/blob/docs-development/docs/building.md)
+You can find out everything you need to know at the [Official Vitrix Documentation](https://github.com/ShadityZ/Vitrix/blob/docs-development/docs/mainpage.md)!
