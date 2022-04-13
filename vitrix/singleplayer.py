@@ -27,8 +27,6 @@ player = Player(ursina.Vec3(0, 1, 0))
 
 lock = True
 quit = False
-prev_pos = player.world_position
-prev_dir = player.world_rotation_y
 enemies = []
 
 pause_text = ursina.Text(
@@ -66,10 +64,6 @@ def input(key):
             ursina.invoke(setattr, player.gun, 'on_cooldown', False, delay=.50)
 
 
-def main():
-    app.run()
-
-
 
 if __name__ == "__main__":
-    main()
+    app.run()
