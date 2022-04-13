@@ -12,5 +12,6 @@ Vitrix itself doesn't have a controls setting menu just yet, but the feature is 
 | Left-click  | The left mouse button is binded to the function of shooting, using your gun.                                       |
 | L           | The L key is a control specific to singleplayer. It summons a Zombie, that chases and attacks you, draining health!|
 
-Obviously, just learning the controls isn't enough. You also need to learn to use strategies and learn to act smart on the battlefield, however,
-I'll leave that to you. Happy learning!
+Obviously, just learning the controls isn't enough. You also need to learn to use strategies and learn to act smart on the battlefield, however, I'll leave that to you. 
+
+Happy learning!
