@@ -1,16 +1,29 @@
 import os
+import platform
 import threading
 from ursina import *
 
 
 def start_multiplayer():
     app.destroy()
-    os.system("python " + dir_path + "/multiplayer.py")
+    if built == False:
+        os.system("python " + dir_path + "/multiplayer.py")
+    if built == True:
+        if platform.system() == "Linux":
+            os.system("sh multiplayer.sh")
+        if platform.system() == "Windows":
+            os.system("multiplayer.bat")
     os._exit(0)
 
 def start_singleplayer():
     app.destroy()
-    os.system("python " + dir_path + "/singleplayer.py")
+    if built == False:
+        os.system("python " + dir_path + "/singleplayer.py")
+    if built == True:
+        if platform.system() == "Linux":
+            os.system("sh singleplayer.sh")
+        if platform.system() == "Windows":
+            os.system("singleplayer.bat")
     os._exit(0)
 
 
@@ -159,6 +172,10 @@ except:
 
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
+if os.path.exists(dir_path + "/.unbuilt"):
+    built = False
+else:
+    built = True
 
 
 

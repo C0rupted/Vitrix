@@ -39,16 +39,9 @@ vitrix_ver = d.strftime("%m-%Y")
 if platform.system() == "Linux":
     operating_sys = "linux"
 elif platform.system() == "Windows":
-    #operating_sys = "windows"
-    print("Sorry, Vitrix doesn't support your platform just yet. :(")
-    exit()
-elif platform.system() == "Darwin":
-    #operating_sys = "mac"
-    print("Sorry, Vitrix doesn't support your platform just yet. :(")
-    exit()
+    operating_sys = "windows"
 else:
     print("Sorry, Vitrix doesn't support your platform just yet. :(")
-    exit()
 
 print("\nBuild Path:        " + build_path)
 print_seperator()
@@ -82,10 +75,42 @@ if operating_sys == "linux":
     shutil.rmtree(build_path + "/builds")
     shutil.rmtree(build_path + "/reports")
     shutil.copy("data/linux/vitrix.sh", "build")
-
-
-shutil.copytree(dir_path + "/vitrix", build_path + "/src", 
+    
+    shutil.copytree(dir_path + "/vitrix", build_path + "/src", 
                 ignore=shutil.ignore_patterns("__pycache__"))
+    os.remove(build_path + "/src/.unbuilt")
+
+if operating_sys == "windows":
+    run("python -m ursina.build")
+
+    folders_to_remove = [
+        "/src/data",
+        "/src/server",
+        "/src/test",
+        "/src/.github"
+    ]
+
+    files_to_remove = [
+        "/src/build.pyc",
+        "/src/LICENSE",
+        "/src/logo.png",
+        "/src/requirements.txt",
+        "/src/SECURITY.md",
+        "/src/README.md",
+        "/src/vitrix/.unbuilt",
+        "/Vitrix.bat"
+    ]
+
+
+    for item in folders_to_remove:
+        shutil.rmtree(build_path + item)
+
+    for item in files_to_remove:
+        os.remove(build_path + item)
+    
+    shutil.copy(dir_path + "/data/windows/vitrix.bat", build_path)
+    shutil.copy(dir_path + "/data/windows/singleplayer.bat", build_path)
+    shutil.copy(dir_path + "/data/windows/multiplayer.bat", build_path)
 
 pkg_name = "Vitrix_" + vitrix_ver + "_" + operating_sys
 

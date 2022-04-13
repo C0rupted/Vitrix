@@ -3,8 +3,8 @@ import sys
 import socket
 import threading
 import ursina
-import notify2
 
+from lib.notification import notify
 from lib.network import Network
 from lib.floor import Floor
 from lib.map import Map
@@ -21,7 +21,6 @@ try:
         username = lines[0].strip()
         server_addr = lines[1].strip()
         server_port = lines[2].strip()
-        os.remove(file.name)
 except FileNotFoundError:
     exit()
 
@@ -42,16 +41,16 @@ while True:
     try:
         n.connect()
     except ConnectionRefusedError:
-        note = notify2.Notification("Vitrix Error", "Connection refused! This can be because server hasn't started or has reached it's player limit.")
-        note.show()
+        notify("Vitrix Error", 
+                 "Connection refused! This can be because server hasn't started or has reached it's player limit.")
         error_occurred = True
     except socket.timeout:
-        note = notify2.Notification("Vitrix Error", "Server took too long to respond, please try again later...")
-        note.show()
+        notify("Vitrix Error", 
+                 "Server took too long to respond, please try again later...")
         error_occurred = True
     except socket.gaierror:
-        note = notify2.Notification("Vitrix Error", "The IP address you entered is invalid, please try again with a valid address...")
-        note.show()
+        notify("Vitrix Error", 
+                 "The IP address you entered is invalid, please try again with a valid address...")
         error_occurred = True
     finally:
         n.settimeout(None)
@@ -178,12 +177,10 @@ def input(key):
             pause_text.enabled = False
             lock = True
             player.on_enable()
-            player.is_paused = True
         else:
             pause_text.enabled = True
             lock = False
             player.on_disable()
-            player.is_paused = False
 
     if key == "left mouse down" and player.health > 0:
         if not player.gun.on_cooldown:
