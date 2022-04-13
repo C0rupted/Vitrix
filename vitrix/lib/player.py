@@ -23,7 +23,8 @@ class Player(FirstPersonController):
             rotation=ursina.Vec3(-20, -20, -5),
             model="cube",
             texture="white_cube",
-            color=ursina.color.color(0, 0, 0.4)
+            color=ursina.color.color(0, 0, 0.4),
+            on_cooldown=False
         )
 
         self.healthbar_pos = ursina.Vec2(0, 0.45)
@@ -49,6 +50,10 @@ class Player(FirstPersonController):
     def death(self):
         self.death_message_shown = True
 
+        self.on_disable()
+
+        ursina.Audio("death").play()
+
         ursina.destroy(self.gun)
         self.rotation = 0
         self.camera_pivot.world_rotation_x = -45
@@ -63,6 +68,9 @@ class Player(FirstPersonController):
 
     def update(self):
         self.healthbar.scale_x = self.health / 100 * self.healthbar_size.x
+
+        if self.y < -10:
+            self.position = ursina.Vec3(0, 2, 0)
 
         if self.health <= 0:
             if not self.death_message_shown:

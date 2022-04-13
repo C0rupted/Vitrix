@@ -3,8 +3,8 @@ import sys
 import socket
 import threading
 import ursina
-import notify2
 
+from lib.notification import notify
 from lib.network import Network
 from lib.floor import Floor
 from lib.map import Map
@@ -14,13 +14,15 @@ from lib.bullet import Bullet
 
 
 import lib.server_chooser as server_chooser
-    
-with open("data.txt", "r") as file:
-    lines =  file.readlines()
-    username = lines[0].strip()
-    server_addr = lines[1].strip()
-    server_port = lines[2].strip()
-    os.remove(file.name)
+
+try:
+    with open("data.txt", "r") as file:
+        lines =  file.readlines()
+        username = lines[0].strip()
+        server_addr = lines[1].strip()
+        server_port = lines[2].strip()
+except FileNotFoundError:
+    exit()
 
 
 while True:
@@ -39,20 +41,23 @@ while True:
     try:
         n.connect()
     except ConnectionRefusedError:
-        n = notify2.Notification("Vitrix Error", "Connection refused! This can be because server hasn't started or has reached it's player limit.")
-        n.show()
+        notify("Vitrix Error", 
+                 "Connection refused! This can be because server hasn't started or has reached it's player limit.")
         error_occurred = True
     except socket.timeout:
-        n = notify2.Notification("Vitrix Error", "Server took too long to respond, please try again later...")
-        n.show()
+        notify("Vitrix Error", 
+                 "Server took too long to respond, please try again later...")
         error_occurred = True
     except socket.gaierror:
-        n = notify2.Notification("Vitrix Error", "The IP address you entered is invalid, please try again with a valid address...")
-        n.show()
+        notify("Vitrix Error", 
+                 "The IP address you entered is invalid, please try again with a valid address...")
         error_occurred = True
     finally:
         n.settimeout(None)
 
+    if error_occurred:
+        exit()
+    
     if not error_occurred:
         break
 
@@ -172,18 +177,20 @@ def input(key):
             pause_text.enabled = False
             lock = True
             player.on_enable()
-            player.is_paused = True
         else:
             pause_text.enabled = True
             lock = False
             player.on_disable()
-            player.is_paused = False
 
     if key == "left mouse down" and player.health > 0:
-        b_pos = player.position + ursina.Vec3(0, 2, 0)
-        bullet = Bullet(b_pos, player.world_rotation_y, -player.camera_pivot.world_rotation_x, n)
-        n.send_bullet(bullet)
-        ursina.destroy(bullet, delay=2)
+        if not player.gun.on_cooldown:
+            player.gun.on_cooldown = True
+            b_pos = player.position + ursina.Vec3(0, 2, 0)
+            ursina.Audio("pew").play()
+            bullet = Bullet(b_pos, player.world_rotation_y, -player.camera_pivot.world_rotation_x, n)
+            n.send_bullet(bullet)
+            ursina.destroy(bullet, delay=2)
+            ursina.invoke(setattr, player.gun, 'on_cooldown', False, delay=.50)
 
 
 def main():

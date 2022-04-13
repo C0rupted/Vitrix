@@ -1,77 +1,32 @@
-![Logo](https://github.com/ShadityZ/Vitrix/raw/master/logo.png)
-![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/ShadityZ/Vitrix/graphs/commit-activity) [![GitHub license](https://img.shields.io/github/license/ShadityZ/Vitrix.svg)](https://github.com/ShadityZ/Vitrix/blob/master/LICENSE) [![GitHub issues](https://img.shields.io/github/issues/ShadityZ/Vitrix.svg)](https://GitHub.com/ShadityZ/Vitrix/issues/) [![GitHub pull-requests](https://img.shields.io/github/issues-pr/ShadityZ/Vitrix.svg)](https://GitHub.com/hHadityZ/Vitrix/pull/) [![Github all releases](https://img.shields.io/github/downloads/ShadityZ/Vitrix/total.svg)](https://GitHub.com/ShadityZ/Vitrix/releases/) [![GitHub forks](https://img.shields.io/github/forks/ShadityZ/Vitrix.svg?style=social&label=Fork&maxAge=2592000)](https://GitHub.com/ShadityZ/Vitrix/network/) [![GitHub stars](https://img.shields.io/github/stars/ShadityZ/Vitrix.svg?style=social&label=Star&maxAge=2592000)](https://GitHub.com/ShadityZ/Vitrix/stargazers/)
+<p align="center">
+    <a href="https://github.com/ShadityZ/Vitrix">
+        <img src="https://github.com/ShadityZ/Vitrix/raw/master/logo.png" alt="Vitrix logo" align="left">
+    </a>
+</p>
+<p align="center">Vitrix is an open-source FPS video game coded in <img src="https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54"> !
+<p align="center">
+  <a href="https://github.com/ShadityZ/Vitrix/discussions">
+    📣 Discussions</a>
+  |
+  <a href="https://github.com/ShadityZ/Vitrix/issues/new">
+    ❗ Report an error</a>
+  |
+  <a href="https://github.com/ShadityZ/Vitrix/pulls/new">
+    🎁 Submit a feature</a>
+  |
+  <a href="https://github.com/ShadityZ/Vitrix/graphs/community">
+    📈 Community Insights</a>
 
-Vitrix is an open-source FPS video game coded in python
+<p align="center">
+    <a href="https://github.com/ShadityZ/Vitrix/stargazers"><img src="https://img.shields.io/github/stars/ShadityZ/Vitrix" alt="stars"></a>
+    <a href="https://github.com/ShadityZ/Vitrix/network/members"><img src="https://img.shields.io/github/forks/ShadityZ/Vitrix" alt="forks"></a>
+    <a href="https://github.com/ShadityZ/Vitrix/graphs/contributors"><img src="https://img.shields.io/github/contributors/ShadityZ/Vitrix" alt="contributors"></a>
+    <a href="https://github.com/ShadityZ/Vitrix/pulls"><img src="https://img.shields.io/github/issues-pr/ShadityZ/Vitrix" alt="prs"></a>
+    <a href="https://github.com/ShadityZ/Vitrix/issues"><img src="https://img.shields.io/github/issues/ShadityZ/Vitrix" alt="issues"></a>
+    <img src="https://img.shields.io/github/license/ShadityZ/Vitrix" alt="license">
 
-## Table of contents
-- [Usage](#usage)
-  - [Game](#game)
-    - [controls](#controls)
-  - [Server](#server)
-- [Installing](#installing)
-  - [Requirements](#requirements)
-      - [Hardware Requirements](#hardware-requirements)
-      - [Software Requirements](#software-requirements)
-  - [Instructions](#instructions)
-- [Building](#building)
+<p align="center"><strong>Made with :heart: by <a href="https://github.com/ShadityZ">ShadityZ</a></strong> and <a href="https://github.com/Botspot/pi-apps/graphs/contributors">contributors</a>
 
-## Usage
-### Game
-You can start the Vitrix Launcher by running the ```main.py``` file in the root directory. Inside the launcher, you can click the ```start``` button, to run Vitrix. It will open a small window, where you can type your desired username. IP address and port options are in the proceeding input fields.
-#### Controls
-WASD - Move forward, left, backward and right.
+<br> <br>
 
-Spacebar - Jump
-
-Tab - Pause the game and escape mouse cursor grab
-
-### Server
-Starting your own server is simple.
-1. Navigate to the project root.
-2. ```cd``` into the ```server``` directory:
-```
-cd server
-```
-3. And run the ```server.py``` script:
-```
-python server.py
-```
-By default the server uses port ```26822```. The IP address can be found using a tool such as [Angry IP Scanner](https://angryip.org/). The server will print its output to the console, so any crashes will be detailed.
-
-## Installing
-**NOTICE:** Vitrix has plans to upload prebuilt applications every month. Until March, we will not make a prebuilt application. Until then, we recommend you install Python to run Vitrix 
-### Requirements
-Vitrix has been official tested on the following platforms:
-
-![Ubuntu](https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)
-
-And is working on support for:
-
-![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white) ![Mac OS](https://img.shields.io/badge/mac%20os-000000?style=for-the-badge&logo=macos&logoColor=F0F0F0) ![Raspberry Pi](https://img.shields.io/badge/-RaspberryPi-C51A4A?style=for-the-badge&logo=Raspberry-Pi)
-
-##### Hardware Requirements
-- A 1GHz or faster 64-bit processer (essentially any decent processor)
-- A minimum 4 GB of RAM (pretty common in most computers)
-- At least 30 MB of free disk 
-
-##### Software Requirements
-- Python 3
-
-### Instructions
-1. First of all, clone the repository using Git SCM:
-```
-git clone https://github.com/ShadityZ/Vitrix
-```
-2. ```cd``` into the cloned repository
-3. Install Vitrix's dependencies:
-```
-pip install -r requirements.txt
-```
-4. On Linux you will also need to install the python3-tk package. Here is an example for Ubuntu:
-```
-sudo apt install python3-tk python-is-python3
-```
-5. Well done! Now you can run the ```main.py``` script in the repository folder to start Vitrix Launcher.
-
-## Building
-This section is a WIP
+You can find out everything you need to know at the [Official Vitrix Documentation](https://github.com/ShadityZ/Vitrix/blob/docs-development/docs/mainpage.md)!

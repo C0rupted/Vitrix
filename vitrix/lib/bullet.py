@@ -2,11 +2,14 @@ import random
 import ursina
 import os
 
-from lib.enemy import Enemy
+from lib.enemy import Enemy, Zombie
 
 
 class Bullet(ursina.Entity):
-    def __init__(self, position: ursina.Vec3, direction: float, x_direction: float, network, damage: int = random.randint(5, 20), slave=False):
+    def __init__(self, position: ursina.Vec3, direction: float, x_direction: float, network=False, damage: int = 10, slave=False):
+        if network == False:
+            self.singleplayer = True
+        
         speed = 35
         dir_rad = ursina.math.radians(direction)
         x_dir_rad = ursina.math.radians(x_direction)
@@ -32,7 +35,7 @@ class Bullet(ursina.Entity):
         self.direction = direction
         self.x_direction = x_direction
         self.slave = slave
-        self.network = network
+
 
 
     def update(self):
@@ -42,8 +45,9 @@ class Bullet(ursina.Entity):
         if hit_info.hit:
             if not self.slave:
                 for entity in hit_info.entities:
-                    if isinstance(entity, Enemy):
+                    if isinstance(entity, Enemy) or isinstance(entity, Zombie):
                         entity.health -= self.damage
-                        self.network.send_health(entity)
+                        if self.singleplayer == False:
+                            self.network.send_health(entity)
 
             ursina.destroy(self)
