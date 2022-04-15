@@ -1,3 +1,6 @@
+
+[![Join the chat at https://gitter.im/VitrixGame/community](https://badges.gitter.im/VitrixGame/community.svg)](https://gitter.im/VitrixGame/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 <p align="center">
     <a href="https://github.com/ShadityZ/Vitrix">
         <img src="https://github.com/ShadityZ/Vitrix/raw/master/logo.png" alt="Vitrix logo" align="left">
