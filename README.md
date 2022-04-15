@@ -25,7 +25,7 @@
     <a href="https://github.com/ShadityZ/Vitrix/issues"><img src="https://img.shields.io/github/issues/ShadityZ/Vitrix" alt="issues"></a>
     <img src="https://img.shields.io/github/license/ShadityZ/Vitrix" alt="license">
 
-<p align="center"><strong>Made with :heart: by <a href="https://github.com/ShadityZ">ShadityZ</a></strong> and <a href="https://github.com/Botspot/pi-apps/graphs/contributors">contributors</a>
+<p align="center"><strong>Made with :heart: by <a href="https://github.com/ShadityZ">ShadityZ</a></strong> and <a href="https://github.com/ShadityZ/Vitrix/graphs/contributors">contributors</a>
 
 <br> <br>
 
