@@ -32,9 +32,17 @@ enemies = []
 pause_text = ursina.Text(
                 text="Paused",
                 enabled=False,
-                origin=ursina.Vec2(0, 0),
+                position=ursina.Vec2(0, .3),
                 scale=3)
 
+exit_button = ursina.Button(
+                text = "Quit Game",
+                scale=0.15,
+                on_click=ursina.Sequence(ursina.Wait(.01), ursina.Func(os._exit, 0))
+            )
+
+pause_text.enabled = False
+exit_button.disable()
 
 
 def input(key):
@@ -44,10 +52,12 @@ def input(key):
     if key == "tab" and player.health > 0:
         if lock == False:
             pause_text.enabled = False
+            exit_button.disable()
             lock = True
             player.on_enable()
         else:
             pause_text.enabled = True
+            exit_button.enable()
             lock = False
             player.on_disable()
 
