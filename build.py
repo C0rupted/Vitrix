@@ -75,6 +75,8 @@ if operating_sys == "linux":
     shutil.rmtree(build_path + "/builds")
     shutil.rmtree(build_path + "/reports")
     shutil.copy("data/linux/vitrix.sh", "build")
+    shutil.copy("data/linux/singleplayer.sh", "build")
+    shutil.copy("data/linux/multiplayer.sh", "build")
     
     shutil.copytree(dir_path + "/vitrix", build_path + "/src", 
                 ignore=shutil.ignore_patterns("__pycache__"))

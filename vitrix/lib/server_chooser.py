@@ -8,7 +8,10 @@ root = Tk()
 root.title("Vitrix - Join a multiplayer server")
 
 path = Path(os.path.dirname(os.path.realpath(__file__))).parent
-root.iconbitmap(os.path.join(path, "assets", "logo.ico"))
+try:
+    root.iconbitmap(os.path.join(path, "assets", "logo.ico"))
+except:
+    pass
 
 screen_width = root.winfo_screenwidth()
 screen_height = root.winfo_screenheight()
