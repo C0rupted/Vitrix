@@ -83,36 +83,19 @@ if operating_sys == "linux":
     os.remove(build_path + "/src/.unbuilt")
 
 if operating_sys == "windows":
-    run("python -m ursina.build")
+    from zipfile import ZipFile
 
-    folders_to_remove = [
-        "/src/data",
-        "/src/server",
-        "/src/test",
-        "/src/.github"
-    ]
-
-    files_to_remove = [
-        "/src/build.pyc",
-        "/src/LICENSE",
-        "/src/logo.png",
-        "/src/requirements.txt",
-        "/src/SECURITY.md",
-        "/src/README.md",
-        "/src/vitrix/.unbuilt",
-        "/Vitrix.bat"
-    ]
-
-
-    for item in folders_to_remove:
-        shutil.rmtree(build_path + item)
-
-    for item in files_to_remove:
-        os.remove(build_path + item)
+    with ZipFile(dir_path + "/data/windows/python-windows.zip", "r") as zip:
+        zip.extractall(build_path)
     
-    shutil.copy(dir_path + "/data/windows/vitrix.bat", build_path)
-    shutil.copy(dir_path + "/data/windows/singleplayer.bat", build_path)
-    shutil.copy(dir_path + "/data/windows/multiplayer.bat", build_path)
+
+    shutil.copy("data/windows/vitrix.bat", "build")
+    shutil.copy("data/windows/singleplayer.bat", "build")
+    shutil.copy("data/windows/multiplayer.bat", "build")
+    
+    shutil.copytree(dir_path + "/vitrix", build_path + "/src", 
+                ignore=shutil.ignore_patterns("__pycache__"))
+    os.remove(build_path + "/src/.unbuilt")
 
 pkg_name = "Vitrix_" + vitrix_ver + "_" + operating_sys
 
