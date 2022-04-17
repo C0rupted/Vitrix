@@ -7,12 +7,13 @@ Vitrix has been official tested on the following platforms:
 
 ![Ubuntu](https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)
 
-<br>
+
 The following platforms are supported, but are still in _MAJOR_ development:
+
 
 ![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white) 
 
-<br>
+
 And is working on support for:
 
 ![Mac OS](https://img.shields.io/badge/mac%20os-000000?style=for-the-badge&logo=macos&logoColor=F0F0F0) 
@@ -27,9 +28,9 @@ And is working on support for:
 - Python 3
 
 ### Instructions - Prebuilts
-Prebuilts aren't done yet, but we will be making one soon, so keep an eye out for them. Similarly, 
-a build script for users that would like to build vitrix themselves is also coming out soon.
+Prebuilts are packages that come with a bundled Python binary, so you don't have to install Python to use Vitrix! You can find the latest prebuilt on our github releases page: https://github.com/ShadityZ/Vitrix/releases
 
+Once you find the latest release, you'll notice that the release has multiple download options. You can download the one that has your operating system's anme appended on the end. (example: ```Vitrix-v1.x.x-[os name].zip```) Then simply extract the zip file and run the ```vitrix``` file inside!
 ### Instructions - Running Directly
 1. First of all, clone the repository using Git SCM or download the [zip](https://github.com/ShadityZ/Vitrix/archive/refs/heads/master.zip):
 ```
