@@ -49,7 +49,7 @@ def input(key):
     global lock
     global pause_text
 
-    if key == "tab" and player.health > 0:
+    if key == "tab" or key == "escape":
         if lock == False:
             pause_text.enabled = False
             exit_button.disable()
