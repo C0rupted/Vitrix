@@ -30,6 +30,7 @@ player = Player(ursina.Vec3(0, 1, 0))
 
 lock = True
 quit = False
+bullet_tag = 1 
 enemies = []
 
 pause_text = ursina.Text(
@@ -42,19 +43,26 @@ controls_dict={
     "L":"Release a zombie",
     "left-click":"Fire",
     "space": "Jump",
-    "alt-f4":"Exit game"
+    "alt-f4":"Exit game",
+    "1":"Switch ammo"
 }
 controls_text = ursina.Text(
                 text= "".join(f"{key} = {value}\n" for key,value in controls_dict.items() ),
                 origin=ursina.Vec2(2.8, -3),
                 scale=1
                 )
+def cycleAmmo(bullet_tag):  # default bullet tag is int 1
 
+    if bullet_tag == 1:
+        return 2
+    else:
+        return 1
 
 
 def input(key):
     global lock
     global pause_text
+    global bullet_tag
 
     if key == "tab" and player.health > 0:
         if lock == False:
@@ -69,12 +77,15 @@ def input(key):
     if key == "l":
         enemies.append(Zombie(ursina.Vec3(0, 1.5, 0), player))
 
+    if key == "1":
+        bullet_tag = cycleAmmo(bullet_tag)
+
     if key == "left mouse down" and player.health > 0:
         if not player.gun.on_cooldown:
             player.gun.on_cooldown = True
             b_pos = player.position + ursina.Vec3(0, 2, 0)
             ursina.Audio("pew").play()
-            bullet = Bullet(b_pos, player.world_rotation_y, -player.camera_pivot.world_rotation_x)
+            bullet = Bullet(b_pos, player.world_rotation_y, -player.camera_pivot.world_rotation_x, tag = bullet_tag)
             ursina.destroy(bullet, delay=4)
             ursina.invoke(setattr, player.gun, 'on_cooldown', False, delay=.25)
 
