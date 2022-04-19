@@ -6,11 +6,12 @@ from lib.enemy import Enemy, Zombie
 
 
 class Bullet(ursina.Entity):
+    base_dir = os.path.join("assets","textures")
     def __init__(self, position: ursina.Vec3, direction: float, x_direction: float, network=False, damage: int = 10, slave=False):
         if network == False:
             self.singleplayer = True
         
-        speed = 35
+        speed = 100
         dir_rad = ursina.math.radians(direction)
         x_dir_rad = ursina.math.radians(x_direction)
 
@@ -24,10 +25,12 @@ class Bullet(ursina.Entity):
 
         super().__init__(
             position=position + self.velocity / speed,
-            model="cube",
-            texture=os.path.join("assets", "bullet.png"),
-            collider="box",
+            model="sphere",
+            texture=os.path.join(Bullet.base_dir, "bullet1.png"),
+            collider="sphere",
+            double_sided=True,
             scale=0.2
+            
         )
 
 
@@ -40,6 +43,7 @@ class Bullet(ursina.Entity):
 
     def update(self):
         self.position += self.velocity * ursina.time.dt
+        self.rotation_z+=6
         hit_info = self.intersects()
 
         if hit_info.hit:

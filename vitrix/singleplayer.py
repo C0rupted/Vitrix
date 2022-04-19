@@ -1,4 +1,6 @@
 import os
+from turtle import window_height, window_width
+
 import ursina
 
 from lib.floor import Floor
@@ -7,7 +9,8 @@ from lib.player import Player
 from lib.enemy import Zombie
 from lib.bullet import Bullet
 
-
+camera_height = 1366
+camera_width = 768
 
 app = ursina.Ursina()
 ursina.window.borderless = False
@@ -19,7 +22,7 @@ floor = Floor()
 map = Map()
 sky = ursina.Entity(
     model="sphere",
-    texture=os.path.join("assets", "sky.png"),
+    texture=os.path.join("assets/textures", "sky.png"),
     scale=9999,
     double_sided=True
 )
@@ -34,6 +37,18 @@ pause_text = ursina.Text(
                 enabled=False,
                 origin=ursina.Vec2(0, 0),
                 scale=3)
+controls_dict={
+    "tab":"Pause the Game",
+    "L":"Release a zombie",
+    "left-click":"Fire",
+    "space": "Jump",
+    "alt-f4":"Exit game"
+}
+controls_text = ursina.Text(
+                text= "".join(f"{key} = {value}\n" for key,value in controls_dict.items() ),
+                origin=ursina.Vec2(2.8, -3),
+                scale=1
+                )
 
 
 
@@ -60,8 +75,8 @@ def input(key):
             b_pos = player.position + ursina.Vec3(0, 2, 0)
             ursina.Audio("pew").play()
             bullet = Bullet(b_pos, player.world_rotation_y, -player.camera_pivot.world_rotation_x)
-            ursina.destroy(bullet, delay=2)
-            ursina.invoke(setattr, player.gun, 'on_cooldown', False, delay=.50)
+            ursina.destroy(bullet, delay=4)
+            ursina.invoke(setattr, player.gun, 'on_cooldown', False, delay=.25)
 
 
 

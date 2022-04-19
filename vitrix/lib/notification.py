@@ -9,7 +9,7 @@ def notify(title: str, msg: str,):
     popup = tk.Tk()
     popup.title(title)
     path = Path(os.path.dirname(os.path.realpath(__file__))).parent
-    popup.iconbitmap(os.path.join(path, "assets", "logo.ico"))
+    popup.iconbitmap(os.path.join(path, "assets","static","logo.ico"))
     label = tk.Label(popup, text=msg)
     label.pack(side="top", fill="x", pady=10)
     B1 = tk.Button(popup, text="Okay", command=popup.destroy)
