@@ -5,24 +5,27 @@
 ### Requirements
 Vitrix has been official tested on the following platforms:
 
-![Ubuntu](https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)
+<a href="https://ubuntu.com/download"><img src="https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white"></a>
 
 
 The following platforms are supported, but are still in _MAJOR_ development:
 
-
-![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white) 
+<a href="https://www.microsoft.com/en-us/windows"><img src="https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white"></a>
 
 
 And is working on support for:
 
-![Mac OS](https://img.shields.io/badge/mac%20os-000000?style=for-the-badge&logo=macos&logoColor=F0F0F0) 
-![Raspberry Pi](https://img.shields.io/badge/-RaspberryPi-C51A4A?style=for-the-badge&logo=Raspberry-Pi)
+<a href="https://www.apple.com/en/mac/"><img src="https://img.shields.io/badge/mac%20os-000000?style=for-the-badge&logo=macos&logoColor=F0F0F0"></a>
+<a href="https://www.raspberrypi.com/software/"><img src="https://img.shields.io/badge/-RaspberryPi-C51A4A?style=for-the-badge&logo=Raspberry-Pi"></a>
+
 
 ##### Hardware Requirements
+###### Minimum
 - A 1GHz or faster 64-bit processer (essentially any decent processor)
-- A minimum 4 GB of RAM (pretty common in most computers)
+- 2 GB of RAM (pretty common in most computers)
 - At least 30 MB of free disk 
+###### Recommended
+- 4GB of RAM
 
 ##### Software Requirements
 - Python 3
