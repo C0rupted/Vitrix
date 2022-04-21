@@ -3,12 +3,13 @@ import ursina
 
 
 class FloorCube(ursina.Entity):
+    base_dir = os.path.join("assets","textures")
     def __init__(self, position):
         super().__init__(
             position=position,
             scale=2,
             model="cube",
-            texture=os.path.join("assets", "floor.png"),
+            texture=os.path.join(FloorCube.base_dir, "floor.png"),
             collider="box"
         )
 

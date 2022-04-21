@@ -3,27 +3,38 @@ import platform
 import threading
 from ursina import *
 
+def buildexec(modulename,dir_path):
+    try:
+        if modulename == "mp":
+            os.system("python " + dir_path + "/multiplayer.py")
+        elif modulename =="sp":
+            os.system("python " + dir_path + "/singleplayer.py")
+        else:
+            pass
+    except:
+        pass # throws error: something wrong with os.system or the path
+
 
 def start_multiplayer():
     app.destroy()
-    if built == False:
-        os.system("python " + dir_path + "/multiplayer.py")
-    if built == True:
+    if built:
         if platform.system() == "Linux":
             os.system("sh multiplayer.sh")
         if platform.system() == "Windows":
             os.system("multiplayer.bat")
+    else:
+        buildexec("mp",dir_path)
     os._exit(0)
 
 def start_singleplayer():
     app.destroy()
-    if built == False:
-        os.system("python " + dir_path + "/singleplayer.py")
-    if built == True:
+    if built:
         if platform.system() == "Linux":
             os.system("sh singleplayer.sh")
         if platform.system() == "Windows":
             os.system("singleplayer.bat")
+    else:
+        buildexec("sp",dir_path)
     os._exit(0)
 
 
@@ -161,7 +172,9 @@ window.show_ursina_splash = False
 window.exit_button.visible = False
 window.title = "Vitrix"
 window.borderless = False
-window.size = (600, 600)
+default_width = 600  # would be migrated to settings.json
+default_height = 600
+window.size = (default_width, default_height)
 
 
 loading_screen.enabled = True

@@ -1,6 +1,7 @@
 import ursina
+import random
 
-
+zombie_names=["Peter","Harry","Sayed","Usman","Gopal","Ryan","Gerald","James","Robert","Frank","Leon","Jordan","Russell","Johny","Ankur","Carl","Suresh"]
 class Enemy(ursina.Entity):
     def __init__(self, position: ursina.Vec3, identifier: str, username: str):
         super().__init__(
@@ -62,7 +63,7 @@ class Zombie(ursina.Entity):
 
         self.name_tag = ursina.Text(
             parent=self,
-            text="Zombie",
+            text=random.choice(zombie_names),  #Random zombie names
             position=ursina.Vec3(0, 1.3, 0),
             scale=ursina.Vec2(5, 3),
             billboard=True,

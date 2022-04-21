@@ -6,11 +6,15 @@ from lib.enemy import Enemy, Zombie
 
 
 class Bullet(ursina.Entity):
-    def __init__(self, position: ursina.Vec3, direction: float, x_direction: float, network=False, damage: int = 10, slave=False):
+
+    texture_dir = os.path.join("assets","textures")
+    model_dir = os.path.join("assets","models")
+
+    def __init__(self, position: ursina.Vec3, direction: float, x_direction: float, network=False, damage: int = 10, slave=False, tag = 1):
         if network == False:
             self.singleplayer = True
         
-        speed = 35
+        speed = 100
         dir_rad = ursina.math.radians(direction)
         x_dir_rad = ursina.math.radians(x_direction)
 
@@ -21,13 +25,32 @@ class Bullet(ursina.Entity):
             ursina.math.cos(dir_rad) * ursina.math.cos(x_dir_rad)
         ) * speed
 
+        bullet_tags ={
+            1 : {
+            "model" :"sphere",
+            "texture" : "bullet1.png",
+            "collider" : "sphere",
+            "double_sided" : False,
+            "scale" : 0.2
+            },
+
+            2 : {
+            "model" : os.path.join(Bullet.model_dir,"bullet2"),
+            "texture" : "bullet2.png",
+            "collider" : "sphere",
+            "double_sided" : False,
+            "scale" : 1.0
+            }
+        }
 
         super().__init__(
             position=position + self.velocity / speed,
-            model="cube",
-            texture=os.path.join("assets", "bullet.png"),
-            collider="box",
-            scale=0.2
+            model=bullet_tags[tag]["model"],
+            texture=os.path.join(Bullet.texture_dir, bullet_tags[tag]["texture"]),
+            collider=bullet_tags[tag]["collider"],
+            double_sided=bullet_tags[tag]["double_sided"],
+            scale=bullet_tags[tag]["scale"]
+            
         )
 
 
@@ -40,6 +63,7 @@ class Bullet(ursina.Entity):
 
     def update(self):
         self.position += self.velocity * ursina.time.dt
+        # self.rotation_z+=6
         hit_info = self.intersects()
 
         if hit_info.hit:

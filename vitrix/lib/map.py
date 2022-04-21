@@ -1,14 +1,16 @@
+from email.mime import base
 import os
 import ursina
 
 
 class Wall(ursina.Entity):
+    base_dir = os.path.join("assets","textures")
     def __init__(self, position):
         super().__init__(
             position=position,
             scale=2,
             model="cube",
-            texture=os.path.join("assets", "wall.png"),
+            texture=os.path.join(Wall.base_dir, "wall.png"),
             origin_y=-0.5
         )
         
