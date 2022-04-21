@@ -3,7 +3,7 @@
         <img src="https://github.com/ShadityZ/Vitrix/raw/master/logo.png" alt="Vitrix logo" align="left">
     </a>
 </p>
-<p align="center">Vitrix is an open-source FPS video game coded in <img src="https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54"> !
+<p align="center">Vitrix is an open-source FPS video game coded in <a href="https://www.python.org/"><img src="https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54"></a> !
 <p align="center">
   <a href="https://github.com/ShadityZ/Vitrix/discussions">
     📣 Discussions</a>
