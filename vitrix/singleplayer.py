@@ -1,6 +1,4 @@
 import os
-from turtle import window_height, window_width
-
 import ursina
 
 from lib.floor import Floor

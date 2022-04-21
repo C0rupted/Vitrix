@@ -2,7 +2,6 @@ import os
 import sys
 import socket
 import threading
-from turtle import onclick
 import ursina
 
 from lib.notification import notify
