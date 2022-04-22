@@ -7,6 +7,17 @@ from os.path import isfile
 if not isfile("lib/anticheat.py"):
     print("Anticheat not found, can't start")
 
+def buildexec(modulename,dir_path):
+    try:
+        if modulename == "mp":
+            os.system("python " + dir_path + "/multiplayer.py")
+        elif modulename =="sp":
+            os.system("python " + dir_path + "/singleplayer.py")
+        else:
+            pass
+    except:
+        pass # throws error: something wrong with os.system or the path
+
 def start_multiplayer():
     app.destroy()
     if built == False:
