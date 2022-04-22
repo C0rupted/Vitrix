@@ -8,8 +8,9 @@ import time
 import random
 import threading
 
-# from server.anticheat import *
+from server.anticheat import *
 
+from vitrix.lib.player import Player
 
 ADDR = "0.0.0.0"
 PORT = 26822
@@ -88,6 +89,7 @@ def handle_messages(identifier: str):
                 except OSError:
                     pass
 
+
     for player_id in players:
         if player_id != identifier:
             player_info = players[player_id]
@@ -153,6 +155,8 @@ def main():
         msg_thread.start()
 
         print(f"New connection from {addr}, assigned ID: {new_id}...")
+        
+        check_speed(Player.speed)
 
 
 if __name__ == "__main__":
