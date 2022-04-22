@@ -18,6 +18,7 @@ def buildexec(modulename,dir_path):
     except:
         pass # throws error: something wrong with os.system or the path
 
+
 def start_multiplayer():
     app.destroy()
     if built == False:
@@ -30,6 +31,9 @@ def start_multiplayer():
         else:
             print("Your platform is not supported yet")
             os._exit(1)
+    else:
+        buildexec("mp",dir_path)
+
     os._exit(0)
 
 def start_singleplayer():
