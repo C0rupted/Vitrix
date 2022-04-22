@@ -5,3 +5,4 @@ data.txt
 build/
 dist/
 test/
+options.ini

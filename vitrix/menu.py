@@ -135,6 +135,7 @@ def load_menu():
 
     text_scale_slider = Slider(0, 2, default=1, step=.1, dynamic=True, text='Text Size:', 
                             parent=options_menu, x=-.25)
+
     def set_text_scale():
         for t in [e for e in scene.entities if isinstance(e, Text) and hasattr(e, 'original_scale')]:
             t.scale = t.original_scale * text_scale_slider.value
