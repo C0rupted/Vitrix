@@ -14,16 +14,21 @@ from lib.bullet import Bullet
 
 import configparser
 
+options_parser = configparser.ConfigParser()
+options_parser.read("options.ini")
+
+if "Infos" in options_parser.sections():
+    if options_parser["Infos"]["c"] == "True":
+        print("You can't play multiplayer.")
+        print("Reason: Cheats")
+        sys.exit(1)
+
 import lib.server_chooser as server_chooser
 
 from server.anticheat import *
 
 from os.path import isfile
 if not isfile("../server/anticheat.py"):
-    options_parser = configparser.ConfigParser()
-    options_parser.read("options.ini")
-    options_parser.add_section("Infos")
-    options_parser.set("Infos", "c", "True")
     
     print("Anticheat not found, can't start")
 
