@@ -16,7 +16,7 @@ ursina.window.title = "Vitrix - Singleplayer"
 ursina.window.exit_button.visible = False
 
 from os.path import isfile
-if not isfile("lib/anticheat.py"):
+if not isfile("../server/anticheat.py"):
     print("Anticheat not found, can't start")
 
 

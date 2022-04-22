@@ -4,7 +4,7 @@ import threading
 from ursina import *
 
 from os.path import isfile
-if not isfile("lib/anticheat.py"):
+if not isfile("../server/anticheat.py"):
     print("Anticheat not found, can't start")
 
 def buildexec(modulename,dir_path):
@@ -16,7 +16,7 @@ def buildexec(modulename,dir_path):
         else:
             pass
     except:
-        pass # throws error: something wrong with os.system or the path
+        raise FileNotFoundError("Could not find the file")
 
 
 def start_multiplayer():

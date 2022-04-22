@@ -16,7 +16,7 @@ from lib.bullet import Bullet
 import lib.server_chooser as server_chooser
 
 from os.path import isfile
-if not isfile("lib/anticheat.py"):
+if not isfile("../server/anticheat.py"):
     print("Anticheat not found, can't start")
 
 try:

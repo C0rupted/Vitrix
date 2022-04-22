@@ -1,7 +1,7 @@
 import ursina
 from ursina.prefabs.first_person_controller import FirstPersonController
 
-from lib.anticheat import check_speed
+from server.anticheat import check_speed
 
 class Player(FirstPersonController):
     def __init__(self, position: ursina.Vec3):
