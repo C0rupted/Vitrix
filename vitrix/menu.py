@@ -3,6 +3,9 @@ import platform
 import threading
 from ursina import *
 
+from os.path import isfile
+if not isfile("lib/anticheat.py"):
+    print("Anticheat not found, can't start")
 
 def start_multiplayer():
     app.destroy()

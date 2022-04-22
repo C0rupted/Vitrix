@@ -8,12 +8,15 @@ from lib.enemy import Zombie
 from lib.bullet import Bullet
 
 
-
 app = ursina.Ursina()
 ursina.window.borderless = False
 ursina.window.title = "Vitrix - Singleplayer"
 ursina.window.exit_button.visible = False
 
+from os.path import isfile
+if not isfile("lib/anticheat.py"):
+
+    print("Anticheat not found, can't start")
 
 floor = Floor()
 map = Map()

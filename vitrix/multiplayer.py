@@ -15,6 +15,10 @@ from lib.bullet import Bullet
 
 import lib.server_chooser as server_chooser
 
+from os.path import isfile
+if not isfile("lib/anticheat.py"):
+    print("Anticheat not found, can't start")
+
 try:
     with open("data.txt", "r") as file:
         lines =  file.readlines()
