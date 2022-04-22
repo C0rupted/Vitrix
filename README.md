@@ -25,7 +25,7 @@
     <a href="https://github.com/ShadityZ/Vitrix/issues"><img src="https://img.shields.io/github/issues/ShadityZ/Vitrix" alt="issues"></a>
     <a href="https://github.com/ShadityZ/Vitrix/tree/dev"><img src="https://img.shields.io/github/commit-activity/m/ShadityZ/Vitrix"></a>
     <img src="https://img.shields.io/github/license/ShadityZ/Vitrix" alt="license">
-    <br> Check out the Vitrix:   <a href="https://discord.gg/Vpmwn7HEPp"><img src="https://img.shields.io/badge/Discord-%237289DA.svg?style=for-the-badge&logo=discord&logoColor=white"></a>
+    <br> Check out the Vitrix:   <a href="https://discord.gg/Vpmwn7HEPp"><img src="https://img.shields.io/badge/Discord-%237289DA.svg?style=for-the-badge&logo=discord&logoColor=white", alt="Discord logo"></a>
   
 </p>
 
@@ -40,4 +40,7 @@
 Everybody knows lots of diffent FPS shooter games, from Fortnite to CS:GO, the list is longly tiresome. So, what's any different about Vitrix? Well first of all, it has a really cool name. Second of all, it is open-source! No more sneaky malware in your closed-source applications, because the code of Vitrix is fully open and accessible to the community! Well? What are you waiting for? Go ahead and download it if you haven't already, and dive into a world of Vitrix fun!
 
 <br>
-<h4>You can find out everything you else you need to know in the <a href="https://github.com/ShadityZ/Vitrix/blob/docs-development/docs/mainpage.md">Official Vitrix Documentation</a>!</h4>
+For more information about release cycle and game version, check <a href="https://github.com/ShadityZ/Vitrix/blob/master/SECURITY.md"><b>SECURITY.md</b></a>
+
+<br>
+<h4>You can find out everything you else you need to know in the <a href="https://github.com/ShadityZ/Vitrix/blob/docs-development/docs/mainpage.md"><b>Official Vitrix Documentation</b></a>!</h4>
