@@ -13,6 +13,9 @@ def start_multiplayer():
             os.system("sh multiplayer.sh")
         if platform.system() == "Windows":
             os.system("multiplayer.bat")
+        else:
+            print("Your platform is not supported yet")
+            os._exit(1)
     os._exit(0)
 
 def start_singleplayer():

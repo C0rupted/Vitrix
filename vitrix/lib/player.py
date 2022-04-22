@@ -1,4 +1,3 @@
-from tkinter import E
 import ursina
 from ursina.prefabs.first_person_controller import FirstPersonController
 
@@ -64,7 +63,7 @@ class Player(FirstPersonController):
 
         self.on_disable()
 
-        ursina.Audio("death").play()
+        ursina.Audio("death").play() # Play death sound
 
         ursina.destroy(self.gun)
         self.rotation = 0
@@ -84,7 +83,7 @@ class Player(FirstPersonController):
         if self.y < -10:
             self.position = ursina.Vec3(0, 2, 0)
 
-        if self.health <= 0:
+        if self.health <= 0: # Check if player is dead
             if not self.death_message_shown:
                 self.death()
         else:
