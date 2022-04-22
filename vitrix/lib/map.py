@@ -8,7 +8,7 @@ class Wall(ursina.Entity):
             position=position,
             scale=2,
             model="cube",
-            texture=os.path.join("assets", "wall.png"),
+            texture=os.path.join("assets", "t_wall.png"),
             origin_y=-0.5
         )
         

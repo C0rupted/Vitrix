@@ -78,7 +78,7 @@ floor = Floor()
 map = Map()
 sky = ursina.Entity(
     model="sphere",
-    texture=os.path.join("assets", "sky.png"),
+    texture=os.path.join("assets", "t_sky.png"),
     scale=9999,
     double_sided=True
 )

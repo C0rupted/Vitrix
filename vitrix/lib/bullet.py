@@ -25,7 +25,7 @@ class Bullet(ursina.Entity):
         super().__init__(
             position=position + self.velocity / speed,
             model="cube",
-            texture=os.path.join("assets", "bullet.png"),
+            texture=os.path.join("assets", "t_bullet.png"),
             collider="box",
             scale=0.2
         )

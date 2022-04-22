@@ -8,7 +8,7 @@ class FloorCube(ursina.Entity):
             position=position,
             scale=2,
             model="cube",
-            texture=os.path.join("assets", "floor.png"),
+            texture=os.path.join("assets", "t_floor.png"),
             collider="box"
         )
 

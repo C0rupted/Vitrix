@@ -1,5 +1,6 @@
 import ursina
 from ursina.prefabs.first_person_controller import FirstPersonController
+import os.path
 
 
 class Player(FirstPersonController):
@@ -24,7 +25,7 @@ class Player(FirstPersonController):
             scale=ursina.Vec3(0.1, 0.2, 0.65),
             rotation=ursina.Vec3(-20, -20, -5),
             model="cube",
-            texture="white_cube",
+            texture=os.path.join("assets", "t_gun.png"),
             color=ursina.color.color(0, 0, 0.4),
             on_cooldown=False
         )
