@@ -22,11 +22,3 @@ class Inventory(Entity):
             color = color.random_color(),                               
             z = -.1                                                     
             )
-
-
-# How to use:
-# inventory = Inventory()
-# in player.py i think
-#
-# Example item:
-# item = Button(parent=inventory.item_parent, model='quad', texture="assets/icon_gun", origin=(-.5,.5), z=-.1)

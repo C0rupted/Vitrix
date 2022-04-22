@@ -18,6 +18,8 @@ class Player(FirstPersonController):
 
         self.inventory = None
 
+        gun_item = None
+
         self.thirdperson = False
         self.inventory_opened = False
 
@@ -69,10 +71,12 @@ class Player(FirstPersonController):
             if self.inventory_opened:
                 self.inventory_opened = False
                 ursina.destroy(self.inventory)
+                ursina.destroy(gun_item)
                 
             else:
                 self.inventory_opened = True
                 inventory = Inventory()
+                gun_item = ursina.Button(parent=inventory.item_parent, model='quad', texture="assets/icon_gun.png", origin=(-.5,.5), z=-.1)
 
     def death(self):
         self.death_message_shown = True
