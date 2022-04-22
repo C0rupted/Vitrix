@@ -1,6 +1,7 @@
 import ursina
 from ursina.prefabs.first_person_controller import FirstPersonController
 import os.path
+from lib.inventory import Inventory
 
 
 class Player(FirstPersonController):
@@ -15,7 +16,10 @@ class Player(FirstPersonController):
             speed=7
         )
 
+        self.inventory = None
+
         self.thirdperson = False
+        self.inventory_opened = False
 
         self.cursor.color = ursina.color.rgb(255, 0, 0, 122)
 
@@ -55,9 +59,20 @@ class Player(FirstPersonController):
             if self.thirdperson: # Check if it's enabled
                 self.thirdperson = False
                 ursina.camera.z = -0
+
             else:
                 self.thirdperson = True
-                ursina.camera.z = -8
+                ursina.camera.z = -10
+        
+        # Inventory
+        if key == "i":
+            if self.inventory_opened:
+                self.inventory_opened = False
+                ursina.destroy(self.inventory)
+                
+            else:
+                self.inventory_opened = True
+                inventory = Inventory()
 
     def death(self):
         self.death_message_shown = True
