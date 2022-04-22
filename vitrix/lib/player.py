@@ -1,3 +1,4 @@
+from tkinter import E
 import ursina
 from ursina.prefabs.first_person_controller import FirstPersonController
 
@@ -13,6 +14,8 @@ class Player(FirstPersonController):
             collider="box",
             speed=7
         )
+
+        self.thirdperson = False
 
         self.cursor.color = ursina.color.rgb(255, 0, 0, 122)
 
@@ -46,6 +49,15 @@ class Player(FirstPersonController):
 
         self.health = 100
         self.death_message_shown = False
+
+    def input(self, key):
+        if key == "f1": # Third person
+            if self.thirdperson:
+                self.thirdperson = False
+                ursina.camera.z = -0
+            else:
+                self.thirdperson = True
+                ursina.camera.z = -8
 
     def death(self):
         self.death_message_shown = True

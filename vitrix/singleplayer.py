@@ -11,7 +11,7 @@ from lib.bullet import Bullet
 
 app = ursina.Ursina()
 ursina.window.borderless = False
-ursina.window.title = "Vitrix"
+ursina.window.title = "Vitrix - Singleplayer"
 ursina.window.exit_button.visible = False
 
 
