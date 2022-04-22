@@ -1,6 +1,6 @@
-from email.mime import application
 import os
 import ursina
+import sys
 
 from lib.floor import Floor
 from lib.map import Map
@@ -19,8 +19,9 @@ ursina.window.exit_button.visible = False
 paused = False
 
 from os.path import isfile
-if not isfile("../server/anticheat.py"):
+if not isfile("server/anticheat.py"):
     print("Anticheat not found, can't start")
+    sys.exit(1)
 
 
 floor = Floor()
@@ -31,6 +32,7 @@ sky = ursina.Entity(
     scale=9999,
     double_sided=True
 )
+
 player = Player(ursina.Vec3(0, 1, 0))
 
 quit = False
