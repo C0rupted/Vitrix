@@ -7,6 +7,8 @@ from lib.player import Player
 from lib.enemy import Zombie
 from lib.bullet import Bullet
 
+camera_height = 1366
+camera_width = 768
 
 app = ursina.Ursina()
 ursina.window.borderless = False
