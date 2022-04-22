@@ -8,6 +8,8 @@ import time
 import random
 import threading
 
+# from server.anticheat import *
+
 
 ADDR = "0.0.0.0"
 PORT = 26822

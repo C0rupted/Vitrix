@@ -15,6 +15,8 @@ from lib.bullet import Bullet
 
 import lib.server_chooser as server_chooser
 
+from server.anticheat import *
+
 from os.path import isfile
 if not isfile("../server/anticheat.py"):
     print("Anticheat not found, can't start")
@@ -170,6 +172,9 @@ def update():
 
         prev_pos = player.world_position
         prev_dir = player.world_rotation_y
+    
+    check_speed(player.speed, [5,7])
+        
 
 
 def input(key):
