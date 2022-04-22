@@ -23,6 +23,8 @@ if not isfile("server/anticheat.py"):
     print("Anticheat not found, can't start")
     sys.exit(1)
 
+pew = ursina.Audio("pew")
+pew.volume = 0.2
 
 floor = Floor()
 map = Map()
@@ -54,7 +56,7 @@ def input(key):
         if not player.gun.on_cooldown:
             player.gun.on_cooldown = True
             b_pos = player.position + ursina.Vec3(0, 2, 0)
-            ursina.Audio("pew").play()
+            pew.play()
             bullet = Bullet(b_pos, player.world_rotation_y, -player.camera_pivot.world_rotation_x)
             ursina.destroy(bullet, delay=2)
             ursina.invoke(setattr, player.gun, 'on_cooldown', False, delay=.50)
