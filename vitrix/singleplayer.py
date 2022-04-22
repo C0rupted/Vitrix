@@ -70,9 +70,11 @@ def pause_input(key):
             pause_text.enabled = True
         if not paused:
             paused = True
+            player.on_disable()
             ursina.application.pause()
         else:
             paused = False
+            player.on_enable()
             ursina.application.resume()
 
 pause_handler = ursina.Entity(ignore_paused=True, input=pause_input)

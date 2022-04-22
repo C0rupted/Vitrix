@@ -16,6 +16,7 @@ class Player(FirstPersonController):
             speed=7
         )
 
+        self.items = []
         self.inventory = None
 
         gun_item = None
@@ -57,6 +58,7 @@ class Player(FirstPersonController):
         self.death_message_shown = False
 
     def input(self, key):
+        global gun_item, inventory
         if key == "f1": # Third person
             if self.thirdperson: # Check if it's enabled
                 self.thirdperson = False
@@ -70,9 +72,9 @@ class Player(FirstPersonController):
         if key == "i":
             if self.inventory_opened:
                 self.inventory_opened = False
-                ursina.destroy(self.inventory)
+                ursina.destroy(inventory, delay=0.1)
                 ursina.destroy(gun_item)
-                
+
             else:
                 self.inventory_opened = True
                 inventory = Inventory()
