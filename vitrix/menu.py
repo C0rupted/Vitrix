@@ -2,6 +2,8 @@
 Game menu
 """
 
+## TODO: Finish ban process
+
 import os
 import platform
 import threading

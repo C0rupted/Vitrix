@@ -13,7 +13,7 @@ class Player(FirstPersonController):
             jump_duration=0.4,
             origin_y=-2,
             collider="box",
-            speed=7
+            speed=10
         )
 
         self.items = []

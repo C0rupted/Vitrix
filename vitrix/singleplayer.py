@@ -7,6 +7,7 @@ from lib.map import Map
 from lib.player import Player
 from lib.enemy import Zombie
 from lib.bullet import Bullet
+from lib.anticheat import check_speed
 
 camera_height = 1366
 camera_width = 768
@@ -76,6 +77,9 @@ def pause_input(key):
             paused = False
             player.on_enable()
             ursina.application.resume()
+
+def update():
+    check_speed(player.speed, [5,7])
 
 pause_handler = ursina.Entity(ignore_paused=True, input=pause_input)
 

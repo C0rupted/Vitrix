@@ -5,3 +5,4 @@ panda3d-simplepbr==0.10
 Pillow==9.1.0
 screeninfo==0.8
 ursina==4.1.1
+venvctl==1.4.12
