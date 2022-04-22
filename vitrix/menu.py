@@ -6,10 +6,15 @@ import os
 import platform
 import threading
 from ursina import *
+import configparser
 
 from os.path import isfile
 if not isfile("server/anticheat.py"):
     print("Anticheat not found, can't start")
+
+options_parser = configparser.ConfigParser()
+options_parser.read("options.ini")
+options_parser.add_section("Options")
 
 def buildexec(modulename: str, dir_path: str):
     try:
@@ -134,6 +139,7 @@ def load_menu():
         for t in [e for e in scene.entities if isinstance(e, Text) and hasattr(e, 'original_scale')]:
             t.scale = t.original_scale * text_scale_slider.value
     text_scale_slider.on_value_changed = set_text_scale
+    options_parser.set('Options', 'text_scale', str(text_scale_slider.value))
 
 
     options_back = MenuButton(parent=options_menu, text='Back', x=-.25, origin_x=-.5, 
@@ -180,7 +186,7 @@ window.show_ursina_splash = False
 window.exit_button.visible = False
 window.title = "Vitrix"
 window.borderless = False
-default_width = 600  # would be migrated to settings.json
+default_width = 600  # would be migrated to settings.ini
 default_height = 600
 window.size = (default_width, default_height)
 
