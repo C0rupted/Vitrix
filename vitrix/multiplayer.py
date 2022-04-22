@@ -22,7 +22,7 @@ try:
         server_addr = lines[1].strip()
         server_port = lines[2].strip()
 except FileNotFoundError:
-    exit()
+    sys.exit(1)
 
 
 while True:
@@ -56,7 +56,7 @@ while True:
         n.settimeout(None)
 
     if error_occurred:
-        exit()
+        sys.exit(1)
     
     if not error_occurred:
         break
@@ -64,7 +64,7 @@ while True:
 
 app = ursina.Ursina()
 ursina.window.borderless = False
-ursina.window.title = "Vitrix"
+ursina.window.title = "Vitrix - Multiplayer"
 ursina.window.exit_button.visible = False
 
 
