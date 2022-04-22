@@ -201,4 +201,4 @@ else:
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(info=False) # the "info=False" remove useless info from the console, only works with the latest dev version of ursina

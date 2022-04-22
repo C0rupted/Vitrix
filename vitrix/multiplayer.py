@@ -205,7 +205,7 @@ def input(key):
 def main():
     msg_thread = threading.Thread(target=receive, daemon=True)
     msg_thread.start()
-    app.run()
+    app.run(info=False) # the "info=False" remove useless info from the console, only works with the latest dev version of ursina
 
 
 
