@@ -52,7 +52,7 @@ class Player(FirstPersonController):
 
     def input(self, key):
         if key == "f1": # Third person
-            if self.thirdperson:
+            if self.thirdperson: # Check if it's enabled
                 self.thirdperson = False
                 ursina.camera.z = -0
             else:
