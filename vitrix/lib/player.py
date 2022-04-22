@@ -1,7 +1,6 @@
 import ursina
 from ursina.prefabs.first_person_controller import FirstPersonController
 
-from server.anticheat import check_speed
 
 class Player(FirstPersonController):
     def __init__(self, position: ursina.Vec3):
@@ -89,5 +88,3 @@ class Player(FirstPersonController):
                 self.death()
         else:
             super().update()
-        
-        check_speed(speed=self.speed, valid_speeds=[5,7]) # check if speedhack
