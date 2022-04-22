@@ -23,8 +23,11 @@
     <a href="https://github.com/ShadityZ/Vitrix/graphs/contributors"><img src="https://img.shields.io/github/contributors/ShadityZ/Vitrix" alt="contributors"></a>
     <a href="https://github.com/ShadityZ/Vitrix/pulls"><img src="https://img.shields.io/github/issues-pr/ShadityZ/Vitrix" alt="prs"></a>
     <a href="https://github.com/ShadityZ/Vitrix/issues"><img src="https://img.shields.io/github/issues/ShadityZ/Vitrix" alt="issues"></a>
+    <a href="https://github.com/ShadityZ/Vitrix/tree/dev"><img src="https://img.shields.io/github/commit-activity/m/ShadityZ/Vitrix"></a>
     <img src="https://img.shields.io/github/license/ShadityZ/Vitrix" alt="license">
     <br> Check out the Vitrix:   <a href="https://discord.gg/Vpmwn7HEPp"><img src="https://img.shields.io/badge/Discord-%237289DA.svg?style=for-the-badge&logo=discord&logoColor=white"></a>
+  
+</p>
 
 <p align="center"><strong>Made with :heart: by <a href="https://github.com/ShadityZ">ShadityZ</a></strong> and <a href="https://github.com/ShadityZ/Vitrix/graphs/contributors">contributors</a>
 
