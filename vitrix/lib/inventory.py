@@ -16,7 +16,7 @@ class Inventory(Entity):
 
     def append(self, item):                                             
         Button(                                                         
-            parent = selfitem_parent,                             
+            parent = self.item_parent,                             
             model = 'quad',                                             
             origin = (-.5,.5),                                          
             color = color.random_color(),                               
