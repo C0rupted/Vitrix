@@ -2,8 +2,6 @@
 Game menu
 """
 
-## TODO: Finish ban process
-
 import os
 import platform
 import threading
@@ -11,7 +9,7 @@ from ursina import *
 import configparser
 
 from os.path import isfile
-if not isfile("server/anticheat.py"):
+if not isfile("vitrix/lib/anticheat.py"):
     print("Anticheat not found, can't start")
 
 options_parser = configparser.ConfigParser()

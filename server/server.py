@@ -9,12 +9,12 @@ import random
 import threading
 
 from os.path import isfile
-if not isfile("server/anticheat.py"):
+if not isfile("lib/anticheat.py"):
     import sys
     print("Anticheat not found, can't start")
     sys.exit(1)
 
-from server.anticheat import *
+from vitrix.lib.anticheat import *
 
 from vitrix.lib.player import Player
 

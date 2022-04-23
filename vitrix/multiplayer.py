@@ -31,7 +31,7 @@ else:
 
 import lib.server_chooser as server_chooser
 
-from server.anticheat import *
+from lib.anticheat import *
 
 ADDR = "0.0.0.0"
 PORT = 26822
