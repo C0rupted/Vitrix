@@ -10,6 +10,7 @@ import threading
 
 from os.path import isfile
 if not isfile("server/anticheat.py"):
+    import sys
     print("Anticheat not found, can't start")
     sys.exit(1)
 
