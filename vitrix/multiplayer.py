@@ -3,6 +3,9 @@ import sys
 import socket
 import threading
 import ursina
+import random
+import json
+import time
 
 from lib.notification import notify
 from lib.network import Network
@@ -13,213 +16,176 @@ from lib.enemy import Enemy
 from lib.bullet import Bullet
 
 
-
 cheats = False
 
+from os.path import isfile
 
 if isfile("ib.cfg"):
     if open("ib.cfg", "r").read() == "1":
         print("You can't play multiplayer.")
         print("Reason: Cheats")
         notify("You can't play multiplayer.", "Reason: Cheats")
-        cheats = True
+        sys.exit(1)
+else:
+    pass
 
 import lib.server_chooser as server_chooser
 
 from server.anticheat import *
 
-if not cheats:
-    from os.path import isfile
-    if not isfile("../server/anticheat.py"):
-        print("Anticheat not found, can't start")
+ADDR = "0.0.0.0"
+PORT = 26822
+MAX_PLAYERS = 10
+MSG_SIZE = 2048
 
-    try:
-        with open("data.txt", "r") as file:
-            lines =  file.readlines()
-            username = lines[0].strip()
-            server_addr = lines[1].strip()
-            server_port = lines[2].strip()
-    except FileNotFoundError:
-        sys.exit(1)
 
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.bind((ADDR, PORT))
+s.listen(MAX_PLAYERS)
+
+
+players = {}
+
+
+def generate_id(player_list: dict, max_players: int):
+    """
+    Generate a unique identifier
+    Args:
+        player_list (dict): dictionary of existing players
+        max_players (int): maximum number of players allowed
+    Returns:
+        str: the unique identifier
+    """
 
     while True:
-        print(username, " ", server_addr, " ", server_port)
+        unique_id = str(random.randint(1, max_players))
+        if unique_id not in player_list:
+            return unique_id
+
+
+def handle_messages(identifier: str):
+    client_info = players[identifier]
+    conn: socket.socket = client_info["socket"]
+    username = client_info["username"]
+
+    while True:
         try:
-            server_port = int(server_port)
-        except ValueError:
-            print("\nThe port you entered was not a number, try again with a valid port...")
-            continue
-
-        n = Network(server_addr, server_port, username)
-        n.settimeout(5)
-
-        error_occurred = False
-
-        try:
-            n.connect()
-        except ConnectionRefusedError:
-            notify("Vitrix Error", 
-                    "Connection refused! This can be because server hasn't started or has reached it's player limit.")
-            error_occurred = True
-        except socket.timeout:
-            notify("Vitrix Error", 
-                    "Server took too long to respond, please try again later...")
-            error_occurred = True
-        except socket.gaierror:
-            notify("Vitrix Error", 
-                    "The IP address you entered is invalid, please try again with a valid address...")
-            error_occurred = True
-        finally:
-            n.settimeout(None)
-
-        if error_occurred:
-            sys.exit(1)
-        
-        if not error_occurred:
+            msg = conn.recv(MSG_SIZE)
+        except ConnectionResetError:
             break
 
+        if not msg:
+            break
 
-    app = ursina.Ursina()
-    ursina.window.borderless = False
-    ursina.window.title = "Vitrix - Multiplayer"
-    ursina.window.exit_button.visible = False
+        msg_decoded = msg.decode("utf8")
 
+        try:
+            left_bracket_index = msg_decoded.index("{")
+            right_bracket_index = msg_decoded.index("}") + 1
+            msg_decoded = msg_decoded[left_bracket_index:right_bracket_index]
+        except ValueError:
+            continue
 
-    floor = Floor()
-    map = Map()
-    sky = ursina.Entity(
-        model="sphere",
-        texture=os.path.join("assets", "t_sky.png"),
-        scale=9999,
-        double_sided=True
-    )
-    player = Player(ursina.Vec3(0, 1, 0))
+        try:
+            msg_json = json.loads(msg_decoded)
+        except Exception as e:
+            print(e)
+            continue
 
-    lock = True
-    prev_pos = player.world_position
-    prev_dir = player.world_rotation_y
-    enemies = []
+        print(f"Received message from player {username} with ID {identifier}")
 
-    pause_text = ursina.Text(
-                    text="Paused",
-                    enabled=False,
-                    origin=ursina.Vec2(0, 0),
-                    scale=3
-                )
+        if msg_json["object"] == "player":
+            players[identifier]["position"] = msg_json["position"]
+            players[identifier]["rotation"] = msg_json["rotation"]
+            players[identifier]["health"] = msg_json["health"]
 
+        for player_id in players:
+            if player_id != identifier:
+                player_info = players[player_id]
+                player_conn: socket.socket = player_info["socket"]
+                try:
+                    player_conn.sendall(msg_decoded.encode("utf8"))
+                except OSError:
+                    pass
 
-    def receive():
-        while True:
+    for player_id in players:
+        if player_id != identifier:
+            player_info = players[player_id]
+            player_conn: socket.socket = player_info["socket"]
             try:
-                info = n.receive_info()
-            except Exception as e:
-                print(e)
-                continue
+                player_conn.send(json.dumps({"id": identifier, "object": "player", "joined": False, "left": True}).encode("utf8"))
+            except OSError:
+                pass
 
-            if not info:
-                print("Server has stopped! Exiting...")
-                sys.exit()
-
-            if info["object"] == "player":
-                enemy_id = info["id"]
-
-                if info["joined"]:
-                    new_enemy = Enemy(ursina.Vec3(*info["position"]), enemy_id, info["username"])
-                    new_enemy.health = info["health"]
-                    enemies.append(new_enemy)
-                    continue
-
-                enemy = None
-
-                for e in enemies:
-                    if e.id == enemy_id:
-                        enemy = e
-                        break
-
-                if not enemy:
-                    continue
-
-                if info["left"]:
-                    enemies.remove(enemy)
-                    ursina.destroy(enemy)
-                    continue
-
-                enemy.world_position = ursina.Vec3(*info["position"])
-                enemy.rotation_y = info["rotation"]
-
-            elif info["object"] == "bullet":
-                b_pos = ursina.Vec3(*info["position"])
-                b_dir = info["direction"]
-                b_x_dir = info["x_direction"]
-                b_damage = info["damage"]
-                new_bullet = Bullet(b_pos, b_dir, b_x_dir, n, b_damage, slave=True)
-                ursina.destroy(new_bullet, delay=2)
-
-            elif info["object"] == "health_update":
-                enemy_id = info["id"]
-
-                enemy = None
-
-                if enemy_id == n.id:
-                    enemy = player
-                else:
-                    for e in enemies:
-                        if e.id == enemy_id:
-                            enemy = e
-                            break
-
-                if not enemy:
-                    continue
-
-                enemy.health = info["health"]
+    print(f"Player {username} with ID {identifier} has left the game...")
+    del players[identifier]
+    conn.close()
 
 
-    def update():
-        if player.health > 0:
-            global prev_pos, prev_dir
+def main():
+    print("Server started, listening for new connections...")
 
-            if prev_pos != player.world_position or prev_dir != player.world_rotation_y:
-                n.send_player(player)
-
-            prev_pos = player.world_position
-            prev_dir = player.world_rotation_y
-        
-        check_speed(player.speed, [5,7])
-            
+    while True:
+        conn, addr = s.accept()
+        new_id = generate_id(players, MAX_PLAYERS)
+        conn.send(new_id.encode("utf8"))
+        username = conn.recv(MSG_SIZE).decode("utf8")
+        new_player_info = {"socket": conn, "username": username, "position": (0, 1, 0), "rotation": 0, "health": 100}
 
 
-    def input(key):
-        global lock
-        global pause_text
+        for player_id in players:
+            if player_id != new_id:
+                player_info = players[player_id]
+                player_conn: socket.socket = player_info["socket"]
+                try:
+                    player_conn.send(json.dumps({
+                        "id": new_id,
+                        "object": "player",
+                        "username": new_player_info["username"],
+                        "position": new_player_info["position"],
+                        "health": new_player_info["health"],
+                        "joined": True,
+                        "left": False
+                    }).encode("utf8"))
+                except OSError:
+                    pass
 
-        if key == "tab":
-            if lock == False:
-                pause_text.enabled = False
-                lock = True
-                player.on_enable()
-            else:
-                pause_text.enabled = True
-                lock = False
-                player.on_disable()
+        for player_id in players:
+            if player_id != new_id:
+                player_info = players[player_id]
+                try:
+                    conn.send(json.dumps({
+                        "id": player_id,
+                        "object": "player",
+                        "username": player_info["username"],
+                        "position": player_info["position"],
+                        "health": player_info["health"],
+                        "joined": True,
+                        "left": False
+                    }).encode("utf8"))
+                    time.sleep(0.1)
+                except OSError:
+                    pass
 
-        if key == "left mouse down" and player.health > 0:
-            if not player.gun.on_cooldown:
-                player.gun.on_cooldown = True
-                b_pos = player.position + ursina.Vec3(0, 2, 0)
-                ursina.Audio("pew").play()
-                bullet = Bullet(b_pos, player.world_rotation_y, -player.camera_pivot.world_rotation_x, n)
-                n.send_bullet(bullet)
-                ursina.destroy(bullet, delay=2)
-                ursina.invoke(setattr, player.gun, 'on_cooldown', False, delay=.50)
+        players[new_id] = new_player_info
 
-
-    def main():
-        msg_thread = threading.Thread(target=receive, daemon=True)
+        msg_thread = threading.Thread(target=handle_messages, args=(new_id,), daemon=True)
         msg_thread.start()
-        app.run(info=False) # the "info=False" remove useless info from the console, only works with the latest dev version of ursina
+
+        print(f"New connection from {addr}, assigned ID: {new_id}...")
 
 
+if __name__ == "__main__":
+    try:
+        main()
 
-    if __name__ == "__main__":
-        main()  
+    except KeyboardInterrupt:
+        pass
+
+    except SystemExit:
+        pass
+
+    finally:
+        print("Exiting")
+        
+        s.close()

@@ -5,3 +5,5 @@ data.txt
 build/
 dist/
 test/
+ib.cfg
+vitrix/ib.cfg

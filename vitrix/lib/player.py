@@ -1,7 +1,7 @@
 import ursina
 from ursina.prefabs.first_person_controller import FirstPersonController
 import os.path
-from lib.inventory import Inventory
+from lib.inventory import Inventory, Hotbar
 
 
 class Player(FirstPersonController):
@@ -13,13 +13,16 @@ class Player(FirstPersonController):
             jump_duration=0.4,
             origin_y=-2,
             collider="box",
-            speed=10
+            speed=7
         )
+
+        self.hotbar = Hotbar()
 
         self.items = []
         self.inventory = None
 
         gun_item = None
+        # hotbar_gun_item = ursina.Button(parent=self.hotbar.item_parent, model='quad', texture="assets/icon_gun.png", origin=(-.5,.5), position=self.hotbar.find_free_spot(), z=-.1)
 
         self.thirdperson = False
         self.inventory_opened = False
