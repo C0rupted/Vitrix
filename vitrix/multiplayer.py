@@ -24,7 +24,7 @@ if isfile("ib.cfg"):
     if open("ib.cfg", "r").read() == "1":
         print("You can't play multiplayer.")
         print("Reason: Cheats")
-        notify("You can't play multiplayer.", "Reason: Cheats")
+        notify("You can't play multiplayer.", "You have been banned\nReason: Cheats")
         sys.exit(1)
 else:
     pass
