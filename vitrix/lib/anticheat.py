@@ -1,5 +1,4 @@
 import sys
-import configparser
 
 def perform_quit():
     print("Found cheat. Quitting...")
@@ -10,6 +9,10 @@ def perform_quit():
         f.write("1")
     
     sys.exit(1)
+
+def check_jump_height(jump_height: int, valid_jump_height: int):
+    if jump_height != valid_jump_height:
+        perform_quit()
 
 def check_speed(speed: int, valid_speeds: list):
     if speed not in valid_speeds:

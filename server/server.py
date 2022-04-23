@@ -163,6 +163,7 @@ def main():
         print(f"New connection from {addr}, assigned ID: {new_id}...")
         
         check_speed(Player.speed)
+        check_jump_height(Player.jump_height, 2.5)
 
 
 if __name__ == "__main__":
