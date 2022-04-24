@@ -10,7 +10,7 @@ class Bullet(ursina.Entity):
     texture_dir = os.path.join("assets","textures")
     model_dir = os.path.join("assets","models")
 
-    def __init__(self, position: ursina.Vec3, direction: float, x_direction: float, network=False, damage: int = 10, slave=False, tag = 1):
+    def __init__(self, position: ursina.Vec3, direction: float, x_direction: float, network=False, damage: int = 10, slave=False):
         if network == False:
             self.singleplayer = True
         
@@ -25,31 +25,31 @@ class Bullet(ursina.Entity):
             ursina.math.cos(dir_rad) * ursina.math.cos(x_dir_rad)
         ) * speed
 
-        bullet_tags ={
-            1 : {
-            "model" :"sphere",
-            "texture" : "bullet1.png",
-            "collider" : "sphere",
-            "double_sided" : False,
-            "scale" : 0.2
-            },
-
-            2 : {
-            "model" : os.path.join(Bullet.model_dir,"bullet2"),
-            "texture" : "bullet2.png",
-            "collider" : "sphere",
-            "double_sided" : False,
-            "scale" : 1.0
-            }
-        }
+        #bullet_tags ={
+        #    1 : {
+        #    "model" :"sphere",
+        #    "texture" : "bullet1.png",
+        #    "collider" : "sphere",
+        #    "double_sided" : False,
+        #    "scale" : 0.2
+        #    },
+        #
+        #    2 : {
+        #    "model" : os.path.join(Bullet.model_dir,"bullet2"),
+        #    "texture" : "bullet2.png",
+        #    "collider" : "sphere",
+        #    "double_sided" : False,
+        #    "scale" : 1.0
+        #    }
+        #}
 
         super().__init__(
             position=position + self.velocity / speed,
-            model=bullet_tags[tag]["model"],
-            texture=os.path.join(Bullet.texture_dir, bullet_tags[tag]["texture"]),
-            collider=bullet_tags[tag]["collider"],
-            double_sided=bullet_tags[tag]["double_sided"],
-            scale=bullet_tags[tag]["scale"]
+            model="sphere",
+            texture=os.path.join(Bullet.texture_dir, "bullet.png"),
+            collider=b"sphere",
+            double_sided=True,
+            scale=0.2
             
         )
 
