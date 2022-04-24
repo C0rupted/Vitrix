@@ -11,6 +11,8 @@ from lib.enemy import Zombie
 from lib.anticheat import *
 from lib.bullet import Bullet
 
+from lib.items.aid_kit import AidKit
+
 from os.path import isfile
 if not isfile("vitrix/lib/anticheat.py"):
     print(os.cwd())
@@ -159,6 +161,7 @@ def pause_input(key):
 def update():
     check_speed(player.speed)
     check_jump_height(player.jump_height, 2.5)
+    check_health(player.health)
 
 pause_handler = ursina.Entity(ignore_paused=True, input=pause_input)
 

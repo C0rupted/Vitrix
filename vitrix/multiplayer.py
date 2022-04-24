@@ -217,6 +217,7 @@ def input(key):
     
     check_speed(player.speed)
     check_jump_height(player.jump_height, 2.5)
+    check_health(player.health)
 
 
 def main():

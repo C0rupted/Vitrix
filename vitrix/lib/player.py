@@ -1,7 +1,7 @@
 import ursina
 from ursina.prefabs.first_person_controller import FirstPersonController
-import os.path
 from lib.weapons.gun import Gun
+from lib.items.aid_kit import AidKit
 
 class Player(FirstPersonController):
     def __init__(self, position: ursina.Vec3):
@@ -14,6 +14,7 @@ class Player(FirstPersonController):
             collider="box",
             speed=7
         )
+        self.hit_info = self.intersects()
 
         self.thirdperson = False
 
@@ -68,6 +69,12 @@ class Player(FirstPersonController):
             origin=ursina.Vec2(0, 0),
             scale=3
         )
+
+    def restore_health(self, amount: int):
+        if self.health + amount > 100:
+            self.health = 100
+        else:
+            self.health += amount
 
     def update(self):
         self.healthbar.scale_x = self.health / 100 * self.healthbar_size.x
