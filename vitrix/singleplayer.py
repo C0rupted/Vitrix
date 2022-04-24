@@ -20,7 +20,7 @@ ursina.window.exit_button.visible = False
 paused = False
 
 from os.path import isfile
-if not isfile("vitrix/lib/anticheat.py"):
+if not isfile("lib/anticheat.py"):
     print("Anticheat not found, can't start")
     sys.exit(1)
 
