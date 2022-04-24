@@ -52,7 +52,7 @@ pause_text = ursina.Text(
 reload_warning_text = ursina.Text(
                        text="Please reload!",
                        enabled=False,
-                       scale=3)
+                       scale=2)
 
 exit_button = ursina.Button(
                 text = "Quit Game",
@@ -157,7 +157,7 @@ def pause_input(key):
             ursina.application.resume()
 
 def update():
-    check_speed(player.speed, [5,7])
+    check_speed(player.speed)
     check_jump_height(player.jump_height, 2.5)
 
 pause_handler = ursina.Entity(ignore_paused=True, input=pause_input)

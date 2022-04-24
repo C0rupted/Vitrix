@@ -214,6 +214,9 @@ def input(key):
             n.send_bullet(bullet)
             ursina.destroy(bullet, delay=2)
             ursina.invoke(setattr, player.gun, 'on_cooldown', False, delay=.50)
+    
+    check_speed(player.speed)
+    check_jump_height(player.jump_height, 2.5)
 
 
 def main():

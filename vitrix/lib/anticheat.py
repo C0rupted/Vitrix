@@ -14,6 +14,6 @@ def check_jump_height(jump_height: int, valid_jump_height: int):
     if jump_height != valid_jump_height:
         perform_quit()
 
-def check_speed(speed: int, valid_speeds: list):
-    if speed not in valid_speeds:
+def check_speed(speed: int):
+    if speed not in [3, 5, 7]:
         perform_quit()
