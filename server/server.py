@@ -8,6 +8,7 @@ import time
 import random
 import threading
 from vitrix.lib.anticheat import *
+from vitrix.lib.player import Player
 
 ADDR = "0.0.0.0"
 PORT = 26822
