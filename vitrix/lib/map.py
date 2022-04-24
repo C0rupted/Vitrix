@@ -1,7 +1,6 @@
 import os
 import ursina
 
-
 class Wall(ursina.Entity):
     base_dir = os.path.join("assets","textures")
     def __init__(self, position):
@@ -15,7 +14,6 @@ class Wall(ursina.Entity):
         
         self.texture.filtering = None
         self.collider = ursina.BoxCollider(self, size=ursina.Vec3(1, 2, 1))
-
 
 class Map:
     def __init__(self):
