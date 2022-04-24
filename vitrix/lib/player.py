@@ -1,6 +1,6 @@
 import ursina
 from ursina.prefabs.first_person_controller import FirstPersonController
-
+import os.path
 
 class Player(FirstPersonController):
     def __init__(self, position: ursina.Vec3):

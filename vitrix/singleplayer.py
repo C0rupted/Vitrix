@@ -2,12 +2,20 @@ import os
 import time
 import ursina
 import threading
+import sys
 
 from lib.floor import Floor
 from lib.map import Map
 from lib.player import Player
 from lib.enemy import Zombie
+from lib.anticheat import *
 from lib.bullet import Bullet
+
+from os.path import isfile
+if not isfile("vitrix/lib/anticheat.py"):
+    print(os.cwd())
+    print("Anticheat not found, can't start")
+    sys.exit(1)
 
 camera_height = 1366
 camera_width = 768
@@ -17,6 +25,8 @@ ursina.window.borderless = False
 ursina.window.title = "Vitrix - Singleplayer"
 ursina.window.exit_button.visible = False
 
+pew = ursina.Audio("pew")
+pew.volume = 0.2
 
 floor = Floor()
 map = Map()
@@ -124,13 +134,33 @@ def input(key):
                 return
             player.gun.on_cooldown = True
             b_pos = player.position + ursina.Vec3(0, 2, 0)
-            ursina.Audio("pew").play()
+            pew.play()
             bullet = Bullet(b_pos, player.world_rotation_y, -player.camera_pivot.world_rotation_x)
             shots_left -= 1
             ursina.destroy(bullet, delay=4)
             ursina.invoke(setattr, player.gun, 'on_cooldown', False, delay=.25)
 
+def pause_input(key):
+    global pause_text, paused
+    if key == "tab" and player.health > 0 or key == "escape" and player.health > 0:
+        if pause_text.enabled:
+            pause_text.enabled = False
+        else:
+            pause_text.enabled = True
+        if not paused:
+            paused = True
+            player.on_disable()
+            ursina.application.pause()
+        else:
+            paused = False
+            player.on_enable()
+            ursina.application.resume()
 
+def update():
+    check_speed(player.speed, [5,7])
+    check_jump_height(player.jump_height, 2.5)
+
+pause_handler = ursina.Entity(ignore_paused=True, input=pause_input)
 
 if __name__ == "__main__":
     app.run()

@@ -12,8 +12,21 @@ from lib.player import Player
 from lib.enemy import Enemy
 from lib.bullet import Bullet
 
+cheats = False
+
+from os.path import isfile
+
+if isfile("ib.cfg"):
+    if open("ib.cfg", "r").read() == "1":
+        print("You can't play multiplayer.")
+        print("Reason: Cheats")
+        notify("You can't play multiplayer.", "You have been banned\nReason: Cheats")
+        sys.exit(1)
+else:
+    pass
 
 import lib.server_chooser as server_chooser
+from lib.anticheat import *
 
 try:
     with open("data.txt", "r") as file:
