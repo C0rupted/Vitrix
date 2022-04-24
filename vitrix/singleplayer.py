@@ -1,5 +1,7 @@
 import os
+import time
 import ursina
+import threading
 
 from lib.floor import Floor
 from lib.map import Map
@@ -28,7 +30,7 @@ player = Player(ursina.Vec3(0, 1, 0))
 
 lock = True
 quit = False
-bullet_tag = 1 
+shots_left = 5
 enemies = []
 
 pause_text = ursina.Text(
@@ -37,6 +39,11 @@ pause_text = ursina.Text(
                 position=ursina.Vec2(0, .3),
                 scale=3)
 
+reload_warning_text = ursina.Text(
+                       text="Please reload!",
+                       enabled=False,
+                       scale=3)
+
 exit_button = ursina.Button(
                 text = "Quit Game",
                 scale=0.15,
@@ -44,6 +51,7 @@ exit_button = ursina.Button(
             )
 
 pause_text.enabled = False
+reload_warning_text.disable()
 exit_button.disable()
 
 #controls_dict={
@@ -65,11 +73,25 @@ exit_button.disable()
 #    else:
 #        return 1
 
+def hide_reload_warning():
+    time.sleep(1)
+    reload_warning_text.disable()
+
+def reload():
+    global shots_left
+    global player
+
+    ursina.Audio("reload.wav")
+    time.sleep(3)
+    shots_left = 5
+    player.speed = 7
+    
+
 
 def input(key):
     global lock
+    global shots_left
     global pause_text
-    global bullet_tag
 
     if key == "tab" or key == "escape":
         if lock == False:
@@ -82,6 +104,11 @@ def input(key):
             exit_button.enable()
             lock = False
             player.on_disable()
+    
+    if key == "r":
+        player.speed = 3
+        threading.Thread(target=reload).start()
+        
 
     if key == "l":
         enemies.append(Zombie(ursina.Vec3(0, 1.5, 0), player))
@@ -91,10 +118,15 @@ def input(key):
 
     if key == "left mouse down" and player.health > 0:
         if not player.gun.on_cooldown:
+            if shots_left <= 0 and player.speed == 7:
+                reload_warning_text.enable()
+                threading.Thread(target=hide_reload_warning).start()
+                return
             player.gun.on_cooldown = True
             b_pos = player.position + ursina.Vec3(0, 2, 0)
             ursina.Audio("pew").play()
             bullet = Bullet(b_pos, player.world_rotation_y, -player.camera_pivot.world_rotation_x)
+            shots_left -= 1
             ursina.destroy(bullet, delay=4)
             ursina.invoke(setattr, player.gun, 'on_cooldown', False, delay=.25)
 
