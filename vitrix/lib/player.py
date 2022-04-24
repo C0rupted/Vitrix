@@ -1,6 +1,7 @@
 import ursina
 from ursina.prefabs.first_person_controller import FirstPersonController
 import os.path
+from lib.weapons.gun import Gun
 
 class Player(FirstPersonController):
     def __init__(self, position: ursina.Vec3):
@@ -18,16 +19,7 @@ class Player(FirstPersonController):
 
         self.cursor.color = ursina.color.rgb(255, 0, 0, 122)
 
-        self.gun = ursina.Entity(
-            parent=ursina.camera.ui,
-            position=ursina.Vec2(0.6, -0.45),
-            scale=ursina.Vec3(0.1, 0.2, 0.65),
-            rotation=ursina.Vec3(-20, -20, -5),
-            model="cube",
-            texture="white_cube",
-            color=ursina.color.color(0, 0, 0.4),
-            on_cooldown=False
-        )
+        self.gun = Gun()
 
         self.healthbar_pos = ursina.Vec2(0, 0.45)
         self.healthbar_size = ursina.Vec2(0.8, 0.04)
