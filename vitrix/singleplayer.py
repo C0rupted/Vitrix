@@ -48,6 +48,7 @@ shots_left = 5
 enemies = []
 
 pause_text = ursina.Text(
+            ignore_paused=True,
                 text="Paused",
                 enabled=False,
                 position=ursina.Vec2(0, .3),
@@ -59,6 +60,7 @@ reload_warning_text = ursina.Text(
                        scale=2)
 
 exit_button = ursina.Button(
+            ignore_paused=True,
                 text = "Quit Game",
                 scale=0.15,
                 on_click=ursina.Sequence(ursina.Wait(.01), ursina.Func(os._exit, 0))
@@ -144,28 +146,25 @@ def input(key):
             ursina.destroy(bullet, delay=4)
             ursina.invoke(setattr, player.gun, 'on_cooldown', False, delay=.25)
 
-def pause_input(key):
-    global pause_text, paused
-    if key == "tab" and player.health > 0 or key == "escape" and player.health > 0:
-        if pause_text.enabled:
+def input(key):
+    global lock, pause_text
+
+    if key == "tab" or key == "escape":
+        if lock == False:
             pause_text.enabled = False
+            exit_button.disable()
+            lock = True
+            player.on_enable()
         else:
             pause_text.enabled = True
-        if not paused:
-            paused = True
+            exit_button.enable()
+            lock = False
             player.on_disable()
-            ursina.application.pause()
-        else:
-            paused = False
-            player.on_enable()
-            ursina.application.resume()
 
 def update():
     check_speed(player.speed)
     check_jump_height(player.jump_height, 2.5)
     check_health(player.health)
-
-pause_handler = ursina.Entity(ignore_paused=True, input=pause_input)
 
 if __name__ == "__main__":
     app.run()

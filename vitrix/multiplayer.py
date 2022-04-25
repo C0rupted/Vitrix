@@ -103,6 +103,7 @@ pause_text = ursina.Text(
                 scale=3)
 
 exit_button = ursina.Button(
+                ignore_paused=True,
                 text = "Quit Game",
                 scale=0.15,
                 on_click=ursina.Sequence(ursina.Wait(.01), ursina.Func(os._exit, 0))
@@ -190,8 +191,7 @@ def update():
 
 
 def input(key):
-    global lock
-    global pause_text
+    global lock, pause_text
 
     if key == "tab" or key == "escape":
         if lock == False:
