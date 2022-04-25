@@ -27,6 +27,8 @@ ursina.window.borderless = False
 ursina.window.title = "Vitrix - Singleplayer"
 ursina.window.exit_button.visible = False
 
+paused = False
+
 pew = ursina.Audio("pew")
 pew.volume = 0.2
 

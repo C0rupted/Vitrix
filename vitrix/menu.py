@@ -22,14 +22,8 @@ def start_multiplayer():
             os.system("sh multiplayer.sh")
         if platform.system() == "Windows":
             os.system("multiplayer.bat")
-<<<<<<< HEAD
     else:
         buildexec("mp",dir_path)
-=======
-        else:
-            print("Your platform is not supported yet")
-            os._exit(1)
->>>>>>> 2b2cb6a (Added comments and removed unused import and changed platform compatibility)
     os._exit(0)
 
 def start_singleplayer():
@@ -195,7 +189,6 @@ if os.path.exists(dir_path + "/.unbuilt"):
     built = False
 else:
     built = True
-
 
 
 if __name__ == "__main__":
