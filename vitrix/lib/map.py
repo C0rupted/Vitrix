@@ -1,6 +1,7 @@
-from email.mime import base
 import os
 import ursina
+
+from lib.crate import Crate
 
 
 class Wall(ursina.Entity):
@@ -31,3 +32,4 @@ class Map:
             Wall(ursina.Vec3(2, y, 8))
             Wall(ursina.Vec3(0, y, 8))
             Wall(ursina.Vec3(-2, y, 8))
+        Crate(ursina.Vec3(8, 1, 8))
