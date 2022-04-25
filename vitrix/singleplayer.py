@@ -145,6 +145,15 @@ def input(key):
             shots_left -= 1
             ursina.destroy(bullet, delay=4)
             ursina.invoke(setattr, player.gun, 'on_cooldown', False, delay=.25)
+    
+    if key == "right mouse down":
+        hit_info = ursina.raycast(player.world_position + ursina.Vec3(0,1,0), player.forward, 30, ignore=(player,))
+        try:
+            if hit_info.entity.is_crate:
+                print(hit_info.entity.contents)
+                ursina.destroy(hit_info.entity)
+        except:
+            pass
 
 def input(key):
     global lock, pause_text
