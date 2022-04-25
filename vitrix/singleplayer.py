@@ -135,6 +135,7 @@ def input(key):
         try:
             if hit_info.entity.is_crate:
                 print(hit_info.entity.contents)
+                ursina.destroy(hit_info.entity)
         except:
             pass
 
