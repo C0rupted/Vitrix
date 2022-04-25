@@ -3,6 +3,7 @@ import ursina
 
 from lib.crate import Crate
 
+
 class Wall(ursina.Entity):
     base_dir = os.path.join("assets","textures")
     def __init__(self, position):
