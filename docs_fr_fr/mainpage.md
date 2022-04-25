@@ -6,5 +6,5 @@ Vitrix est un jeu où la communauté peut jouer pour passer leur temps ! Les gui
 * [**Apprendre à jouer !**](https://github.com/ShadityZ/Vitrix/blob/docs-development/docs_fr_fr/playing.md)
 * [**Faire ton propre serveur !**](https://github.com/ShadityZ/Vitrix/blob/docs-development/docs_fr_fr/setting-up-a-server.md)
 
-### Here is an article for developers:
+### Voici un guide pour les développeurs:
 * [**Construire Vitrix !**](https://github.com/ShadityZ/Vitrix/blob/docs-development/docs/building.md)
