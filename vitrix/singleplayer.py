@@ -2,21 +2,35 @@ import os
 import time
 import ursina
 import threading
+import sys
 
 from lib.floor import Floor
 from lib.map import Map
 from lib.player import Player
 from lib.enemy import Zombie
+from lib.anticheat import *
 from lib.bullet import Bullet
+
+from lib.items.aid_kit import AidKit
+
+from os.path import isfile
+if not isfile("vitrix/lib/anticheat.py"):
+    print(os.cwd())
+    print("Anticheat not found, can't start")
+    sys.exit(1)
 
 camera_height = 1366
 camera_width = 768
 
 app = ursina.Ursina()
 ursina.window.borderless = False
-ursina.window.title = "Vitrix"
+ursina.window.title = "Vitrix - Singleplayer"
 ursina.window.exit_button.visible = False
 
+paused = False
+
+pew = ursina.Audio("pew")
+pew.volume = 0.2
 
 floor = Floor()
 map = Map()
@@ -34,6 +48,7 @@ shots_left = 5
 enemies = []
 
 pause_text = ursina.Text(
+            ignore_paused=True,
                 text="Paused",
                 enabled=False,
                 position=ursina.Vec2(0, .3),
@@ -42,9 +57,10 @@ pause_text = ursina.Text(
 reload_warning_text = ursina.Text(
                        text="Please reload!",
                        enabled=False,
-                       scale=3)
+                       scale=2)
 
 exit_button = ursina.Button(
+            ignore_paused=True,
                 text = "Quit Game",
                 scale=0.15,
                 on_click=ursina.Sequence(ursina.Wait(.01), ursina.Func(os._exit, 0))
@@ -124,7 +140,7 @@ def input(key):
                 return
             player.gun.on_cooldown = True
             b_pos = player.position + ursina.Vec3(0, 2, 0)
-            ursina.Audio("pew").play()
+            pew.play()
             bullet = Bullet(b_pos, player.world_rotation_y, -player.camera_pivot.world_rotation_x)
             shots_left -= 1
             ursina.destroy(bullet, delay=4)
@@ -139,7 +155,25 @@ def input(key):
         except:
             pass
 
+def input(key):
+    global lock, pause_text
 
+    if key == "tab" or key == "escape":
+        if lock == False:
+            pause_text.enabled = False
+            exit_button.disable()
+            lock = True
+            player.on_enable()
+        else:
+            pause_text.enabled = True
+            exit_button.enable()
+            lock = False
+            player.on_disable()
+
+def update():
+    check_speed(player.speed)
+    check_jump_height(player.jump_height, 2.5)
+    check_health(player.health)
 
 if __name__ == "__main__":
     app.run()

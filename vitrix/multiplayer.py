@@ -12,8 +12,21 @@ from lib.player import Player
 from lib.enemy import Enemy
 from lib.bullet import Bullet
 
+cheats = False
+
+from os.path import isfile
+
+if isfile("ib.cfg"):
+    if open("ib.cfg", "r").read() == "1":
+        print("You can't play multiplayer.")
+        print("Reason: Cheats")
+        notify("You can't play multiplayer.", "You have been banned\nReason: Cheats")
+        sys.exit(1)
+else:
+    pass
 
 import lib.server_chooser as server_chooser
+from lib.anticheat import *
 
 try:
     with open("data.txt", "r") as file:
@@ -22,7 +35,7 @@ try:
         server_addr = lines[1].strip()
         server_port = lines[2].strip()
 except FileNotFoundError:
-    exit()
+    sys.exit(1)
 
 
 while True:
@@ -56,7 +69,7 @@ while True:
         n.settimeout(None)
 
     if error_occurred:
-        exit()
+        sys.exit(1)
     
     if not error_occurred:
         break
@@ -64,7 +77,7 @@ while True:
 
 app = ursina.Ursina()
 ursina.window.borderless = False
-ursina.window.title = "Vitrix"
+ursina.window.title = "Vitrix - Multiplayer"
 ursina.window.exit_button.visible = False
 
 
@@ -90,6 +103,7 @@ pause_text = ursina.Text(
                 scale=3)
 
 exit_button = ursina.Button(
+                ignore_paused=True,
                 text = "Quit Game",
                 scale=0.15,
                 on_click=ursina.Sequence(ursina.Wait(.01), ursina.Func(os._exit, 0))
@@ -177,8 +191,7 @@ def update():
 
 
 def input(key):
-    global lock
-    global pause_text
+    global lock, pause_text
 
     if key == "tab" or key == "escape":
         if lock == False:
@@ -201,6 +214,10 @@ def input(key):
             n.send_bullet(bullet)
             ursina.destroy(bullet, delay=2)
             ursina.invoke(setattr, player.gun, 'on_cooldown', False, delay=.50)
+    
+    check_speed(player.speed)
+    check_jump_height(player.jump_height, 2.5)
+    check_health(player.health)
 
 
 def main():
