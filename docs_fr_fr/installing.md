@@ -21,8 +21,8 @@ Et nous travaillons sur la compatibilité pour:
 
 ##### Conditions matérielles
 - Un processeur 64-bit à 1 GHz ou plus (La plupart des processeurs)
-- A minimum 4 GB of RAM (pretty common in most computers)
-- At least 30 MB of free disk 
+- Un minimum de 4 GO de RAM (plûtot commun dans la plupart des ordinateurs)
+- Au moins 30 mo d'espace disque
 
 ##### Conditions logicielles
 - Python 3
