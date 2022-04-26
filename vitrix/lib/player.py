@@ -1,5 +1,7 @@
 import ursina
 from ursina.prefabs.first_person_controller import FirstPersonController
+
+from lib.weapons.hammer import Hammer
 from lib.weapons.gun import Gun
 from lib.items.aid_kit import AidKit
 
@@ -21,6 +23,8 @@ class Player(FirstPersonController):
         self.cursor.color = ursina.color.rgb(255, 0, 0, 122)
 
         self.gun = Gun()
+        self.hammer = Hammer()
+        self.hammer.disable()
 
         self.healthbar_pos = ursina.Vec2(0, 0.45)
         self.healthbar_size = ursina.Vec2(0.8, 0.04)
@@ -43,6 +47,9 @@ class Player(FirstPersonController):
         self.death_message_shown = False
 
     def input(self, key):
+        if key == "space":
+            self.jump()
+
         if key == "f1": # Third person
             if self.thirdperson: # Check if it's enabled
                 self.thirdperson = False
