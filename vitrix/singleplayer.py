@@ -2,7 +2,6 @@ import os
 import time
 import ursina
 import threading
-import sys
 
 from lib.floor import Floor
 from lib.map import Map
@@ -11,7 +10,6 @@ from lib.enemy import Zombie
 from lib.anticheat import *
 from lib.bullet import Bullet
 
-from lib.items.aid_kit import AidKit
 
 # from os.path import isfile
 # if not isfile("vitrix/lib/anticheat.py"):
@@ -19,8 +17,6 @@ from lib.items.aid_kit import AidKit
 #     print("Anticheat not found, can't start")
 #     sys.exit(1)
 
-camera_height = 1366
-camera_width = 768
 
 app = ursina.Ursina()
 ursina.window.borderless = False
@@ -29,14 +25,14 @@ ursina.window.exit_button.visible = False
 
 paused = False
 
-pew = ursina.Audio("pew")
+pew = ursina.Audio("pew", autoplay=False)
 pew.volume = 0.2
 
 floor = Floor()
 map = Map()
 sky = ursina.Entity(
     model="sphere",
-    texture=os.path.join("assets/textures", "sky.png"),
+    texture=os.path.join("assets", "textures", "sky.png"),
     scale=9999,
     double_sided=True
 )
@@ -147,7 +143,7 @@ def input(key):
             ursina.invoke(setattr, player.gun, 'on_cooldown', False, delay=.25)
     
     if key == "right mouse down":
-        hit_info = ursina.raycast(player.world_position + ursina.Vec3(0,1,0), player.forward, 30, ignore=(player,))
+        hit_info = ursina.raycast(player.world_position + ursina.Vec3(0,0,0), player.forward, 30, ignore=(player,))
         try:
             if hit_info.entity.is_crate:
                 print(hit_info.entity.contents)
@@ -170,10 +166,10 @@ def input(key):
 #             lock = False
 #             player.on_disable()
 
-def update():
-    check_speed(player.speed)
-    check_jump_height(player.jump_height, 2.5)
-    check_health(player.health)
+#def update():
+#    check_speed(player.speed)
+#    check_jump_height(player.jump_height, 2.5)
+#    check_health(player.health)
 
 if __name__ == "__main__":
     app.run()
