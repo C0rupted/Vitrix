@@ -57,6 +57,14 @@ class Player(FirstPersonController):
             else:
                 self.thirdperson = True
                 ursina.camera.z = -8
+        
+        if key == "f": # Switch item held
+            if self.hammer.enabled:
+                self.hammer.disable()
+                self.gun.enable()
+            else:
+                self.gun.disable()
+                self.hammer.enable()
 
     def death(self):
         self.death_message_shown = True

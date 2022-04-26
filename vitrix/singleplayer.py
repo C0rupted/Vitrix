@@ -128,7 +128,7 @@ def input(key):
     #if key == "1":
     #    bullet_tag = cycleAmmo(bullet_tag)
 
-    if key == "left mouse down" and player.health > 0:
+    if key == "left mouse down" and player.health > 0 and player.gun.enabled:
         if not player.gun.on_cooldown:
             if shots_left <= 0 and player.speed == 7:
                 reload_warning_text.enable()
@@ -142,8 +142,8 @@ def input(key):
             ursina.destroy(bullet, delay=4)
             ursina.invoke(setattr, player.gun, 'on_cooldown', False, delay=.25)
     
-    if key == "right mouse down":
-        hit_info = ursina.raycast(player.world_position + ursina.Vec3(0,0,0), player.forward, 30, ignore=(player,))
+    if key == "right mouse down" and player.hammer.enabled:
+        hit_info = ursina.raycast(player.world_position + ursina.Vec3(0,1,0), player.forward, 30, ignore=(player,))
         try:
             if hit_info.entity.is_crate:
                 print(hit_info.entity.contents)
