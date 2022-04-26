@@ -13,11 +13,11 @@ from lib.bullet import Bullet
 
 from lib.items.aid_kit import AidKit
 
-from os.path import isfile
-if not isfile("vitrix/lib/anticheat.py"):
-    print(os.cwd())
-    print("Anticheat not found, can't start")
-    sys.exit(1)
+# from os.path import isfile
+# if not isfile("vitrix/lib/anticheat.py"):
+#     print(os.cwd())
+#     print("Anticheat not found, can't start")
+#     sys.exit(1)
 
 camera_height = 1366
 camera_width = 768
@@ -155,20 +155,20 @@ def input(key):
         except:
             pass
 
-def input(key):
-    global lock, pause_text
+# def input(key):
+#     global lock, pause_text
 
-    if key == "tab" or key == "escape":
-        if lock == False:
-            pause_text.enabled = False
-            exit_button.disable()
-            lock = True
-            player.on_enable()
-        else:
-            pause_text.enabled = True
-            exit_button.enable()
-            lock = False
-            player.on_disable()
+#     if key == "tab" or key == "escape":
+#         if lock == False:
+#             pause_text.enabled = False
+#             exit_button.disable()
+#             lock = True
+#             player.on_enable()
+#         else:
+#             pause_text.enabled = True
+#             exit_button.enable()
+#             lock = False
+#             player.on_disable()
 
 def update():
     check_speed(player.speed)
