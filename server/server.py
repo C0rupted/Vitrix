@@ -7,7 +7,8 @@ import json
 import time
 import random
 import threading
-
+from vitrix.lib.anticheat import *
+from vitrix.lib.player import Player
 
 ADDR = "0.0.0.0"
 PORT = 26822
@@ -151,6 +152,9 @@ def main():
         msg_thread.start()
 
         print(f"New connection from {addr}, assigned ID: {new_id}...")
+
+        check_speed(Player.speed)
+        check_jump_height(Player.jump_height, 2.5)
 
 
 if __name__ == "__main__":

@@ -1,6 +1,7 @@
 import ursina
 from ursina.prefabs.first_person_controller import FirstPersonController
-
+from lib.weapons.gun import Gun
+from lib.items.aid_kit import AidKit
 
 class Player(FirstPersonController):
     def __init__(self, position: ursina.Vec3):
@@ -13,19 +14,13 @@ class Player(FirstPersonController):
             collider="box",
             speed=7
         )
+        self.hit_info = self.intersects()
+
+        self.thirdperson = False
 
         self.cursor.color = ursina.color.rgb(255, 0, 0, 122)
 
-        self.gun = ursina.Entity(
-            parent=ursina.camera.ui,
-            position=ursina.Vec2(0.6, -0.45),
-            scale=ursina.Vec3(0.1, 0.2, 0.65),
-            rotation=ursina.Vec3(-20, -20, -5),
-            model="cube",
-            texture="white_cube",
-            color=ursina.color.color(0, 0, 0.4),
-            on_cooldown=False
-        )
+        self.gun = Gun()
 
         self.healthbar_pos = ursina.Vec2(0, 0.45)
         self.healthbar_size = ursina.Vec2(0.8, 0.04)
@@ -47,12 +42,21 @@ class Player(FirstPersonController):
         self.health = 100
         self.death_message_shown = False
 
+    def input(self, key):
+        if key == "f1": # Third person
+            if self.thirdperson: # Check if it's enabled
+                self.thirdperson = False
+                ursina.camera.z = -0
+            else:
+                self.thirdperson = True
+                ursina.camera.z = -8
+
     def death(self):
         self.death_message_shown = True
 
         self.on_disable()
 
-        ursina.Audio("death").play()
+        ursina.Audio("death").play() # Play death sound
 
         ursina.destroy(self.gun)
         self.rotation = 0
@@ -66,13 +70,19 @@ class Player(FirstPersonController):
             scale=3
         )
 
+    def restore_health(self, amount: int):
+        if self.health + amount > 100:
+            self.health = 100
+        else:
+            self.health += amount
+
     def update(self):
         self.healthbar.scale_x = self.health / 100 * self.healthbar_size.x
 
         if self.y < -10:
             self.position = ursina.Vec3(0, 2, 0)
 
-        if self.health <= 0:
+        if self.health <= 0: # Check if player is dead
             if not self.death_message_shown:
                 self.death()
         else:

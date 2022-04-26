@@ -33,7 +33,7 @@ def submit():
     try:
         temp =int(E3.get())
     except:
-        notify("Vitrix Error", "Invalid Port Number!")
+        notify("Vitrix Fatal Error", "Invalid Port Number!")
         return
 
     if E1.get().strip() != "":
@@ -44,13 +44,13 @@ def submit():
                 file.close()
                 root.destroy()
             else:
-                notify("Vitrix Error", "Port cannot be blank!")
+                notify("Vitrix Fatal Error", "Port cannot be blank!")
                 return
         else:
-            notify("Vitrix Error", "IP Address cannot be blank!")
+            notify("Vitrix Fatal Error", "IP Address cannot be blank!")
             return
     else:
-        notify("Vitrix Error", "Username cannot be blank!")
+        notify("Vitrix Fatal Error", "Username cannot be blank!")
         return
         
     
