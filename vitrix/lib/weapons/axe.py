@@ -1,7 +1,9 @@
+import os
 from ursina import *
+from lib.paths import GamePaths
 
 class Axe(Entity):
     def __init__(self):
         super().__init__(
-            model = "assets/models/axe.obj"
+            model = os.path.join(GamePaths.models_dir, "axe.obj")
         )
