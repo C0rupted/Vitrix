@@ -3,6 +3,7 @@ from ursina.prefabs.first_person_controller import FirstPersonController
 
 from lib.weapons.hammer import Hammer
 from lib.weapons.gun import Gun
+from lib.weapons.pistol import Pistol
 from lib.items.aid_kit import AidKit
 
 class Player(FirstPersonController):
@@ -22,7 +23,7 @@ class Player(FirstPersonController):
 
         self.cursor.color = ursina.color.rgb(255, 0, 0, 122)
 
-        self.gun = Gun()
+        self.gun = Pistol()
         self.hammer = Hammer()
         self.hammer.disable()
 

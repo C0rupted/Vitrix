@@ -5,5 +5,12 @@ from lib.paths import GamePaths
 class Pistol(Entity):
     def __init__(self):
         super().__init__(
-            model = os.path.join(GamePaths.models_dir, "pistol.obj")
+            parent=camera.ui,
+            position = Vec2(0.8, -0.6),
+            scale=0.07,
+            rotation=Vec3(-10, 20, 5),
+            model=os.path.join(GamePaths.models_dir, "pistol.obj"),
+            texture=os.path.join(GamePaths.textures_dir, "pistol.png"),
+            color=color.color(0, 0, 0.4),
+            on_cooldown=False
         )
