@@ -2,7 +2,6 @@ import ursina
 from ursina.prefabs.first_person_controller import FirstPersonController
 
 from lib.weapons.hammer import Hammer
-from lib.weapons.gun import Gun
 from lib.weapons.pistol import Pistol
 from lib.items.aid_kit import AidKit
 
