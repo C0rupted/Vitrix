@@ -7,15 +7,7 @@ from lib.floor import Floor
 from lib.map import Map
 from lib.player import Player
 from lib.enemy import Zombie
-from lib.anticheat import *
 from lib.bullet import Bullet
-
-
-# from os.path import isfile
-# if not isfile("vitrix/lib/anticheat.py"):
-#     print(os.cwd())
-#     print("Anticheat not found, can't start")
-#     sys.exit(1)
 
 
 app = ursina.Ursina()
