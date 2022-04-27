@@ -9,6 +9,7 @@ from lib.player import Player
 from lib.enemy import Zombie
 from lib.bullet import Bullet
 
+from ursina.shaders.lit_with_shadows_shader import lit_with_shadows_shader
 
 app = ursina.Ursina()
 ursina.window.borderless = False
@@ -16,6 +17,8 @@ ursina.window.title = "Vitrix - Singleplayer"
 ursina.window.exit_button.visible = False
 
 paused = False
+
+ursina.Entity.default_shader = lit_with_shadows_shader
 
 pew = ursina.Audio("pew", autoplay=False)
 pew.volume = 0.2
@@ -162,6 +165,9 @@ def input(key):
 #    check_speed(player.speed)
 #    check_jump_height(player.jump_height, 2.5)
 #    check_health(player.health)
+
+sun = ursina.DirectionalLight()
+sun.look_at(ursina.Vec3(1,-1,-1))
 
 if __name__ == "__main__":
     app.run()
