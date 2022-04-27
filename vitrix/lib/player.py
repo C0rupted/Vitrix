@@ -1,3 +1,4 @@
+import os
 import ursina
 from ursina.prefabs.first_person_controller import FirstPersonController
 
@@ -23,7 +24,7 @@ class Player(FirstPersonController):
 
         self.thirdperson = False
 
-        self.cursor.color = ursina.color.rgb(255, 0, 0, 122)
+        self.cursor.color = ursina.color.rgb(255, 0, 0, 255)
 
         self.gun = Pistol()
         self.hammer = Hammer()
@@ -96,11 +97,38 @@ class Player(FirstPersonController):
         self.world_position = ursina.Vec3(0, 7, -35)
         self.cursor.color = ursina.color.rgb(0, 0, 0, a=0)
 
-        ursina.Text(
+        self.dead_text = ursina.Text(
             text="You are dead!",
+            color=ursina.color.rgb(0, 0, 0, 255),
             origin=ursina.Vec2(0, 0),
+            position=ursina.Vec2(0, .2),
             scale=3
         )
+
+        self.respawn_button = ursina.Button(
+            text = "Respawn",
+            scale=0.15,
+            on_click=ursina.Sequence(ursina.Wait(.01), ursina.Func(self.respawn))
+        )
+
+        self.exit_button = ursina.Button(
+            text = "Quit Game",
+            position = ursina.Vec2(0, -.2),
+            scale=0.15,
+            on_click=ursina.Sequence(ursina.Wait(.01), ursina.Func(os._exit, 0))
+        )
+    
+    def respawn(self):
+        self.death_message_shown = False
+        self.on_enable()
+        self.gun = Pistol()
+        self.rotation = ursina.Vec3(0,0,0)
+        self.camera_pivot.world_rotation_x = 0
+        self.world_position = ursina.Vec3(0,1,0)
+        self.health = 100
+        self.respawn_button.disable()
+        self.dead_text.disable()
+        self.exit_button.disable()
 
     def restore_health(self, amount: int):
         if self.health + amount > 100:
