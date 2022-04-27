@@ -10,6 +10,7 @@ from lib.enemy import Zombie
 from lib.anticheat import *
 from lib.bullet import Bullet
 
+from ursina.shaders.lit_with_shadows_shader import lit_with_shadows_shader
 
 # from os.path import isfile
 # if not isfile("vitrix/lib/anticheat.py"):
@@ -170,6 +171,9 @@ def input(key):
 #    check_speed(player.speed)
 #    check_jump_height(player.jump_height, 2.5)
 #    check_health(player.health)
+
+sun = ursina.DirectionalLight()
+sun.look_at(ursina.Vec3(1,-1,-1))
 
 if __name__ == "__main__":
     app.run()
