@@ -13,8 +13,6 @@ from lib.player import Player
 from lib.enemy import Enemy
 from lib.bullet import Bullet
 
-cheats = False
-
 from os.path import isfile
 
 if isfile("ib.cfg"):
