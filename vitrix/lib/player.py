@@ -3,6 +3,9 @@ from ursina.prefabs.first_person_controller import FirstPersonController
 
 from lib.weapons.hammer import Hammer
 from lib.weapons.pistol import Pistol
+from lib.weapons.sword import Sword
+from lib.weapons.axe import Axe
+
 from lib.items.aid_kit import AidKit
 
 class Player(FirstPersonController):
@@ -24,7 +27,15 @@ class Player(FirstPersonController):
 
         self.gun = Pistol()
         self.hammer = Hammer()
+        self.sword = Sword()
+        self.axe = Axe()
+
         self.hammer.disable()
+        self.sword.disable()
+        self.axe.disable()
+
+        self.item_order = ["gun", "hammer", "sword", "axe"]
+        self.holding = "gun"
 
         self.healthbar_pos = ursina.Vec2(0, 0.45)
         self.healthbar_size = ursina.Vec2(0.8, 0.04)
@@ -59,12 +70,18 @@ class Player(FirstPersonController):
                 ursina.camera.z = -8
 
         if key == "f": # Switch item held
-            if self.hammer.enabled:
-                self.hammer.disable()
-                self.gun.enable()
-            else:
+            if self.gun.enabled:
                 self.gun.disable()
                 self.hammer.enable()
+            elif self.hammer.enabled:
+                self.hammer.disable()
+                self.sword.enable()
+            elif self.sword.enabled:
+                self.sword.disable()
+                self.axe.enable()
+            else:
+                self.axe.disable()
+                self.gun.enable()
 
     def death(self):
         self.death_message_shown = True
