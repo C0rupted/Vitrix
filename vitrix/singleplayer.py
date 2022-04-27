@@ -7,17 +7,9 @@ from lib.floor import Floor
 from lib.map import Map
 from lib.player import Player
 from lib.enemy import Zombie
-from lib.anticheat import *
 from lib.bullet import Bullet
 
 from ursina.shaders.lit_with_shadows_shader import lit_with_shadows_shader
-
-# from os.path import isfile
-# if not isfile("vitrix/lib/anticheat.py"):
-#     print(os.cwd())
-#     print("Anticheat not found, can't start")
-#     sys.exit(1)
-
 
 app = ursina.Ursina()
 ursina.window.borderless = False
@@ -25,6 +17,8 @@ ursina.window.title = "Vitrix - Singleplayer"
 ursina.window.exit_button.visible = False
 
 paused = False
+
+ursina.Entity.default_shader = lit_with_shadows_shader
 
 pew = ursina.Audio("pew", autoplay=False)
 pew.volume = 0.2
