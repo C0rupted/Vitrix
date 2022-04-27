@@ -1,20 +1,17 @@
-import random
 import ursina
 import os
 
 from lib.enemy import Enemy, Zombie
+from lib.paths import GamePaths
 
 
 class Bullet(ursina.Entity):
-
-    texture_dir = os.path.join("assets","textures")
-    model_dir = os.path.join("assets","models")
 
     def __init__(self, position: ursina.Vec3, direction: float, x_direction: float, network=False, damage: int = 10, slave=False):
         if network == False:
             self.singleplayer = True
         
-        speed = 100
+        speed = 50
         dir_rad = ursina.math.radians(direction)
         x_dir_rad = ursina.math.radians(x_direction)
 
@@ -46,11 +43,10 @@ class Bullet(ursina.Entity):
         super().__init__(
             position=position + self.velocity / speed,
             model="sphere",
-            texture=os.path.join(Bullet.texture_dir, "bullet.png"),
-            collider=b"sphere",
+            texture=os.path.join(GamePaths.textures_dir, "bullet.png"),
+            collider="box",
             double_sided=True,
             scale=0.2
-            
         )
 
 

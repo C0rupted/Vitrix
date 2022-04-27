@@ -2,9 +2,10 @@ import os
 import ursina
 import random
 
+from lib.paths import GamePaths
+
 
 class Crate(ursina.Entity):
-    base_dir = os.path.join("assets","textures")
 
     def __init__(self, position):
         super().__init__(
@@ -12,7 +13,7 @@ class Crate(ursina.Entity):
             scale=1.5,
             origin_y=-0.5,
             model="cube",
-            texture=os.path.join(Crate.base_dir, "crate.png"),
+            texture=os.path.join(GamePaths.textures_dir, "crate.png"),
         )
         
         items_list = ["gun", "bandages", "first_aid_kit", "bandages", "bandages"]

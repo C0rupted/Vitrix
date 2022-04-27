@@ -1,6 +1,12 @@
+import os
 import ursina
 from ursina.prefabs.first_person_controller import FirstPersonController
-from lib.weapons.gun import Gun
+
+from lib.weapons.hammer import Hammer
+from lib.weapons.pistol import Pistol
+from lib.weapons.sword import Sword
+from lib.weapons.axe import Axe
+
 from lib.items.aid_kit import AidKit
 
 class Player(FirstPersonController):
@@ -18,9 +24,19 @@ class Player(FirstPersonController):
 
         self.thirdperson = False
 
-        self.cursor.color = ursina.color.rgb(255, 0, 0, 122)
+        self.cursor.color = ursina.color.rgb(255, 0, 0, 255)
 
-        self.gun = Gun()
+        self.gun = Pistol()
+        self.hammer = Hammer()
+        self.sword = Sword()
+        self.axe = Axe()
+
+        self.hammer.disable()
+        self.sword.disable()
+        self.axe.disable()
+
+        self.item_order = ["gun", "hammer", "sword", "axe"]
+        self.holding = "gun"
 
         self.healthbar_pos = ursina.Vec2(0, 0.45)
         self.healthbar_size = ursina.Vec2(0.8, 0.04)
@@ -43,6 +59,9 @@ class Player(FirstPersonController):
         self.death_message_shown = False
 
     def input(self, key):
+        if key == "space":
+            self.jump()
+
         if key == "f1": # Third person
             if self.thirdperson: # Check if it's enabled
                 self.thirdperson = False
@@ -50,6 +69,20 @@ class Player(FirstPersonController):
             else:
                 self.thirdperson = True
                 ursina.camera.z = -8
+
+        if key == "f": # Switch item held
+            if self.gun.enabled:
+                self.gun.disable()
+                self.hammer.enable()
+            elif self.hammer.enabled:
+                self.hammer.disable()
+                self.sword.enable()
+            elif self.sword.enabled:
+                self.sword.disable()
+                self.axe.enable()
+            else:
+                self.axe.disable()
+                self.gun.enable()
 
     def death(self):
         self.death_message_shown = True
@@ -64,11 +97,38 @@ class Player(FirstPersonController):
         self.world_position = ursina.Vec3(0, 7, -35)
         self.cursor.color = ursina.color.rgb(0, 0, 0, a=0)
 
-        ursina.Text(
+        self.dead_text = ursina.Text(
             text="You are dead!",
+            color=ursina.color.rgb(0, 0, 0, 255),
             origin=ursina.Vec2(0, 0),
+            position=ursina.Vec2(0, .2),
             scale=3
         )
+
+        self.respawn_button = ursina.Button(
+            text = "Respawn",
+            scale=0.15,
+            on_click=ursina.Sequence(ursina.Wait(.01), ursina.Func(self.respawn))
+        )
+
+        self.exit_button = ursina.Button(
+            text = "Quit Game",
+            position = ursina.Vec2(0, -.2),
+            scale=0.15,
+            on_click=ursina.Sequence(ursina.Wait(.01), ursina.Func(os._exit, 0))
+        )
+    
+    def respawn(self):
+        self.death_message_shown = False
+        self.on_enable()
+        self.gun = Pistol()
+        self.rotation = ursina.Vec3(0,0,0)
+        self.camera_pivot.world_rotation_x = 0
+        self.world_position = ursina.Vec3(0,1,0)
+        self.health = 100
+        self.respawn_button.disable()
+        self.dead_text.disable()
+        self.exit_button.disable()
 
     def restore_health(self, amount: int):
         if self.health + amount > 100:
