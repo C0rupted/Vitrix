@@ -11,4 +11,4 @@ class AidKit(Entity):
             collider="sphere",
             scale=0.4,
         )
-        self.health_restore = random.randint(25,35) # amount of health to give to player
+        self.health_restore = random.randint(27,34) # amount of health to give to player

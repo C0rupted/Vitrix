@@ -27,3 +27,4 @@ class Map(ursina.Entity):
             scale=0.2
         )
         self.collider = ursina.MeshCollider(self)
+        self.crate_one = Crate(position=ursina.Vec3(10, 1, -5))

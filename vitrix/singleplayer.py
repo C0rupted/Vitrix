@@ -179,7 +179,8 @@ def input(key):
 #             player.on_disable()
 
 def update():
-    if player.intersects(aid_kit):
+    if player.intersects(aid_kit).hit:
+        print("aid kit collided")
         player.restore_health(aid_kit.health_restore)
         aid_kit.destroy()
 
