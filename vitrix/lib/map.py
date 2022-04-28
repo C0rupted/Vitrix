@@ -1,6 +1,7 @@
 import os
 import ursina
 
+from lib.paths import GamePaths
 from lib.crate import Crate
 
 
@@ -19,17 +20,10 @@ class Wall(ursina.Entity):
         self.collider = ursina.BoxCollider(self, size=ursina.Vec3(1, 2, 1))
 
 
-class Map:
+class Map(ursina.Entity):
     def __init__(self):
-        for y in range(1, 4, 2):
-            Wall(ursina.Vec3(6, y, 0))
-            Wall(ursina.Vec3(6, y, 2))
-            Wall(ursina.Vec3(6, y, 4))
-            Wall(ursina.Vec3(6, y, 6))
-            Wall(ursina.Vec3(6, y, 8))
-
-            Wall(ursina.Vec3(4, y, 8))
-            Wall(ursina.Vec3(2, y, 8))
-            Wall(ursina.Vec3(0, y, 8))
-            Wall(ursina.Vec3(-2, y, 8))
-        Crate(ursina.Vec3(8, 1, 8))
+        super().__init__(
+            model=os.path.join(GamePaths.models_dir, "map1.obj"),
+            scale=0.2
+        )
+        self.collider = ursina.MeshCollider(self)

@@ -22,7 +22,7 @@ ursina.window.exit_button.visible = False
 
 paused = False
 
-ursina.Entity.default_shader = lit_with_shadows_shader
+#ursina.Entity.default_shader = lit_with_shadows_shader
 
 pew = ursina.Audio("pew", autoplay=False)
 pew.volume = 0.2
@@ -181,8 +181,8 @@ def input(key):
 #    check_jump_height(player.jump_height, 2.5)
 #    check_health(player.health)
 
-sun = ursina.DirectionalLight()
-sun.look_at(ursina.Vec3(1,-1,-1))
+#sun = ursina.DirectionalLight()
+#sun.look_at(ursina.Vec3(1,-1,-1))
 
 if __name__ == "__main__":
     app.run()
