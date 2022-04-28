@@ -9,11 +9,12 @@ from lib.player import Player
 from lib.enemy import Zombie
 from lib.bullet import Bullet
 
+from lib.items.aid_kit import AidKit
 
-from ursina.shaders.lit_with_shadows_shader import lit_with_shadows_shader
+from ursina.shaders.basic_lighting_shader import basic_lighting_shader
 
 app = ursina.Ursina()
-# The inventory nees to load after ursina app()
+# The inventory needs to load after ursina app()
 from lib.inventory import *
 
 ursina.window.borderless = False
@@ -22,7 +23,7 @@ ursina.window.exit_button.visible = False
 
 paused = False
 
-#ursina.Entity.default_shader = lit_with_shadows_shader
+ursina.Entity.default_shader = basic_lighting_shader
 
 pew = ursina.Audio("pew", autoplay=False)
 pew.volume = 0.2
@@ -36,6 +37,7 @@ sky = ursina.Entity(
     double_sided=True
 )
 player = Player(ursina.Vec3(0, 1, 0))
+aid_kit = AidKit(ursina.Vec3(10, 1.6, 3))
 
 lock = True
 quit = False
@@ -176,9 +178,13 @@ def input(key):
 #             lock = False
 #             player.on_disable()
 
+def update():
+    if player.intersects(aid_kit):
+        player.restore_health(aid_kit.health_restore)
+        aid_kit.destroy()
 
-#sun = ursina.DirectionalLight()
-#sun.look_at(ursina.Vec3(1,-1,-1))
+sun = ursina.DirectionalLight()
+sun.look_at(ursina.Vec3(1,-1,-1))
 
 if __name__ == "__main__":
     app.run()
