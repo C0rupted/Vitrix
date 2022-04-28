@@ -9,16 +9,20 @@ from lib.player import Player
 from lib.enemy import Zombie
 from lib.bullet import Bullet
 
+
 from ursina.shaders.lit_with_shadows_shader import lit_with_shadows_shader
 
 app = ursina.Ursina()
+# The inventory nees to load after ursina app()
+from lib.inventory import *
+
 ursina.window.borderless = False
 ursina.window.title = "Vitrix - Singleplayer"
 ursina.window.exit_button.visible = False
 
 paused = False
 
-ursina.Entity.default_shader = lit_with_shadows_shader
+#ursina.Entity.default_shader = lit_with_shadows_shader
 
 pew = ursina.Audio("pew", autoplay=False)
 pew.volume = 0.2
@@ -92,7 +96,7 @@ def reload():
     time.sleep(3)
     shots_left = 5
     player.speed = 7
-    
+
 
 
 def input(key):
@@ -111,11 +115,22 @@ def input(key):
             exit_button.enable()
             lock = False
             player.on_disable()
-    
+
     if key == "r":
         player.speed = 3
         threading.Thread(target=reload).start()
-        
+
+    # Inventory key access
+
+    if key=='i':
+        inventory()
+
+        if lock == False:
+            lock = True
+            player.on_enable()
+        else:
+            lock = False
+            player.on_disable()
 
     if key == "l":
         enemies.append(Zombie(ursina.Vec3(0, 1.5, 0), player))
@@ -136,7 +151,7 @@ def input(key):
             shots_left -= 1
             ursina.destroy(bullet, delay=4)
             ursina.invoke(setattr, player.gun, 'on_cooldown', False, delay=.25)
-    
+
     if key == "right mouse down" and player.hammer.enabled:
         hit_info = ursina.raycast(player.world_position + ursina.Vec3(0,1,0), player.forward, 30, ignore=(player,))
         try:
@@ -166,8 +181,8 @@ def input(key):
 #    check_jump_height(player.jump_height, 2.5)
 #    check_health(player.health)
 
-sun = ursina.DirectionalLight()
-sun.look_at(ursina.Vec3(1,-1,-1))
+#sun = ursina.DirectionalLight()
+#sun.look_at(ursina.Vec3(1,-1,-1))
 
 if __name__ == "__main__":
     app.run()

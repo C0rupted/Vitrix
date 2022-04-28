@@ -19,10 +19,10 @@ class FloorCube(ursina.Entity):
 class Floor:
     def __init__(self):
         dark1 = True
-        for z in range(-20, 20, 2):
+        for z in range(-18, 20, 2):
             dark2 = not dark1
 
-            for x in range(-20, 20, 2):
+            for x in range(-12, 18, 2):
                 cube = FloorCube(ursina.Vec3(x, 0, z))
 
                 if dark2:
