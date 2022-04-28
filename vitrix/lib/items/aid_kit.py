@@ -1,5 +1,6 @@
 from ursina import *
 from lib.paths import GamePaths
+import random
 
 class AidKit(Entity):
     def __init__(self, position: tuple):
@@ -9,4 +10,4 @@ class AidKit(Entity):
             position=position,
             collider="sphere"
         )
-        self.health_restore = 30 # amount of health to give to player
+        self.health_restore = random.randint(25,35) # amount of health to give to player

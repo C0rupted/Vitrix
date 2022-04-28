@@ -176,10 +176,6 @@ def input(key):
 #             lock = False
 #             player.on_disable()
 
-#def update():
-#    check_speed(player.speed)
-#    check_jump_height(player.jump_height, 2.5)
-#    check_health(player.health)
 
 #sun = ursina.DirectionalLight()
 #sun.look_at(ursina.Vec3(1,-1,-1))
