@@ -6,11 +6,12 @@ from lib.map import Map
 from lib.player import Player
 from lib.enemy import Zombie
 
+from lib.items.aid_kit import AidKit
 
 from ursina.shaders.basic_lighting_shader import basic_lighting_shader
 
 app = ursina.Ursina()
-# The inventory nees to load after ursina app()
+# The inventory needs to load after ursina app()
 from lib.inventory import *
 
 ursina.window.borderless = False
@@ -31,7 +32,8 @@ sky = ursina.Entity(
     double_sided=True
 )
 
-player = Player(ursina.Vec3(0, 3, 0))
+player = Player(ursina.Vec3(0, 1, 0))
+aid_kit = AidKit(ursina.Vec3(10, 1.6, 3))
 
 enemies = []
 
@@ -60,8 +62,16 @@ def input(key):
     if key == "l":
         enemies.append(Zombie(ursina.Vec3(0, 1.5, 0), player))
 
-#sun = ursina.DirectionalLight()
-#sun.look_at(ursina.Vec3(1,-1,-1))
+
+def update():
+    if player.intersects(aid_kit).hit:
+        print("aid kit collided")
+        player.restore_health(aid_kit.health_restore)
+        aid_kit.destroy()
+
+sun = ursina.DirectionalLight()
+sun.look_at(ursina.Vec3(1,-1,-1))
+
 
 if __name__ == "__main__":
     app.run()
