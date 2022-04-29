@@ -2,13 +2,18 @@
 Server script for hosting games
 """
 
+import os
+import sys
 import socket
 import json
 import time
 import random
 import threading
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from vitrix.lib.anticheat import *
-from vitrix.lib.player import Player
+#from vitrix.lib.player import Player
 
 ADDR = "0.0.0.0"
 PORT = 26822
@@ -153,8 +158,8 @@ def main():
 
         print(f"New connection from {addr}, assigned ID: {new_id}...")
 
-        check_speed(Player.speed)
-        check_jump_height(Player.jump_height, 2.5)
+        #check_speed(Player.speed)
+        #check_jump_height(Player.jump_height, 2.5)
 
 
 if __name__ == "__main__":
