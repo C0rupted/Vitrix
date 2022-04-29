@@ -5,7 +5,7 @@ from ursina.prefabs.first_person_controller import FirstPersonController
 from lib.weapons.hammer import Hammer
 from lib.weapons.pistol import Pistol
 from lib.weapons.sword import Sword
-from lib.weapons.axe import Axe
+from lib.weapons.battleaxe import BattleAxe
 
 from lib.items.aid_kit import AidKit
 
@@ -29,7 +29,7 @@ class Player(FirstPersonController):
         self.gun = Pistol()
         self.hammer = Hammer()
         self.sword = Sword()
-        self.axe = Axe()
+        self.axe = BattleAxe()
 
         self.hammer.disable()
         self.sword.disable()
