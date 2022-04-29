@@ -2,6 +2,7 @@ import ursina
 import random
 
 zombie_names=["Peter","Harry","Sayed","Usman","Gopal","Ryan","Gerald","James","Robert","Frank","Leon","Jordan","Russell","Johny","Ankur","Carl","Suresh"]
+
 class Enemy(ursina.Entity):
     def __init__(self, position: ursina.Vec3, identifier: str, username: str):
         super().__init__(
@@ -61,6 +62,11 @@ class Zombie(ursina.Entity):
             scale=ursina.Vec3(1, 2, 1)
         )
 
+        self.growl = ursina.Audio("zombie_growl")
+        self.growl.loop = True
+        self.growl.volume = 0.5
+        self.growl.play()
+
         self.name_tag = ursina.Text(
             parent=self,
             text=random.choice(zombie_names),  #Random zombie names
@@ -102,6 +108,8 @@ class Zombie(ursina.Entity):
 
         
         if self.health <= 0:
+            self.growl.stop()
+            ursina.Audio("splat").play()
             ursina.destroy(self)
 
         
