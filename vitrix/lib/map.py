@@ -24,6 +24,6 @@ class Map(ursina.Entity):
     def __init__(self):
         super().__init__(
             model=os.path.join(GamePaths.models_dir, "map1.obj"),
-            scale=0.2
+            scale=0.3
         )
         self.collider = ursina.MeshCollider(self)
