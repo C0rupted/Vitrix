@@ -122,15 +122,15 @@ def input(key):
 
     # Inventory key access
 
-    if key=='i':
-        inventory()
-
-        if lock == False:
-            lock = True
-            player.on_enable()
-        else:
-            lock = False
-            player.on_disable()
+    #if key == 'i':
+    #    inventory()
+    #
+    #    if lock == False:
+    #        lock = True
+    #        player.on_enable()
+    #    else:
+    #        lock = False
+    #        player.on_disable()
 
     if key == "l":
         enemies.append(Zombie(ursina.Vec3(0, 1.5, 0), player))
