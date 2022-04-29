@@ -1,6 +1,5 @@
 import os
 import sys
-import time
 import socket
 import threading
 import ursina
@@ -74,27 +73,11 @@ while True:
         break
 
 
-def hide_reload_warning():
-    time.sleep(1)
-    reload_warning_text.disable()
-
-def reload():
-    global shots_left
-    global player
-
-    ursina.Audio("reload.wav")
-    time.sleep(3)
-    shots_left = 5
-    player.speed = 7
-
-
 app = ursina.Ursina()
 ursina.window.borderless = False
 ursina.window.title = "Vitrix - Multiplayer"
 ursina.window.exit_button.visible = False
 
-pew = ursina.Audio("pew", autoplay=False)
-pew.volume = 0.2
 
 floor = Floor()
 map = Map()
@@ -104,34 +87,12 @@ sky = ursina.Entity(
     scale=9999,
     double_sided=True
 )
+
 player = Player(ursina.Vec3(0, 1, 0))
 
-lock = True
 prev_pos = player.world_position
 prev_dir = player.world_rotation_y
 enemies = []
-
-pause_text = ursina.Text(
-                text="Paused",
-                enabled=False,
-                position=ursina.Vec2(0, .3),
-                scale=3)
-
-reload_warning_text = ursina.Text(
-                       text="Please reload!",
-                       enabled=False,
-                       scale=2)
-
-exit_button = ursina.Button(
-                ignore_paused=True,
-                text = "Quit Game",
-                scale=0.15,
-                on_click=ursina.Sequence(ursina.Wait(.01), ursina.Func(os._exit, 0))
-            )
-
-reload_warning_text.disable()
-pause_text.enabled = False
-exit_button.disable()
 
 
 def receive():
@@ -210,49 +171,9 @@ def update():
         prev_pos = player.world_position
         prev_dir = player.world_rotation_y
 
-
-def input(key):
-    global lock, pause_text
-
-    if key == "tab" or key == "escape":
-        if lock == False:
-            pause_text.enabled = False
-            exit_button.disable()
-            lock = True
-            player.on_enable()
-        else:
-            pause_text.enabled = True
-            exit_button.enable()
-            lock = False
-            player.on_disable()
-
-    if key == "left mouse down" and player.health > 0:
-        if not player.gun.on_cooldown:
-            if shots_left <= 0 and player.speed == 7:
-                reload_warning_text.enable()
-                threading.Thread(target=hide_reload_warning).start()
-                return
-            player.gun.on_cooldown = True
-            b_pos = player.position + ursina.Vec3(0, 2, 0)
-            pew.play()
-            bullet = Bullet(b_pos, player.world_rotation_y, -player.camera_pivot.world_rotation_x)
-            shots_left -= 1
-            ursina.destroy(bullet, delay=4)
-            ursina.invoke(setattr, player.gun, 'on_cooldown', False, delay=.25)
-
-    if key == "right mouse down":
-        hit_info = ursina.raycast(player.world_position + ursina.Vec3(0,0,0), player.forward, 30, ignore=(player,))
-        try:
-            if hit_info.entity.is_crate:
-                print(hit_info.entity.contents)
-                ursina.destroy(hit_info.entity)
-        except:
-            pass
-    
-
-    check_speed(player.speed)
-    check_jump_height(player.jump_height, 2.5)
-    check_health(player.health)
+        check_speed(player.speed)
+        check_jump_height(player.jump_height, 2.5)
+        check_health(player.health)
 
 
 def main():

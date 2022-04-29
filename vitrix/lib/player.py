@@ -1,7 +1,11 @@
 import os
+import time
 import ursina
+import threading
 from ursina.prefabs.first_person_controller import FirstPersonController
 
+from lib.bullet import Bullet
+from lib.paths import GamePaths
 from lib.weapons.hammer import Hammer
 from lib.weapons.pistol import Pistol
 from lib.weapons.sword import Sword
@@ -25,6 +29,9 @@ class Player(FirstPersonController):
         self.thirdperson = False
 
         self.cursor.color = ursina.color.rgb(255, 0, 0, 255)
+
+        self.pew = ursina.Audio("pew", autoplay=False)
+        self.pew.volume = 0.2
 
         self.gun = Pistol()
         self.hammer = Hammer()
@@ -55,8 +62,45 @@ class Player(FirstPersonController):
             scale=self.healthbar_size
         )
 
+        self.pause_text = ursina.Text(
+                    ignore_paused=True,
+                        text="Paused",
+                        enabled=False,
+                        position=ursina.Vec2(0, .3),
+                        scale=3)
+
+        self.reload_warning_text = ursina.Text(
+                            text="Please reload!",
+                            enabled=False,
+                            scale=2)
+
+        self.exit_button = ursina.Button(
+                    ignore_paused=True,
+                        text = "Quit Game",
+                        scale=0.15,
+                        on_click=ursina.Sequence(ursina.Wait(.01), ursina.Func(os._exit, 0))
+                    )
+
+        self.pause_text.disable()
+        self.reload_warning_text.disable()
+        self.exit_button.disable()
+
         self.health = 100
+        self.paused = False
+        self.shots_left = 5
         self.death_message_shown = False
+
+    def hide_reload_warning(self):
+        time.sleep(1)
+        self.reload_warning_text.disable()
+
+    def reload(self):
+        global shots_left
+
+        ursina.Audio(GamePaths.sounds_dir, "reload.wav")
+        time.sleep(3)
+        self.shots_left = 5
+        self.speed = 7
 
     def input(self, key):
         if key == "space":
@@ -83,6 +127,57 @@ class Player(FirstPersonController):
             else:
                 self.axe.disable()
                 self.gun.enable()
+        
+        if key == "tab" or key == "escape":
+            if not self.paused:
+                self.pause_text.enable()
+                self.exit_button.enable()
+                self.paused = True
+                self.on_disable()
+            else:
+                self.pause_text.disable()
+                self.exit_button.disable()
+                self.paused = False
+                self.on_enable()
+
+        if key == "r":
+            self.speed = 3
+            threading.Thread(target=self.reload).start()
+
+        # Inventory key access
+
+        #if key == 'i':
+        #    inventory()
+        #
+        #    if lock == False:
+        #        lock = True
+        #        self.on_enable()
+        #    else:
+        #        lock = False
+        #        self.on_disable()
+
+        if key == "left mouse down" and self.health > 0 and self.gun.enabled:
+            if not self.gun.on_cooldown:
+                if self.shots_left <= 0 and self.speed == 7:
+                    self.reload_warning_text.enable()
+                    threading.Thread(target=self.hide_reload_warning).start()
+                    return
+                self.gun.on_cooldown = True
+                bullet_pos = self.position + ursina.Vec3(0, 2, 0)
+                self.pew.play()
+                bullet = Bullet(bullet_pos, self.world_rotation_y, -self.camera_pivot.world_rotation_x)
+                self.shots_left -= 1
+                ursina.destroy(bullet, delay=4)
+                ursina.invoke(setattr, self.gun, 'on_cooldown', False, delay=.25)
+
+        if key == "right mouse down" and self.hammer.enabled:
+            hit_info = ursina.raycast(self.world_position + ursina.Vec3(0,1,0), self.forward, 30, ignore=(self,))
+            try:
+                if hit_info.entity.is_crate:
+                    print(hit_info.entity.contents)
+                    ursina.destroy(hit_info.entity)
+            except:
+                pass
 
     def death(self):
         self.death_message_shown = True
@@ -124,7 +219,7 @@ class Player(FirstPersonController):
         self.gun = Pistol()
         self.rotation = ursina.Vec3(0,0,0)
         self.camera_pivot.world_rotation_x = 0
-        self.world_position = ursina.Vec3(0,1,0)
+        self.world_position = ursina.Vec3(0,3,0)
         self.health = 100
         self.respawn_button.disable()
         self.dead_text.disable()
