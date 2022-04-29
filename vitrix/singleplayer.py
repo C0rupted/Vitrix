@@ -63,11 +63,12 @@ def input(key):
         enemies.append(Zombie(ursina.Vec3(0, 1.5, 0), player))
 
 
-def update():
-    if player.intersects(aid_kit).hit:
-        print("aid kit collided")
-        player.restore_health(aid_kit.health_restore)
-        aid_kit.destroy()
+###### Removed this until it works ######
+# def update():
+#     if player.intersects(aid_kit).hit:
+#         print("aid kit collided")
+#         player.restore_health(aid_kit.health_restore)
+#         aid_kit.destroy()
 
 sun = ursina.DirectionalLight()
 sun.look_at(ursina.Vec3(1,-1,-1))
