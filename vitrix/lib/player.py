@@ -97,7 +97,7 @@ class Player(FirstPersonController):
     def reload(self):
         global shots_left
 
-        ursina.Audio(GamePaths.sounds_dir, "reload.wav")
+        ursina.Audio("reload.wav")
         time.sleep(3)
         self.shots_left = 5
         self.speed = 7
