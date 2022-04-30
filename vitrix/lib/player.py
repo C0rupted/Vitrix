@@ -170,7 +170,7 @@ class Player(FirstPersonController):
                 ursina.destroy(bullet, delay=4)
                 ursina.invoke(setattr, self.gun, 'on_cooldown', False, delay=.25)
             elif self.sword.enabled or self.axe.enabled:
-                slash = ursina.Audio("sword")
+                slash = ursina.Audio("swing")
                 slash.play()
                 hit_info = ursina.raycast(self.world_position + ursina.Vec3(0,1,0), self.forward, 30, ignore=(self,))
                 try:
