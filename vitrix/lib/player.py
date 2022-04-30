@@ -156,8 +156,8 @@ class Player(FirstPersonController):
         #        lock = False
         #        self.on_disable()
 
-        if key == "left mouse down" and self.health > 0 and self.gun.enabled:
-            if not self.gun.on_cooldown:
+        if key == "left mouse down" and self.health > 0:
+            if not self.gun.on_cooldown and self.gun.enabled:
                 if self.shots_left <= 0 and self.speed == 7:
                     self.reload_warning_text.enable()
                     threading.Thread(target=self.hide_reload_warning).start()
@@ -169,6 +169,18 @@ class Player(FirstPersonController):
                 self.shots_left -= 1
                 ursina.destroy(bullet, delay=4)
                 ursina.invoke(setattr, self.gun, 'on_cooldown', False, delay=.25)
+            elif self.sword.enabled or self.axe.enabled:
+                slash = ursina.Audio("sword")
+                slash.play()
+                hit_info = ursina.raycast(self.world_position + ursina.Vec3(0,1,0), self.forward, 30, ignore=(self,))
+                try:
+                    if hit_info.entity.is_enemy:
+                        if (hit_info.entity.health - 20) <= 0:
+                            slash.stop()
+                        hit_info.entity.health -= 20
+                except:
+                    pass
+
 
         if key == "right mouse down":
             hit_info = ursina.raycast(self.world_position + ursina.Vec3(0,1,0), self.forward, 30, ignore=(self,))
