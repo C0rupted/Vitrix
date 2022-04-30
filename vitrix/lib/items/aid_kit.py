@@ -11,4 +11,8 @@ class AidKit(Entity):
             collider="sphere",
             scale=0.4,
         )
+
+        self.is_crate = False
+        self.is_aid_kit = True
+        self.collider = MeshCollider(self)
         self.health_restore = random.randint(27,34) # amount of health to give to player

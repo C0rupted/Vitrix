@@ -32,6 +32,7 @@ class Enemy(ursina.Entity):
             origin=ursina.Vec2(0, 0)
         )
 
+        self.is_enemy = True
         self.health = 100
         self.id = identifier
         self.username = username
@@ -76,6 +77,7 @@ class Zombie(ursina.Entity):
             origin=ursina.Vec2(0, 0)
         )
 
+        self.is_enemy = True
         self.health = 30
         self.player = player
         
