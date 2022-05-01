@@ -5,10 +5,12 @@ import threading
 from ursina.prefabs.first_person_controller import FirstPersonController
 
 from lib.entities.bullet import Bullet
+from lib.paths import GamePaths
 from lib.weapons.hammer import Hammer
 from lib.weapons.pistol import Pistol
 from lib.weapons.sword import Sword
 from lib.weapons.battleaxe import BattleAxe
+# from lib.UI.inventory import inventory
 
 from lib.items.aid_kit import AidKit
 
@@ -89,6 +91,10 @@ class Player(FirstPersonController):
         self.shots_left = 5
         self.death_message_shown = False
 
+        self.lock = False
+        # self._inventory = None
+        # self.inventory_opened = False
+
     def hide_reload_warning(self):
         time.sleep(1)
         self.reload_warning_text.disable()
@@ -146,13 +152,18 @@ class Player(FirstPersonController):
         # Inventory key access
 
         #if key == 'i':
-        #    inventory()
+        #    if not self.inventory_opened:
+        #       _inventory = inventory()
+        #       inventory_opened = True
+        #    else:
+        #       _inventory = None
+        #       inventory_opened = False
         #
-        #    if lock == False:
-        #        lock = True
+        #    if self.lock == False:
+        #        self.lock = True
         #        self.on_enable()
         #    else:
-        #        lock = False
+        #        self.lock = False
         #        self.on_disable()
 
         if key == "left mouse down" and self.health > 0:

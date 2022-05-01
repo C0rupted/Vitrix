@@ -3,6 +3,7 @@ import sys
 import socket
 import threading
 import ursina
+from ursina.shaders.basic_lighting_shader import basic_lighting_shader
 
 from lib.UI.notification import notify
 from lib.classes.network import Network
@@ -83,10 +84,11 @@ floor = Floor()
 map = Map()
 sky = ursina.Entity(
     model="sphere",
-    texture=os.path.join("assets", "sky.png"),
+    texture=os.path.join("assets", "textures", "sky.png"),
     scale=9999,
     double_sided=True
 )
+ursina.Entity.default_shader = basic_lighting_shader
 
 player = Player(ursina.Vec3(0, 1, 0))
 
