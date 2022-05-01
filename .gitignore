@@ -4,6 +4,7 @@ vitrix/lib/__pycache__/
 vitrix/lib/weapons/__pycache__/
 vitrix/lib/items/__pycache__/
 vitrix/test.py
+*/*/*/__pycache__/
 venvs-config/
 data.txt
 build/

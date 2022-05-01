@@ -115,7 +115,7 @@ def load_menu():
                                                   'state', 'main_menu'))
 
 
-    review_text = Text(parent=options_menu, x=.275, y=.25, text='Preview text', 
+    preview_text = Text(parent=options_menu, x=.275, y=.25, text='Preview text', 
                        origin=(-.5,0))
     for t in [e for e in scene.entities if isinstance(e, Text)]:
         t.original_scale = t.scale
@@ -127,6 +127,12 @@ def load_menu():
             t.scale = t.original_scale * text_scale_slider.value
     text_scale_slider.on_value_changed = set_text_scale
 
+
+    # fov_slider = Slider(20, 130, default=80, step=1 , dynamic=True, text='FOV:',)
+
+    # def set_fov():
+    #     pass
+    # fov_slider.on_value_changed = set_fov
 
     options_back = MenuButton(parent=options_menu, text='Back', x=-.25, origin_x=-.5, 
                             on_click=Func(setattr, state_handler, 'state', 'main_menu'))
