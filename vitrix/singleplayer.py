@@ -68,4 +68,4 @@ sun.look_at(ursina.Vec3(1,-1,-1))
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(info=False)
