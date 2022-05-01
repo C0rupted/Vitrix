@@ -4,8 +4,7 @@ import ursina
 import threading
 from ursina.prefabs.first_person_controller import FirstPersonController
 
-from lib.bullet import Bullet
-from lib.paths import GamePaths
+from lib.entities.bullet import Bullet
 from lib.weapons.hammer import Hammer
 from lib.weapons.pistol import Pistol
 from lib.weapons.sword import Sword

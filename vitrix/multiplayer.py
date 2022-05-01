@@ -4,13 +4,13 @@ import socket
 import threading
 import ursina
 
-from lib.notification import notify
-from lib.network import Network
-from lib.floor import Floor
-from lib.map import Map
-from lib.player import Player
-from lib.enemy import Enemy
-from lib.bullet import Bullet
+from lib.UI.notification import notify
+from lib.classes.network import Network
+from lib.entities.floor import Floor
+from lib.entities.map import Map
+from lib.entities.player import Player
+from lib.entities.enemy import Enemy
+from lib.entities.bullet import Bullet
 
 from os.path import isfile
 
@@ -23,8 +23,8 @@ if isfile("ib.cfg"):
 else:
     pass
 
-import lib.server_chooser as server_chooser
-from lib.anticheat import *
+import lib.UI.server_chooser as server_chooser
+from lib.classes.anticheat import *
 
 try:
     with open("data.txt", "r") as file:

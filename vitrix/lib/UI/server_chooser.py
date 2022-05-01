@@ -1,7 +1,7 @@
 import os
 from tkinter import *
 from pathlib import Path
-from lib.notification import notify
+from lib.UI.notification import notify
 
 
 root = Tk()

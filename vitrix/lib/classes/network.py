@@ -1,9 +1,9 @@
 import socket
 import json
 
-from lib.player import Player
-from lib.enemy import Enemy
-from lib.bullet import Bullet
+from lib.entities.player import Player
+from lib.entities.enemy import Enemy
+from lib.entities.bullet import Bullet
 
 
 class Network:

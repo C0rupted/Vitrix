@@ -1,10 +1,10 @@
 import os
 import ursina
 
-from lib.floor import Floor
-from lib.map import Map
-from lib.player import Player
-from lib.enemy import Zombie
+from lib.entities.floor import Floor
+from lib.entities.map import Map
+from lib.entities.player import Player
+from lib.entities.enemy import Zombie
 
 from lib.items.aid_kit import AidKit
 
@@ -12,7 +12,7 @@ from ursina.shaders.basic_lighting_shader import basic_lighting_shader
 
 app = ursina.Ursina()
 # The inventory needs to load after ursina app()
-from lib.inventory import *
+from lib.UI.inventory import *
 
 ursina.window.borderless = False
 ursina.window.title = "Vitrix - Singleplayer"

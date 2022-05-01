@@ -1,7 +1,7 @@
 import ursina
 import os
 
-from lib.enemy import Enemy, Zombie
+from lib.entities.enemy import Enemy, Zombie
 from lib.paths import GamePaths
 
 

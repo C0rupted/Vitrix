@@ -2,7 +2,7 @@ import os
 import ursina
 
 from lib.paths import GamePaths
-from lib.crate import Crate
+from lib.entities.crate import Crate
 
 
 class Wall(ursina.Entity):
