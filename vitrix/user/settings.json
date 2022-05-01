@@ -9,5 +9,8 @@
     "multiplayer": {
         "username": "Player",
         "icon": "icon.png"
+    },
+    "gameplay_settings": {
+        "fov": "80"
     }
 } // End
