@@ -1,6 +1,21 @@
 import os
 import sys
 import socket
+
+try:    # Check the internet connection before starting.
+    socket.socket(socket.AF_INET, socket.SOCK_STREAM).connect(("8.8.8.8", 53))
+    
+    print("Internet connection detected!")
+except:
+    from lib.UI.notification import notify
+
+    notify("Vitrix - Internet connection error", """Sorry, Vitrix couldn't connect 
+    to the internet. Check your 
+    internet connection and try 
+    again later.""")
+
+    os._exit(1)
+
 import threading
 import ursina
 from ursina.shaders.basic_lighting_shader import basic_lighting_shader
