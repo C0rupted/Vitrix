@@ -196,7 +196,7 @@ def update():
 def main():
     msg_thread = threading.Thread(target=receive, daemon=True)
     msg_thread.start()
-    app.run()
+    app.run(info=False)
 
 
 
