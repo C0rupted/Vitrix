@@ -3,7 +3,7 @@ from ursina.prefabs.first_person_controller import FirstPersonController
 
 
 
-# inventory hotbar/
+# inventory hotbar
 def inventory():
     hotbar = Entity(
         model='quad',

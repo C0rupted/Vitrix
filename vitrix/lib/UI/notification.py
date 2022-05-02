@@ -19,6 +19,3 @@ def notify(title: str, msg: str,):
     B1.pack(pady=10)
     popup.protocol("WM_DELETE_WINDOW", on_closing)
     popup.mainloop()
-
-if __name__ == '__main__':
-    notify("hello", "this is a test.")
