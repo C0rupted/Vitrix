@@ -181,7 +181,7 @@ window.borderless = False
 default_width = 600  # would be migrated to settings.json
 default_height = 600
 window.size = (default_width, default_height)
-
+window.fullscreen = True
 
 loading_screen.enabled = True
 try:

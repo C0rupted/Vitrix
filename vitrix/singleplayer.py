@@ -15,13 +15,12 @@ app = ursina.Ursina()
 from lib.UI.inventory import *
 
 ursina.window.borderless = False
-ursina.window.title = "Vitrix - Singleplayer"
 ursina.window.exit_button.visible = False
 
 paused = False
-
+ursina.window.title = "Vitrix - Singleplayer"
 ursina.Entity.default_shader = basic_lighting_shader
-
+window.fullscreen = True
 
 floor = Floor()
 map = Map()

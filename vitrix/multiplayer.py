@@ -93,6 +93,7 @@ app = ursina.Ursina()
 ursina.window.borderless = False
 ursina.window.title = "Vitrix - Multiplayer"
 ursina.window.exit_button.visible = False
+ursina.window.fullscreen = True
 
 
 floor = Floor()
