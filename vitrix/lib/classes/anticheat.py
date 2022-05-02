@@ -15,7 +15,7 @@ def check_jump_height(jump_height: int, valid_jump_height: int):
         perform_quit()
 
 def check_speed(speed: int):
-    if speed not in [3, 5, 7]:
+    if speed not in [3, 7]:
         perform_quit()
 
 def check_health(health: int):
