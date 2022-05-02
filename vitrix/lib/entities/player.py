@@ -29,7 +29,7 @@ class Player(FirstPersonController):
 
         self.thirdperson = False
 
-        self.cursor.color = ursina.color.rgb(255, 0, 0, 255)
+        self.cursor.color = ursina.color.rgb(255, 0, 0)
 
         self.pew = ursina.Audio("pew", autoplay=False)
         self.pew.volume = 0.2
