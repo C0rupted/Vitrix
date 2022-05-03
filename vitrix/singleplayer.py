@@ -31,6 +31,22 @@ sky = ursina.Entity(
     double_sided=True
 )
 
+def toggle_fullscreen():
+    if ursina.window.fullscreen:
+        ursina.window.fullscreen = False
+    else:
+        ursina.window.fullscreen = True
+
+fullscreen_button = ursina.Button(
+            text="Toggle Fullscreen",
+            position=ursina.Vec2(.2, 0),
+            scale=0.15,
+            enabled=False,
+            on_click=ursina.Func(toggle_fullscreen)
+        )
+fullscreen_button.fit_to_text()
+
+
 player = Player(ursina.Vec3(0, 1, 0))
 aid_kit = AidKit(ursina.Vec3(10, 1.6, 3))
 
@@ -58,6 +74,12 @@ enemies = []
 
 
 def input(key):
+    if key == ("tab" or "escape"):
+        if fullscreen_button.enabled:
+            fullscreen_button.disable()
+        else:
+            fullscreen_button.enable()
+    
     if key == "l":
         enemies.append(Zombie(ursina.Vec3(0, 1.5, 0), player))
 
