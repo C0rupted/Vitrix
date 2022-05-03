@@ -5,6 +5,8 @@ import datetime
 import platform
 import subprocess
 
+from os.path import join
+
 
 
 def run(command, output=1):
@@ -32,9 +34,8 @@ def print_seperator():
 
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
-build_path = dir_path + "/build"
+build_path = join(dir_path, "build")
 d = datetime.datetime.now()
-vitrix_ver = d.strftime("%m-%Y")
 
 if platform.system() == "Linux":
     operating_sys = "linux"
@@ -64,7 +65,7 @@ print_seperator()
 start_time = time.time()
 print("Building...\n\n")
 
-with open(dir_path + "/requirements.txt") as file:
+with open(join(dir_path, "requirements.txt")) as file:
     packages = file.readlines()
 
 if operating_sys == "linux":
@@ -72,32 +73,30 @@ if operating_sys == "linux":
 
     VenvCtl.create_venv(name="python-env", packages=packages,
                         output_dir=build_path)
-    shutil.rmtree(build_path + "/builds")
-    shutil.rmtree(build_path + "/reports")
-    shutil.copy("data/linux/vitrix.sh", "build")
-    shutil.copy("data/linux/singleplayer.sh", "build")
-    shutil.copy("data/linux/multiplayer.sh", "build")
-    
-    shutil.copytree(dir_path + "/vitrix", build_path + "/src", 
-                ignore=shutil.ignore_patterns("__pycache__"))
-    os.remove(build_path + "/src/.unbuilt")
+    shutil.rmtree(join(build_path, "builds"))
+    shutil.rmtree(join(build_path, "reports"))
+    shutil.copy(join("data", "linux", "vitrix.sh"), "build")
+    shutil.copy(join("data", "linux", "singleplayer.sh"), "build")
+    shutil.copy(join("data", "linux", "multiplayer.sh"), "build")
+
 
 if operating_sys == "windows":
     from zipfile import ZipFile
 
-    with ZipFile(dir_path + "/data/windows/python-windows.zip", "r") as zip:
+    with ZipFile(join(dir_path, "data", "windows", "python-windows.zip"), "r") as zip:
         zip.extractall(build_path)
     
 
-    shutil.copy("data/windows/vitrix.bat", "build")
-    shutil.copy("data/windows/singleplayer.bat", "build")
-    shutil.copy("data/windows/multiplayer.bat", "build")
-    
-    shutil.copytree(dir_path + "/vitrix", build_path + "/src", 
-                ignore=shutil.ignore_patterns("__pycache__"))
-    os.remove(build_path + "/src/.unbuilt")
+    shutil.copy(join("data", "windows", "vitrix.bat"), "build")
+    shutil.copy(join("data", "windows", "singleplayer.bat"), "build")
+    shutil.copy(join("data", "windows", "multiplayer.bat"), "build")
 
-pkg_name = "Vitrix_" + vitrix_ver + "_" + operating_sys
+
+shutil.copytree(join(dir_path, "vitrix"), join(build_path, "vitrix"), 
+            ignore=shutil.ignore_patterns("__pycache__"))
+os.remove(build_path + "/src/.unbuilt")
+
+pkg_name = "Vitrix-vX.X.X-" + operating_sys
 
 
 shutil.make_archive(pkg_name, "zip", build_path)
