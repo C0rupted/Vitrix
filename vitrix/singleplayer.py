@@ -7,6 +7,7 @@ from lib.entities.player import Player
 from lib.entities.enemy import Zombie
 
 from lib.items.aid_kit import AidKit
+from lib.items.ammo import Ammo
 
 from ursina.shaders.basic_lighting_shader import basic_lighting_shader
 
@@ -49,6 +50,7 @@ fullscreen_button.fit_to_text()
 
 player = Player(ursina.Vec3(0, 1, 0))
 aid_kit = AidKit(ursina.Vec3(10, 1.6, 3))
+ammo = Ammo(ursina.Vec3(15, 1, 3))
 
 enemies = []
 
@@ -89,4 +91,4 @@ sun.look_at(ursina.Vec3(1,-1,-1))
 
 
 if __name__ == "__main__":
-    app.run(info=False)
+    app.run()

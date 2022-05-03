@@ -82,10 +82,17 @@ class Player(FirstPersonController):
                         on_click=ursina.Sequence(ursina.Wait(.01), ursina.Func(os._exit, 0))
                     )
 
+        self.rounds_counter = ursina.Text(
+                        text="Rounds Left: 5",
+                        position=ursina.Vec2(.5, .47),
+                        scale=2
+                    )
+
         self.pause_text.disable()
         self.reload_warning_text.disable()
         self.exit_button.disable()
 
+        self.rounds_left = 5
         self.health = 100
         self.paused = False
         self.shots_left = 5
@@ -102,10 +109,18 @@ class Player(FirstPersonController):
     def reload(self):
         global shots_left
 
+        if self.rounds_left <= 0:
+            self.speed = 7
+            self.rounds_counter.text = "Rounds Left: 0"
+            return
+
         ursina.Audio("reload.wav")
         time.sleep(3)
         self.shots_left = 5
         self.speed = 7
+
+        self.rounds_left -= 1
+        self.rounds_counter.text = "Rounds Left: " + str(self.rounds_left)
 
     def input(self, key):
         if key == "space":
@@ -202,6 +217,9 @@ class Player(FirstPersonController):
                     print("Healing...")
                     self.restore_health(hit_info.entity.health_restore)
                     ursina.destroy(hit_info.entity)
+                if hit_info.entity.is_ammo:
+                    self.restore_rounds(5)
+                    ursina.destroy(hit_info.entity)
             except:
                 pass
 
@@ -238,7 +256,7 @@ class Player(FirstPersonController):
             scale=0.15,
             on_click=ursina.Sequence(ursina.Wait(.01), ursina.Func(os._exit, 0))
         )
-    
+
     def respawn(self):
         self.death_message_shown = False
         self.on_enable()
@@ -256,6 +274,14 @@ class Player(FirstPersonController):
             self.health = 100
         else:
             self.health += amount
+    
+    def restore_rounds(self, amount: int):
+        if self.rounds_left + amount > 15:
+            self.rounds_left = 15
+        else:
+            self.rounds_left += amount
+
+        self.rounds_counter.text = "Rounds Left: " + str(self.rounds_left)
 
     def update(self):
         self.healthbar.scale_x = self.health / 100 * self.healthbar_size.x
