@@ -160,7 +160,7 @@ class Player(FirstPersonController):
                 self.paused = False
                 self.on_enable()
 
-        if key == "r":
+        if key == "r" and self.gun.enabled:
             self.speed = 3
             threading.Thread(target=self.reload).start()
 
