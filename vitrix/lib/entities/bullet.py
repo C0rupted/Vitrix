@@ -1,25 +1,25 @@
-import ursina
+from vitrix_engine import *
 import os
 
 from lib.entities.enemy import Enemy, Zombie
 from lib.paths import GamePaths
 
 
-class Bullet(ursina.Entity):
+class Bullet(Entity):
 
-    def __init__(self, position: ursina.Vec3, direction: float, x_direction: float, network=False, damage: int = 10, slave=False):
+    def __init__(self, position: Vec3, direction: float, x_direction: float, network=False, damage: int = 10, slave=False):
         if network == False:
             self.singleplayer = True
         
         speed = 50
-        dir_rad = ursina.math.radians(direction)
-        x_dir_rad = ursina.math.radians(x_direction)
+        dir_rad = math.radians(direction)
+        x_dir_rad = math.radians(x_direction)
 
 
-        self.velocity = ursina.Vec3(
-            ursina.math.sin(dir_rad) * ursina.math.cos(x_dir_rad),
-            ursina.math.sin(x_dir_rad),
-            ursina.math.cos(dir_rad) * ursina.math.cos(x_dir_rad)
+        self.velocity = Vec3(
+            math.sin(dir_rad) * math.cos(x_dir_rad),
+            math.sin(x_dir_rad),
+            math.cos(dir_rad) * math.cos(x_dir_rad)
         ) * speed
 
         #bullet_tags ={
@@ -58,7 +58,7 @@ class Bullet(ursina.Entity):
 
 
     def update(self):
-        self.position += self.velocity * ursina.time.dt
+        self.position += self.velocity * time.dt
         # self.rotation_z+=6
         hit_info = self.intersects()
 
@@ -70,4 +70,4 @@ class Bullet(ursina.Entity):
                         if self.singleplayer == False:
                             self.network.send_health(entity)
 
-            ursina.destroy(self)
+            destroy(self)

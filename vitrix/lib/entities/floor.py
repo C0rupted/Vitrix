@@ -1,8 +1,8 @@
 import os
-import ursina
+from vitrix_engine import *
 
 
-class FloorCube(ursina.Entity):
+class FloorCube(Entity):
     base_dir = os.path.join("assets","textures")
     def __init__(self, position):
         super().__init__(
@@ -23,12 +23,12 @@ class Floor:
             dark2 = not dark1
 
             for x in range(-18, 28, 2):
-                cube = FloorCube(ursina.Vec3(x, 0, z))
+                cube = FloorCube(Vec3(x, 0, z))
 
                 if dark2:
-                    cube.color = ursina.color.color(0, 0.2, 0.8)
+                    cube.color = color.color(0, 0.2, 0.8)
                 else:
-                    cube.color = ursina.color.color(0, 0.2, 1)
+                    cube.color = color.color(0, 0.2, 1)
                 
                 dark2 = not dark2
             

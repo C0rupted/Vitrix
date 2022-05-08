@@ -17,8 +17,8 @@ except:
     os._exit(1)
 
 import threading
-import ursina
-from ursina.shaders.basic_lighting_shader import basic_lighting_shader
+from vitrix_engine import *
+from vitrix_engine.shaders.basic_lighting_shader import basic_lighting_shader
 
 from lib.UI.notification import notify
 from lib.classes.network import Network
@@ -89,24 +89,24 @@ while True:
         break
 
 
-app = ursina.Ursina()
-ursina.window.borderless = False
-ursina.window.title = "Vitrix - Multiplayer"
-ursina.window.exit_button.visible = False
-ursina.window.fullscreen = True
+app = Ursina()
+window.borderless = False
+window.title = "Vitrix - Multiplayer"
+window.exit_button.visible = False
+window.fullscreen = True
 
 
 floor = Floor()
 map = Map()
-sky = ursina.Entity(
+sky = Entity(
     model="sphere",
     texture=os.path.join("assets", "textures", "sky.png"),
     scale=9999,
     double_sided=True
 )
-ursina.Entity.default_shader = basic_lighting_shader
+Entity.default_shader = basic_lighting_shader
 
-player = Player(ursina.Vec3(0, 1, 0))
+player = Player(Vec3(0, 1, 0))
 
 prev_pos = player.world_position
 prev_dir = player.world_rotation_y
@@ -129,7 +129,7 @@ def receive():
             enemy_id = info["id"]
 
             if info["joined"]:
-                new_enemy = Enemy(ursina.Vec3(*info["position"]), enemy_id, info["username"])
+                new_enemy = Enemy(Vec3(*info["position"]), enemy_id, info["username"])
                 new_enemy.health = info["health"]
                 enemies.append(new_enemy)
                 continue
@@ -146,19 +146,19 @@ def receive():
 
             if info["left"]:
                 enemies.remove(enemy)
-                ursina.destroy(enemy)
+                destroy(enemy)
                 continue
 
-            enemy.world_position = ursina.Vec3(*info["position"])
+            enemy.world_position = Vec3(*info["position"])
             enemy.rotation_y = info["rotation"]
 
         elif info["object"] == "bullet":
-            b_pos = ursina.Vec3(*info["position"])
+            b_pos = Vec3(*info["position"])
             b_dir = info["direction"]
             b_x_dir = info["x_direction"]
             b_damage = info["damage"]
             new_bullet = Bullet(b_pos, b_dir, b_x_dir, n, b_damage, slave=True)
-            ursina.destroy(new_bullet, delay=2)
+            destroy(new_bullet, delay=2)
 
         elif info["object"] == "health_update":
             enemy_id = info["id"]
