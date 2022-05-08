@@ -21,7 +21,7 @@ ursina.window.exit_button.visible = False
 paused = False
 ursina.window.title = "Vitrix - Singleplayer"
 ursina.Entity.default_shader = basic_lighting_shader
-window.fullscreen = True
+ursina.window.fullscreen = True
 
 floor = Floor()
 map = Map()
@@ -91,4 +91,4 @@ sun.look_at(ursina.Vec3(1,-1,-1))
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(info=False)
