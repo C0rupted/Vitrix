@@ -1,19 +1,18 @@
 import os
 from vitrix_engine import *
+from lib.paths import GamePaths
 
 
 class FloorCube(Entity):
-    base_dir = os.path.join("assets","textures")
     def __init__(self, position):
         super().__init__(
             position=position,
             scale=2,
-            model="cube",
-            texture=os.path.join(FloorCube.base_dir, "floor.png"),
+            model=os.path.join(GamePaths.models_dir, "cube.obj"),
+            texture=os.path.join(GamePaths.textures_dir, "floor.png"),
             collider="box"
         )
 
-        self.texture.filtering = None
 
 
 class Floor:

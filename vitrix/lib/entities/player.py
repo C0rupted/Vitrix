@@ -29,8 +29,6 @@ class Player(FirstPersonController):
 
         self.thirdperson = False
 
-        self.cursor.color = color.rgb(255, 0, 0)
-
         self.pew = Audio("pew", autoplay=False)
         self.pew.volume = 0.2
 
