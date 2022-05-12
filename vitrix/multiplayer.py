@@ -108,6 +108,21 @@ Entity.default_shader = basic_lighting_shader
 
 player = Player(Vec3(0, 1, 0))
 
+def toggle_fullscreen():
+    if window.fullscreen:
+        window.fullscreen = False
+    else:
+        window.fullscreen = True
+
+fullscreen_button = Button(
+            text="Toggle Fullscreen",
+            position=Vec2(.2, 0),
+            scale=0.15,
+            enabled=False,
+            on_click=Func(toggle_fullscreen)
+        )
+fullscreen_button.fit_to_text()
+
 prev_pos = player.world_position
 prev_dir = player.world_rotation_y
 enemies = []

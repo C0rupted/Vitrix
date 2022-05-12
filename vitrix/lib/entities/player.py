@@ -1,18 +1,17 @@
 import os
 import time
-from vitrix_engine import *
 import threading
+from vitrix_engine import *
 from vitrix_engine.prefabs.first_person_controller import FirstPersonController
 
 from lib.entities.bullet import Bullet
-from lib.paths import GamePaths
+from lib.UI.healthbar import HealthBar
 from lib.weapons.hammer import Hammer
 from lib.weapons.pistol import Pistol
 from lib.weapons.sword import Sword
 from lib.weapons.battleaxe import BattleAxe
 # from lib.UI.inventory import inventory
 
-from lib.items.aid_kit import AidKit
 
 class Player(FirstPersonController):
     def __init__(self, position: Vec3):
@@ -44,23 +43,6 @@ class Player(FirstPersonController):
         self.item_order = ["gun", "hammer", "sword", "axe"]
         self.holding = "gun"
 
-        self.healthbar_pos = Vec2(0, 0.45)
-        self.healthbar_size = Vec2(0.8, 0.04)
-        self.healthbar_bg = Entity(
-            parent=camera.ui,
-            model="quad",
-            color=color.rgb(255, 0, 0),
-            position=self.healthbar_pos,
-            scale=self.healthbar_size
-        )
-        self.healthbar = Entity(
-            parent=camera.ui,
-            model="quad",
-            color=color.rgb(0, 255, 0),
-            position=self.healthbar_pos,
-            scale=self.healthbar_size
-        )
-
         self.pause_text = Text(
                     ignore_paused=True,
                         text="Paused",
@@ -90,8 +72,10 @@ class Player(FirstPersonController):
         self.reload_warning_text.disable()
         self.exit_button.disable()
 
+        self.health = 150
+        self.healthbar = HealthBar(self.health)
+
         self.rounds_left = 5
-        self.health = 100
         self.paused = False
         self.shots_left = 5
         self.death_message_shown = False
@@ -229,6 +213,8 @@ class Player(FirstPersonController):
         Audio("death").play() # Play death sound
 
         destroy(self.gun)
+        destroy(self.healthbar.icon)
+        destroy(self.healthbar)
         self.rotation = 0
         self.camera_pivot.world_rotation_x = -45
         self.world_position = Vec3(0, 7, -35)
@@ -248,12 +234,7 @@ class Player(FirstPersonController):
             on_click=Sequence(Wait(.01), Func(self.respawn))
         )
 
-        self.exit_button = Button(
-            text = "Quit Game",
-            position = Vec2(0, -.2),
-            scale=0.15,
-            on_click=Sequence(Wait(.01), Func(os._exit, 0))
-        )
+        self.exit_button.position = Vec2(0, -.2)
 
     def respawn(self):
         self.death_message_shown = False
@@ -262,17 +243,21 @@ class Player(FirstPersonController):
         self.rotation = Vec3(0,0,0)
         self.camera_pivot.world_rotation_x = 0
         self.world_position = Vec3(0,3,0)
-        self.health = 100
+        self.exit_button.position = Vec2(0, 0)
+        self.health = 150
+        self.healthbar = HealthBar(self.health)
         self.respawn_button.disable()
         self.dead_text.disable()
         self.exit_button.disable()
 
     def restore_health(self, amount: int):
-        if self.health + amount > 100:
-            self.health = 100
+        if self.health + amount > 150:
+            self.health = 150
         else:
             self.health += amount
-    
+
+        self.healthbar.value = self.health    
+
     def restore_rounds(self, amount: int):
         if self.rounds_left + amount > 15:
             self.rounds_left = 15
@@ -282,8 +267,6 @@ class Player(FirstPersonController):
         self.rounds_counter.text = "Rounds Left: " + str(self.rounds_left)
 
     def update(self):
-        self.healthbar.scale_x = self.health / 100 * self.healthbar_size.x
-
         if self.y < -10:
             self.position = Vec3(0, 2, 0)
 

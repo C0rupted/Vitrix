@@ -105,6 +105,7 @@ class Zombie(Entity):
                 self.position += self.forward * time.dt * 2
             else:
                 self.player.health -= 10
+                self.player.healthbar.value = self.player.health
                 Audio("hurt").play()
                 self.position += self.forward * time.dt * -150
 
