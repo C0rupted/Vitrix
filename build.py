@@ -8,7 +8,6 @@ import subprocess
 from os.path import join
 
 
-
 def run(command, output=1):
     proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, 
                             stderr=subprocess.STDOUT)
@@ -94,9 +93,9 @@ if operating_sys == "windows":
 
 shutil.copytree(join(dir_path, "vitrix"), join(build_path, "vitrix"), 
             ignore=shutil.ignore_patterns("__pycache__"))
-os.remove(build_path + "/src/.unbuilt")
+os.remove(f"{build_path}/src/.unbuilt")
 
-pkg_name = "Vitrix-vX.X.X-" + operating_sys
+pkg_name = f"Vitrix-vX.X.X-{operating_sys}"
 
 
 shutil.make_archive(pkg_name, "zip", build_path)
@@ -108,4 +107,4 @@ d = datetime.datetime.now()
 print_seperator()
 print("Build Successfully Completed!")
 print("Finished On:     " + d.strftime("%I:%M %p %A %B %Y"))
-print("\nTotal Build Time:      " + str(time.time() - start_time) + " seconds")
+print(f"\nTotal Build Time:      {str(time.time() - start_time)} seconds")
