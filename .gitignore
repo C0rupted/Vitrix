@@ -6,6 +6,7 @@ vitrix/lib/items/__pycache__/
 vitrix/lib/UI/__pycache__/
 vitrix/lib/entities/__pycache__/
 vitrix/test.py
+vitrix_engine.egg-info/
 venvs-config/
 data.txt
 build/
