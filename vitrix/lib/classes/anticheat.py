@@ -19,5 +19,5 @@ def check_speed(speed: int):
         perform_quit()
 
 def check_health(health: int):
-    if health > 100:
+    if health > 150:
         perform_quit()

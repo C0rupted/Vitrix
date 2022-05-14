@@ -1,5 +1,5 @@
 import os
-from ursina import *
+from vitrix_engine import *
 from lib.paths import GamePaths
 
 class Sword(Entity):

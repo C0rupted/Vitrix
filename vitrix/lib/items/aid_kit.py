@@ -1,4 +1,4 @@
-from ursina import *
+from vitrix_engine import *
 from lib.paths import GamePaths
 import random
 
@@ -15,4 +15,4 @@ class AidKit(Entity):
         self.is_crate = False
         self.is_aid_kit = True
         self.collider = MeshCollider(self)
-        self.health_restore = random.randint(27,34) # amount of health to give to player
+        self.health_restore = random.randint(50, 80) # amount of health to give to player

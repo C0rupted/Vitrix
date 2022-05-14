@@ -1,6 +1,2 @@
-panda3d==1.10.11
-panda3d-gltf==0.13
-panda3d-simplepbr==0.10
-Pillow==9.1.0
-ursina==4.1.1
+git+https://github.com/ShadityZ/Vitrix-Engine.git@v1.0#egg=vitrix_engine
 venvctl==1.4.12

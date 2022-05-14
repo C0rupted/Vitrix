@@ -1,21 +1,20 @@
 import os
 import time
-import ursina
 import threading
-from ursina.prefabs.first_person_controller import FirstPersonController
+from vitrix_engine import *
+from vitrix_engine.prefabs.first_person_controller import FirstPersonController
 
 from lib.entities.bullet import Bullet
-from lib.paths import GamePaths
+from lib.UI.healthbar import HealthBar
 from lib.weapons.hammer import Hammer
 from lib.weapons.pistol import Pistol
 from lib.weapons.sword import Sword
 from lib.weapons.battleaxe import BattleAxe
 # from lib.UI.inventory import inventory
 
-from lib.items.aid_kit import AidKit
 
 class Player(FirstPersonController):
-    def __init__(self, position: ursina.Vec3):
+    def __init__(self, position: Vec3):
         super().__init__(
             position=position,
             model="cube",
@@ -29,9 +28,7 @@ class Player(FirstPersonController):
 
         self.thirdperson = False
 
-        self.cursor.color = ursina.color.rgb(255, 0, 0)
-
-        self.pew = ursina.Audio("pew", autoplay=False)
+        self.pew = Audio("pew", autoplay=False)
         self.pew.volume = 0.2
 
         self.gun = Pistol()
@@ -46,45 +43,28 @@ class Player(FirstPersonController):
         self.item_order = ["gun", "hammer", "sword", "axe"]
         self.holding = "gun"
 
-        self.healthbar_pos = ursina.Vec2(0, 0.45)
-        self.healthbar_size = ursina.Vec2(0.8, 0.04)
-        self.healthbar_bg = ursina.Entity(
-            parent=ursina.camera.ui,
-            model="quad",
-            color=ursina.color.rgb(255, 0, 0),
-            position=self.healthbar_pos,
-            scale=self.healthbar_size
-        )
-        self.healthbar = ursina.Entity(
-            parent=ursina.camera.ui,
-            model="quad",
-            color=ursina.color.rgb(0, 255, 0),
-            position=self.healthbar_pos,
-            scale=self.healthbar_size
-        )
-
-        self.pause_text = ursina.Text(
+        self.pause_text = Text(
                     ignore_paused=True,
                         text="Paused",
                         enabled=False,
-                        position=ursina.Vec2(0, .3),
+                        position=Vec2(0, .3),
                         scale=3)
 
-        self.reload_warning_text = ursina.Text(
+        self.reload_warning_text = Text(
                             text="Please reload!",
                             enabled=False,
                             scale=2)
 
-        self.exit_button = ursina.Button(
+        self.exit_button = Button(
                     ignore_paused=True,
                         text = "Quit Game",
                         scale=0.15,
-                        on_click=ursina.Sequence(ursina.Wait(.01), ursina.Func(os._exit, 0))
+                        on_click=Sequence(Wait(.01), Func(os._exit, 0))
                     )
 
-        self.rounds_counter = ursina.Text(
+        self.rounds_counter = Text(
                         text="Rounds Left: 5",
-                        position=ursina.Vec2(.5, .47),
+                        position=Vec2(.5, .47),
                         scale=2
                     )
 
@@ -92,8 +72,10 @@ class Player(FirstPersonController):
         self.reload_warning_text.disable()
         self.exit_button.disable()
 
+        self.health = 150
+        self.healthbar = HealthBar(self.health)
+
         self.rounds_left = 5
-        self.health = 100
         self.paused = False
         self.shots_left = 5
         self.death_message_shown = False
@@ -114,7 +96,7 @@ class Player(FirstPersonController):
             self.rounds_counter.text = "Rounds Left: 0"
             return
 
-        ursina.Audio("reload.wav")
+        Audio("reload.wav")
         time.sleep(3)
         self.shots_left = 5
         self.speed = 7
@@ -129,10 +111,10 @@ class Player(FirstPersonController):
         if key == "f1": # Third person
             if self.thirdperson: # Check if it's enabled
                 self.thirdperson = False
-                ursina.camera.z = -0
+                camera.z = -0
             else:
                 self.thirdperson = True
-                ursina.camera.z = -8
+                camera.z = -8
 
         if key == "f": # Switch item held
             if self.gun.enabled:
@@ -188,16 +170,16 @@ class Player(FirstPersonController):
                     threading.Thread(target=self.hide_reload_warning).start()
                     return
                 self.gun.on_cooldown = True
-                bullet_pos = self.position + ursina.Vec3(0, 2, 0)
+                bullet_pos = self.position + Vec3(0, 2, 0)
                 self.pew.play()
                 bullet = Bullet(bullet_pos, self.world_rotation_y, -self.camera_pivot.world_rotation_x)
                 self.shots_left -= 1
-                ursina.destroy(bullet, delay=4)
-                ursina.invoke(setattr, self.gun, 'on_cooldown', False, delay=.25)
+                destroy(bullet, delay=4)
+                invoke(setattr, self.gun, 'on_cooldown', False, delay=.25)
             elif self.sword.enabled or self.axe.enabled:
-                slash = ursina.Audio("swing")
+                slash = Audio("swing")
                 slash.play()
-                hit_info = ursina.raycast(self.world_position + ursina.Vec3(0,1,0), self.forward, 30, ignore=(self,))
+                hit_info = raycast(self.world_position + Vec3(0,1,0), self.forward, 30, ignore=(self,))
                 try:
                     if hit_info.entity.is_enemy:
                         if (hit_info.entity.health - 20) <= 0:
@@ -208,18 +190,18 @@ class Player(FirstPersonController):
 
 
         if key == "right mouse down":
-            hit_info = ursina.raycast(self.world_position + ursina.Vec3(0,1,0), self.forward, 30, ignore=(self,))
+            hit_info = raycast(self.world_position + Vec3(0,1,0), self.forward, 30, ignore=(self,))
             try:
                 if hit_info.entity.is_crate and self.hammer.enabled:
                     print(hit_info.entity.contents)
-                    ursina.destroy(hit_info.entity)
+                    destroy(hit_info.entity)
                 if hit_info.entity.is_aid_kit:
                     print("Healing...")
                     self.restore_health(hit_info.entity.health_restore)
-                    ursina.destroy(hit_info.entity)
+                    destroy(hit_info.entity)
                 if hit_info.entity.is_ammo:
                     self.restore_rounds(5)
-                    ursina.destroy(hit_info.entity)
+                    destroy(hit_info.entity)
             except:
                 pass
 
@@ -228,53 +210,54 @@ class Player(FirstPersonController):
 
         self.on_disable()
 
-        ursina.Audio("death").play() # Play death sound
+        Audio("death").play() # Play death sound
 
-        ursina.destroy(self.gun)
+        destroy(self.gun)
+        destroy(self.healthbar.icon)
+        destroy(self.healthbar)
         self.rotation = 0
         self.camera_pivot.world_rotation_x = -45
-        self.world_position = ursina.Vec3(0, 7, -35)
-        self.cursor.color = ursina.color.rgb(0, 0, 0, a=0)
+        self.world_position = Vec3(0, 7, -35)
+        self.cursor.color = color.rgb(0, 0, 0, a=0)
 
-        self.dead_text = ursina.Text(
+        self.dead_text = Text(
             text="You are dead!",
-            color=ursina.color.rgb(0, 0, 0, 255),
-            origin=ursina.Vec2(0, 0),
-            position=ursina.Vec2(0, .2),
+            color=color.rgb(0, 0, 0, 255),
+            origin=Vec2(0, 0),
+            position=Vec2(0, .2),
             scale=3
         )
 
-        self.respawn_button = ursina.Button(
+        self.respawn_button = Button(
             text = "Respawn",
             scale=0.15,
-            on_click=ursina.Sequence(ursina.Wait(.01), ursina.Func(self.respawn))
+            on_click=Sequence(Wait(.01), Func(self.respawn))
         )
 
-        self.exit_button = ursina.Button(
-            text = "Quit Game",
-            position = ursina.Vec2(0, -.2),
-            scale=0.15,
-            on_click=ursina.Sequence(ursina.Wait(.01), ursina.Func(os._exit, 0))
-        )
+        self.exit_button.position = Vec2(0, -.2)
 
     def respawn(self):
         self.death_message_shown = False
         self.on_enable()
         self.gun = Pistol()
-        self.rotation = ursina.Vec3(0,0,0)
+        self.rotation = Vec3(0,0,0)
         self.camera_pivot.world_rotation_x = 0
-        self.world_position = ursina.Vec3(0,3,0)
-        self.health = 100
+        self.world_position = Vec3(0,3,0)
+        self.exit_button.position = Vec2(0, 0)
+        self.health = 150
+        self.healthbar = HealthBar(self.health)
         self.respawn_button.disable()
         self.dead_text.disable()
         self.exit_button.disable()
 
     def restore_health(self, amount: int):
-        if self.health + amount > 100:
-            self.health = 100
+        if self.health + amount > 150:
+            self.health = 150
         else:
             self.health += amount
-    
+
+        self.healthbar.value = self.health    
+
     def restore_rounds(self, amount: int):
         if self.rounds_left + amount > 15:
             self.rounds_left = 15
@@ -284,10 +267,8 @@ class Player(FirstPersonController):
         self.rounds_counter.text = "Rounds Left: " + str(self.rounds_left)
 
     def update(self):
-        self.healthbar.scale_x = self.health / 100 * self.healthbar_size.x
-
         if self.y < -10:
-            self.position = ursina.Vec3(0, 2, 0)
+            self.position = Vec3(0, 2, 0)
 
         if self.health <= 0: # Check if player is dead
             if not self.death_message_shown:
