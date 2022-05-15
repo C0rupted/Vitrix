@@ -12,7 +12,8 @@ class Enemy(Entity):
             collider="box",
             texture="white_cube",
             color=color.color(0, 0, 1),
-            scale=Vec3(1, 2, 1)
+            scale=Vec3(1, 2, 1),
+            add_to_scene_entities=False
         )
         self.gun = Entity(
             parent=self,
@@ -33,20 +34,14 @@ class Enemy(Entity):
         )
 
         self.is_enemy = True
-        self.health = 100
+        self.health = 150
         self.id = identifier
         self.username = username
 
+        scene.entities.append(self)
+
 
     def update(self):
-        try:
-            color_saturation = 1 - self.health / 100
-        except AttributeError:
-            self.health = 100
-            color_saturation = 1 - self.health / 100
-
-        self.color = color.color(0, color_saturation, 1)
-
         if self.health <= 0:
             destroy(self)
 
@@ -78,7 +73,7 @@ class Zombie(Entity):
         )
 
         self.is_enemy = True
-        self.health = 30
+        self.health = 45
         self.player = player
         
 

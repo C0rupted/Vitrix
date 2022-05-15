@@ -106,7 +106,7 @@ sky = Entity(
 )
 Entity.default_shader = basic_lighting_shader
 
-player = Player(Vec3(0, 1, 0))
+player = Player(Vec3(0, 1, 0), n)
 
 def toggle_fullscreen():
     if window.fullscreen:
@@ -190,8 +190,10 @@ def receive():
 
             if not enemy:
                 continue
-
+            
             enemy.health = info["health"]
+            if isinstance(enemy, Player):
+                enemy.healthbar.value = enemy.health
 
 
 def update():
@@ -208,6 +210,13 @@ def update():
         check_jump_height(player.jump_height, 2.5)
         check_health(player.health)
 
+
+def input(key):
+    if key == ("tab" or "escape"):
+        if fullscreen_button.enabled:
+            fullscreen_button.disable()
+        else:
+            fullscreen_button.enable()
 
 def main():
     msg_thread = threading.Thread(target=receive, daemon=True)

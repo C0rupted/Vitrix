@@ -7,9 +7,12 @@ from lib.paths import GamePaths
 
 class Bullet(Entity):
 
-    def __init__(self, position: Vec3, direction: float, x_direction: float, network=False, damage: int = 10, slave=False):
-        if network == False:
+    def __init__(self, position: Vec3, direction: float, x_direction: float, network=False, damage: int = 15, slave=False):
+        if not network:
             self.singleplayer = True
+        else:
+            self.singleplayer = False
+            self.network = network
         
         speed = 50
         dir_rad = math.radians(direction)
@@ -67,7 +70,7 @@ class Bullet(Entity):
                 for entity in hit_info.entities:
                     if isinstance(entity, Enemy) or isinstance(entity, Zombie):
                         entity.health -= self.damage
-                        if self.singleplayer == False:
+                        if not self.singleplayer:
                             self.network.send_health(entity)
 
             destroy(self)

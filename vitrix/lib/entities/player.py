@@ -14,7 +14,7 @@ from lib.weapons.battleaxe import BattleAxe
 
 
 class Player(FirstPersonController):
-    def __init__(self, position: Vec3):
+    def __init__(self, position: Vec3, network = False):
         super().__init__(
             position=position,
             model="cube",
@@ -27,6 +27,12 @@ class Player(FirstPersonController):
         self.hit_info = self.intersects()
 
         self.thirdperson = False
+
+        if not network:
+            self.singleplayer = True
+        else:
+            self.singleplayer = False
+            self.network = network
 
         self.pew = Audio("pew", autoplay=False)
         self.pew.volume = 0.2
@@ -172,9 +178,12 @@ class Player(FirstPersonController):
                 self.gun.on_cooldown = True
                 bullet_pos = self.position + Vec3(0, 2, 0)
                 self.pew.play()
-                bullet = Bullet(bullet_pos, self.world_rotation_y, -self.camera_pivot.world_rotation_x)
+                bullet = Bullet(bullet_pos, self.world_rotation_y,
+                                -self.camera_pivot.world_rotation_x, self.network)
+                if not self.singleplayer:
+                    self.network.send_bullet(bullet)
                 self.shots_left -= 1
-                destroy(bullet, delay=4)
+                destroy(bullet, delay=2)
                 invoke(setattr, self.gun, 'on_cooldown', False, delay=.25)
             elif self.sword.enabled or self.axe.enabled:
                 slash = Audio("swing")
