@@ -114,7 +114,7 @@ def main():
         new_id = generate_id(players, MAX_PLAYERS)
         conn.send(new_id.encode("utf8"))
         username = conn.recv(MSG_SIZE).decode("utf8")
-        new_player_info = {"socket": conn, "username": username, "position": (0, 1, 0), "rotation": 0, "health": 100}
+        new_player_info = {"socket": conn, "username": username, "position": (0, 1, 0), "rotation": 0, "health": 150}
 
 
         for player_id in players:
