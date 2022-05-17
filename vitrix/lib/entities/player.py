@@ -135,18 +135,6 @@ class Player(FirstPersonController):
             else:
                 self.axe.disable()
                 self.gun.enable()
-        
-        if key == "tab" or key == "escape":
-            if not self.paused:
-                self.pause_text.enable()
-                self.exit_button.enable()
-                self.paused = True
-                self.on_disable()
-            else:
-                self.pause_text.disable()
-                self.exit_button.disable()
-                self.paused = False
-                self.on_enable()
 
         if key == "r" and self.gun.enabled:
             self.speed = 3
@@ -254,6 +242,7 @@ class Player(FirstPersonController):
         self.world_position = Vec3(0,3,0)
         self.exit_button.position = Vec2(0, 0)
         self.health = 150
+        self.rounds_left = 5
         self.healthbar = HealthBar(self.health)
         self.respawn_button.disable()
         self.dead_text.disable()

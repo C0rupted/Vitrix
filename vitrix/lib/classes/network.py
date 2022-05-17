@@ -107,3 +107,16 @@ class Network:
             self.client.send(health_info_encoded)
         except socket.error as e:
             print(e)
+
+    def send_message(self, message: str):
+        message_info = {
+            "object": "chat_message",
+            "message": message
+        }
+
+        message_info_encoded = json.dumps(message_info).encode("utf8")
+
+        try:
+            self.client.send(message_info_encoded)
+        except socket.error as e:
+            print(e)

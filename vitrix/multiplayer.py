@@ -21,6 +21,7 @@ from vitrix_engine import *
 from vitrix_engine.shaders.basic_lighting_shader import basic_lighting_shader
 
 from lib.UI.notification import notify
+from lib.UI.chat import Chat
 from lib.classes.network import Network
 from lib.entities.floor import Floor
 from lib.entities.map import Map
@@ -107,6 +108,7 @@ sky = Entity(
 Entity.default_shader = basic_lighting_shader
 
 player = Player(Vec3(0, 1, 0), n)
+chat = Chat(n, username)
 
 def toggle_fullscreen():
     if window.fullscreen:
@@ -194,6 +196,8 @@ def receive():
             enemy.health = info["health"]
             if isinstance(enemy, Player):
                 enemy.healthbar.value = enemy.health
+        elif info["object"] == "chat_message":
+            chat.list.append(info["message"])
 
 
 def update():
@@ -212,11 +216,28 @@ def update():
 
 
 def input(key):
-    if key == ("tab" or "escape"):
-        if fullscreen_button.enabled:
-            fullscreen_button.disable()
+    if key == "t" and not fullscreen_button.enabled:
+        if chat.enabled:
+            player.on_enable()
+            chat.disable()
         else:
+            chat.enable()
+            player.on_disable()
+    
+    if key == ("tab" or "escape") and not chat.enabled:
+        if not player.paused:
+            player.pause_text.disable()
+            player.exit_button.disable()
+            fullscreen_button.disable()
+            player.paused = True
+            player.on_enable()
+        else:
+            player.pause_text.enable()
+            player.exit_button.enable()
             fullscreen_button.enable()
+            player.paused = False
+            player.on_disable()
+
 
 def main():
     msg_thread = threading.Thread(target=receive, daemon=True)
@@ -226,4 +247,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()  
+    main()
