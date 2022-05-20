@@ -166,10 +166,13 @@ class Player(FirstPersonController):
                 self.gun.on_cooldown = True
                 bullet_pos = self.position + Vec3(0, 2, 0)
                 self.pew.play()
-                bullet = Bullet(bullet_pos, self.world_rotation_y,
-                                -self.camera_pivot.world_rotation_x, self.network)
                 if not self.singleplayer:
+                    bullet = Bullet(bullet_pos, self.world_rotation_y,
+                                    -self.camera_pivot.world_rotation_x, self.network)
                     self.network.send_bullet(bullet)
+                else:
+                    bullet = Bullet(bullet_pos, self.world_rotation_y,
+                                    -self.camera_pivot.world_rotation_x)
                 self.shots_left -= 1
                 destroy(bullet, delay=2)
                 invoke(setattr, self.gun, 'on_cooldown', False, delay=.25)
@@ -187,7 +190,7 @@ class Player(FirstPersonController):
 
 
         if key == "right mouse down":
-            hit_info = raycast(self.world_position + Vec3(0,1,0), self.forward, 30, ignore=(self,))
+            hit_info = raycast(self.world_position + Vec3(0,1,0), self.zz, 30, ignore=(self,))
             try:
                 if hit_info.entity.is_crate and self.hammer.enabled:
                     print(hit_info.entity.contents)

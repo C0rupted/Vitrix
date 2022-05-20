@@ -77,10 +77,18 @@ enemies = []
 
 def input(key):
     if key == ("tab" or "escape"):
-        if fullscreen_button.enabled:
+        if not player.paused:
+            player.pause_text.disable()
+            player.exit_button.disable()
             fullscreen_button.disable()
+            player.paused = True
+            player.on_enable()
         else:
+            player.pause_text.enable()
+            player.exit_button.enable()
             fullscreen_button.enable()
+            player.paused = False
+            player.on_disable()
     
     if key == "l":
         enemies.append(Zombie(Vec3(0, 1.5, 0), player))
