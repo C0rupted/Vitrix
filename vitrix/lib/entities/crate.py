@@ -19,7 +19,6 @@ class Crate(Entity):
         items_list = ["gun", "bandages", "first_aid_kit", "bandages", "bandages"]
 
         self.contents = []
-        self.is_crate = True
 
         self.collider = BoxCollider(self, size=Vec3(1, 2, 1))
         for i in range (1, random.randint(2, 4)):

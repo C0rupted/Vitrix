@@ -11,7 +11,4 @@ class Ammo(Entity):
             scale=0.4,
         )
 
-        self.is_crate = False
-        self.is_aid_kit = False
-        self.is_ammo = True
         self.collider = MeshCollider(self)

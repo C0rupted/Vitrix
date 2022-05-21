@@ -1,7 +1,6 @@
 import os
 from vitrix_engine import *
 
-from lib.entities.floor import Floor
 from lib.entities.map import Map
 from lib.entities.player import Player
 from lib.entities.enemy import Zombie
@@ -23,7 +22,6 @@ window.title = "Vitrix - Singleplayer"
 Entity.default_shader = basic_lighting_shader
 window.fullscreen = True
 
-floor = Floor()
 map = Map()
 sky = Entity(
     model=os.path.join("assets", "models", "sphere.obj"),
@@ -49,7 +47,7 @@ fullscreen_button.fit_to_text()
 
 
 player = Player(Vec3(0, 1, 0))
-aid_kit = AidKit(Vec3(10, 1.6, 3))
+aid_kit = AidKit(Vec3(10, 1.4, 3))
 ammo = Ammo(Vec3(15, 1, 3))
 
 enemies = []

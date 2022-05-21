@@ -5,19 +5,15 @@ from lib.paths import GamePaths
 from lib.entities.crate import Crate
 
 
-class Wall(Entity):
-    base_dir = os.path.join("assets","textures")
+class FloorCube(Entity):
     def __init__(self, position):
         super().__init__(
             position=position,
             scale=2,
-            model="cube",
-            texture=os.path.join(Wall.base_dir, "wall.png"),
-            origin_y=-0.5
+            model=os.path.join(GamePaths.models_dir, "cube.obj"),
+            texture=os.path.join(GamePaths.textures_dir, "floor.png"),
+            collider="box"
         )
-        
-        self.texture.filtering = None
-        self.collider = BoxCollider(self, size=Vec3(1, 2, 1))
 
 
 class Map(Entity):
@@ -28,3 +24,20 @@ class Map(Entity):
         )
         self.collider = MeshCollider(self)
         self.crate_one = Crate(position=Vec3(10, 1, -5))
+
+        # Floor
+        dark1 = True
+        for z in range(-28, 30, 2):
+            dark2 = not dark1
+
+            for x in range(-18, 28, 2):
+                cube = FloorCube(Vec3(x, 0, z))
+
+                if dark2:
+                    cube.color = color.color(0, 0.2, 0.8)
+                else:
+                    cube.color = color.color(0, 0.2, 1)
+                
+                dark2 = not dark2
+            
+            dark1 = not dark1

@@ -23,7 +23,6 @@ from vitrix_engine.shaders.basic_lighting_shader import basic_lighting_shader
 from lib.UI.notification import notify
 from lib.UI.chat import Chat
 from lib.classes.network import Network
-from lib.entities.floor import Floor
 from lib.entities.map import Map
 from lib.entities.player import Player
 from lib.entities.enemy import Enemy
@@ -97,7 +96,6 @@ window.exit_button.visible = False
 window.fullscreen = True
 
 
-floor = Floor()
 map = Map()
 sky = Entity(
     model=os.path.join("assets", "models", "sphere.obj"),

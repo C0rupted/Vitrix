@@ -14,6 +14,7 @@ from lib.weapons.sword import Sword
 from lib.weapons.battleaxe import BattleAxe
 from lib.items.aid_kit import AidKit
 from lib.items.ammo import Ammo
+from lib.paths import GamePaths
 # from lib.UI.inventory import inventory
 
 
@@ -84,11 +85,14 @@ class Player(FirstPersonController):
 
         self.health = 150
         self.healthbar = HealthBar(self.health)
+        self.crosshair = Entity(model=os.path.join(GamePaths.models_dir, "cube.obj"),
+                                color=color.red, parent=camera.ui, scale=.008,
+                                rotation_z=45)
 
         self.rounds_left = 5
         self.paused = False
         self.shots_left = 5
-        self.reach = 4
+        self.reach = 5
         self.death_message_shown = False
 
         self.lock = False
@@ -184,7 +188,7 @@ class Player(FirstPersonController):
             elif self.sword.enabled or self.axe.enabled:
                 slash = Audio("swing")
                 slash.play()
-                hit_info = raycast(self.world_position + Vec3(0, 1, 0), 
+                hit_info = raycast(self.world_position + Vec3(0, 2, 0), 
                                    self.camera_pivot.forward, self.reach, ignore=(self,))
                 try:
                     if isinstance(hit_info.entity, (Zombie, Enemy)):
@@ -196,7 +200,7 @@ class Player(FirstPersonController):
 
 
         if key == "right mouse down":
-            hit_info = raycast(self.world_position + Vec3(0, 1, 0), 
+            hit_info = raycast(self.world_position + Vec3(0, 2, 0), 
                                self.camera_pivot.forward, self.reach, ignore=(self,))
             try:
                 for entity in hit_info.entities:
