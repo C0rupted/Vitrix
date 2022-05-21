@@ -5,11 +5,15 @@ from vitrix_engine import *
 from vitrix_engine.prefabs.first_person_controller import FirstPersonController
 
 from lib.entities.bullet import Bullet
+from lib.entities.crate import Crate
+from lib.entities.enemy import Zombie, Enemy
 from lib.UI.healthbar import HealthBar
 from lib.weapons.hammer import Hammer
 from lib.weapons.pistol import Pistol
 from lib.weapons.sword import Sword
 from lib.weapons.battleaxe import BattleAxe
+from lib.items.aid_kit import AidKit
+from lib.items.ammo import Ammo
 # from lib.UI.inventory import inventory
 
 
@@ -84,6 +88,7 @@ class Player(FirstPersonController):
         self.rounds_left = 5
         self.paused = False
         self.shots_left = 5
+        self.reach = 4
         self.death_message_shown = False
 
         self.lock = False
@@ -179,9 +184,10 @@ class Player(FirstPersonController):
             elif self.sword.enabled or self.axe.enabled:
                 slash = Audio("swing")
                 slash.play()
-                hit_info = raycast(self.world_position + Vec3(0,1,0), self.forward, 30, ignore=(self,))
+                hit_info = raycast(self.world_position + Vec3(0, 1, 0), 
+                                   self.camera_pivot.forward, self.reach, ignore=(self,))
                 try:
-                    if hit_info.entity.is_enemy:
+                    if isinstance(hit_info.entity, (Zombie, Enemy)):
                         if (hit_info.entity.health - 20) <= 0:
                             slash.stop()
                         hit_info.entity.health -= 20
@@ -190,18 +196,20 @@ class Player(FirstPersonController):
 
 
         if key == "right mouse down":
-            hit_info = raycast(self.world_position + Vec3(0,1,0), self.zz, 30, ignore=(self,))
+            hit_info = raycast(self.world_position + Vec3(0, 1, 0), 
+                               self.camera_pivot.forward, self.reach, ignore=(self,))
             try:
-                if hit_info.entity.is_crate and self.hammer.enabled:
-                    print(hit_info.entity.contents)
-                    destroy(hit_info.entity)
-                if hit_info.entity.is_aid_kit:
-                    print("Healing...")
-                    self.restore_health(hit_info.entity.health_restore)
-                    destroy(hit_info.entity)
-                if hit_info.entity.is_ammo:
-                    self.restore_rounds(5)
-                    destroy(hit_info.entity)
+                for entity in hit_info.entities:
+                    if isinstance(hit_info.entity, Crate) and self.hammer.enabled:
+                        print(hit_info.entity.contents)
+                        destroy(hit_info.entity)
+                    if isinstance(hit_info.entity, AidKit):
+                        print("Healing...")
+                        self.restore_health(hit_info.entity.health_restore)
+                        destroy(hit_info.entity)
+                    if isinstance(hit_info.entity, Ammo):
+                        self.restore_rounds(5)
+                        destroy(hit_info.entity)
             except:
                 pass
 

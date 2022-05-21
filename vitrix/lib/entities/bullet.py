@@ -68,7 +68,7 @@ class Bullet(Entity):
         if hit_info.hit:
             if not self.slave:
                 for entity in hit_info.entities:
-                    if isinstance(entity, Enemy) or isinstance(entity, Zombie):
+                    if isinstance(entity, (Enemy, Zombie)):
                         entity.health -= self.damage
                         if not self.singleplayer:
                             self.network.send_health(entity)
