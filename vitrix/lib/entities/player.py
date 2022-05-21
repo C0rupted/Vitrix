@@ -8,6 +8,7 @@ from lib.entities.bullet import Bullet
 from lib.entities.crate import Crate
 from lib.entities.enemy import Zombie, Enemy
 from lib.UI.healthbar import HealthBar
+from lib.UI.crosshair import Crosshair
 from lib.weapons.hammer import Hammer
 from lib.weapons.pistol import Pistol
 from lib.weapons.sword import Sword
@@ -85,9 +86,7 @@ class Player(FirstPersonController):
 
         self.health = 150
         self.healthbar = HealthBar(self.health)
-        self.crosshair = Entity(model=os.path.join(GamePaths.models_dir, "cube.obj"),
-                                color=color.red, parent=camera.ui, scale=.008,
-                                rotation_z=45)
+        self.crosshair = Crosshair()
 
         self.rounds_left = 5
         self.paused = False
@@ -135,15 +134,19 @@ class Player(FirstPersonController):
             if self.gun.enabled:
                 self.gun.disable()
                 self.hammer.enable()
+                self.crosshair.set_melee()
             elif self.hammer.enabled:
                 self.hammer.disable()
                 self.sword.enable()
+                self.crosshair.set_melee()
             elif self.sword.enabled:
                 self.sword.disable()
                 self.axe.enable()
+                self.crosshair.set_melee()
             else:
                 self.axe.disable()
                 self.gun.enable()
+                self.crosshair.set_ranged()
 
         if key == "r" and self.gun.enabled:
             self.speed = 3
