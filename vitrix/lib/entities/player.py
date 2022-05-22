@@ -289,3 +289,17 @@ class Player(FirstPersonController):
                 self.death()
         else:
             super().update()
+
+        
+    def land(self):
+        i, x = 0, -1
+        while i <= self.air_time:
+            i += 0.18
+            x += 1
+
+        if x * 15 > 0:
+            self.health -= x * 10
+            self.healthbar.value = self.health
+
+        self.air_time = 0
+        self.grounded = True
