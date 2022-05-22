@@ -1,5 +1,5 @@
 """
-Server script for hosting games
+Server version:     v1.0.0
 """
 
 import os

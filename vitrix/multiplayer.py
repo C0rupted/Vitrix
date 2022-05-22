@@ -142,6 +142,7 @@ def receive():
             if info["joined"]:
                 new_enemy = Enemy(Vec3(*info["position"]), enemy_id, info["username"])
                 new_enemy.health = info["health"]
+                chat.list.append(f"{info['username']} joined the game")
                 enemies.append(new_enemy)
                 continue
 
@@ -158,6 +159,7 @@ def receive():
             if info["left"]:
                 enemies.remove(enemy)
                 destroy(enemy)
+                chat.list.append(f"{enemy.username} left the game")
                 continue
 
             enemy.world_position = Vec3(*info["position"])
