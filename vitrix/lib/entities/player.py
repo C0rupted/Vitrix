@@ -91,7 +91,7 @@ class Player(FirstPersonController):
         self.rounds_left = 5
         self.paused = False
         self.shots_left = 5
-        self.reach = 5
+        self.reach = 6
         self.death_message_shown = False
 
         self.lock = False
