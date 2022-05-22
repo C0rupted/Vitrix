@@ -15,7 +15,6 @@ from lib.weapons.sword import Sword
 from lib.weapons.battleaxe import BattleAxe
 from lib.items.aid_kit import AidKit
 from lib.items.ammo import Ammo
-from lib.paths import GamePaths
 # from lib.UI.inventory import inventory
 
 
@@ -103,8 +102,7 @@ class Player(FirstPersonController):
         self.reload_warning_text.disable()
 
     def reload(self):
-        global shots_left
-
+        self.speed = 3
         if self.rounds_left <= 0:
             self.speed = 7
             self.rounds_counter.text = "Rounds Left: 0"
@@ -149,7 +147,6 @@ class Player(FirstPersonController):
                 self.crosshair.set_ranged()
 
         if key == "r" and self.gun.enabled:
-            self.speed = 3
             threading.Thread(target=self.reload).start()
 
         # Inventory key access
@@ -233,7 +230,7 @@ class Player(FirstPersonController):
         self.rotation = 0
         self.camera_pivot.world_rotation_x = -45
         self.world_position = Vec3(0, 7, -35)
-        self.cursor.color = color.rgb(0, 0, 0, a=0)
+        self.cursor.disable()
 
         self.dead_text = Text(
             text="You are dead!",
@@ -259,6 +256,7 @@ class Player(FirstPersonController):
         self.camera_pivot.world_rotation_x = 0
         self.world_position = Vec3(0,3,0)
         self.exit_button.position = Vec2(0, 0)
+        self.cursor.enable()
         self.health = 150
         self.rounds_left = 5
         self.healthbar = HealthBar(self.health)

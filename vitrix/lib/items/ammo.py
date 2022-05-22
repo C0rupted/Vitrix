@@ -8,7 +8,7 @@ class Ammo(Entity):
             model=os.path.join(GamePaths.models_dir, "ammo.obj"),
             texture=os.path.join(GamePaths.textures_dir, "ammo.png"),
             position=position,
-            scale=0.4,
+            scale=.4,
         )
 
         self.collider = MeshCollider(self)

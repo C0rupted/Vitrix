@@ -9,13 +9,13 @@ class HealthBar(Entity):
         cube = os.path.join(GamePaths.models_dir, "cube.obj")
         super().__init__(
             parent = camera.ui,
-            position = Vec2(-0.62, -0.43),
-            scale = (Vec2(0.835, 0.25) / 2),
+            position = Vec2(-.62, -.43),
+            scale = Vec2(.4175, .125),
             rotation=Vec3(0, 0, 180),
             model = cube,
         )
 
-        self.icon = Entity(parent=camera.ui, model=cube, position=Vec2(-0.81, -0.43),
+        self.icon = Entity(parent=camera.ui, model=cube, position=Vec2(-.81, -.43),
                            texture=os.path.join(GamePaths.textures_dir, "heart.png"),
                            scale=0.1, shader=None)
         
@@ -43,18 +43,4 @@ class HealthBar(Entity):
         
     def update(self):
         self.update_texture(self.value)
-        
 
-
-if __name__ == '__main__':
-    app = Ursina()
-
-    health_bar = HealthBar(150)
-
-    def input(key):
-        if key == 'e' or key == 'e hold':
-            health_bar.set_health(health_bar.health + 10)
-        if key == 'q' or key == 'q hold':
-            health_bar.set_health(health_bar.health - 10)
-
-    app.run()

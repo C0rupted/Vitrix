@@ -16,11 +16,10 @@ from lib.UI.inventory import *
 
 window.borderless = False
 window.exit_button.visible = False
+window.fullscreen = True
 
-paused = False
 window.title = "Vitrix - Singleplayer"
 Entity.default_shader = basic_lighting_shader
-window.fullscreen = True
 
 map = Map()
 sky = Entity(

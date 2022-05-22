@@ -11,7 +11,7 @@ class Crate(Entity):
         super().__init__(
             position=position,
             scale=1.5,
-            origin_y=-0.5,
+            origin_y=-.5,
             model=os.path.join(GamePaths.models_dir, "cube.obj"),
             texture=os.path.join(GamePaths.textures_dir, "crate.png"),
         )

@@ -62,7 +62,6 @@ class Bullet(Entity):
 
     def update(self):
         self.position += self.velocity * time.dt
-        # self.rotation_z+=6
         hit_info = self.intersects()
 
         if hit_info.hit:

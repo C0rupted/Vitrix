@@ -1,7 +1,7 @@
 import os
-from vitrix_engine import *
 import platform
 import threading
+from vitrix_engine import *
 
 
 def buildexec(modulename,dir_path):
@@ -24,7 +24,7 @@ def start_multiplayer():
         if platform.system() == "Windows":
             os.system("multiplayer.bat")
     else:
-        buildexec("mp",dir_path)
+        buildexec("mp", dir_path)
     os._exit(0)
 
 def start_singleplayer():
@@ -35,7 +35,7 @@ def start_singleplayer():
         if platform.system() == "Windows":
             os.system("singleplayer.bat")
     else:
-        buildexec("sp",dir_path)
+        buildexec("sp", dir_path)
     os._exit(0)
 
 
@@ -50,14 +50,18 @@ class LoadingWheel(Entity):
     def __init__(self, **kwargs):
         super().__init__()
         self.parent = camera.ui
-        self.point = Entity(parent=self, model=Circle(24, mode='point', thickness=.03), color=color.light_gray, y=.75, scale=2, texture='circle')
-        self.point2 = Entity(parent=self, model=Circle(12, mode='point', thickness=.03), color=color.light_gray, y=.75, scale=1, texture='circle')
+        self.point = Entity(parent=self, model=Circle(24, mode='point', thickness=.03), 
+                            color=color.light_gray, y=.75, scale=2, texture='circle')
+        self.point2 = Entity(parent=self, model=Circle(12, mode='point', thickness=.03),
+                             color=color.light_gray, y=.75, scale=1, texture='circle')
 
         self.scale = .025
-        self.text_entity = Text(world_parent=self, text='loading...', origin=(0,1.5), color=color.light_gray)
+        self.text_entity = Text(world_parent=self, text='loading...', origin=(0,1.5), 
+                                color=color.light_gray)
         self.y = -.25
 
-        self.bg = Entity(parent=self, model='quad', scale_x=camera.aspect_ratio, color=color.black, z=1)
+        self.bg = Entity(parent=self, model='quad', scale_x=camera.aspect_ratio,
+                         color=color.black, z=1)
         self.bg.scale *= 400
 
         for key, value in kwargs.items():
@@ -151,7 +155,7 @@ def load_menu():
         menu.on_enable = animate_in_menu
 
 
-    background = Entity(model="quad", texture='background', parent=camera.ui, 
+    background = Entity(model="cube", texture='background', parent=camera.ui, 
                         scale=(camera.aspect_ratio), color=color.white, z=1)
 
 
@@ -164,7 +168,6 @@ def load_menu():
 
 app = Ursina()
 loading_screen = LoadingWheel(enabled=False)
-window.show_ursina_splash = False
 window.exit_button.visible = False
 window.title = "Vitrix Menu"
 window.borderless = False

@@ -1,15 +1,14 @@
 import os
 from tkinter import *
-from pathlib import Path
+from lib.paths import GamePaths
 from lib.UI.notification import notify
 
 
 root = Tk()
 root.title("Vitrix - Join a multiplayer server")
 
-path = Path(os.path.dirname(os.path.realpath(__file__))).parent
 try:
-    root.iconbitmap(os.path.join(path, "assets", "logo.ico"))
+    root.iconbitmap(os.path.join(GamePaths.static_dir, "logo.ico"))
 except:
     pass
 
@@ -69,7 +68,6 @@ L3 = Label(root, text="Port:")
 L3.place(anchor = CENTER, relx = .10, rely = .5)
 E3 = Entry(root, bd = 5)
 E3.place(anchor = CENTER, relx = .5, rely = .5)
-
 
 submit = Button(root, text="Join", width=10, command=submit)
 submit.place(anchor = CENTER, relx = .5, rely = .8)

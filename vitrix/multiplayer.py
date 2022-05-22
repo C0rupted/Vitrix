@@ -1,14 +1,13 @@
 import os
 import sys
 import socket
+from lib.UI.notification import notify
 
 try:    # Check the internet connection before starting.
     socket.socket(socket.AF_INET, socket.SOCK_STREAM).connect(("8.8.8.8", 53))
     
     print("Internet connection detected!")
 except:
-    from lib.UI.notification import notify
-
     notify("Vitrix - Internet connection error", """Sorry, Vitrix couldn't connect 
     to the internet. Check your 
     internet connection and try 
@@ -20,7 +19,6 @@ import threading
 from vitrix_engine import *
 from vitrix_engine.shaders.basic_lighting_shader import basic_lighting_shader
 
-from lib.UI.notification import notify
 from lib.UI.chat import Chat
 from lib.classes.network import Network
 from lib.entities.map import Map
@@ -28,9 +26,7 @@ from lib.entities.player import Player
 from lib.entities.enemy import Enemy
 from lib.entities.bullet import Bullet
 
-from os.path import isfile
-
-if isfile("ib.cfg"):
+if os.path.isfile("ib.cfg"):
     if open("ib.cfg", "r").read() == "1":
         print("You can't play multiplayer.")
         print("Reason: Cheats")
@@ -39,7 +35,7 @@ if isfile("ib.cfg"):
 else:
     pass
 
-import lib.UI.server_chooser as server_chooser
+import lib.UI.server_chooser
 from lib.classes.anticheat import *
 
 try:

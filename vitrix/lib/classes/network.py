@@ -7,15 +7,6 @@ from lib.entities.bullet import Bullet
 
 
 class Network:
-    """
-    A client class to abstract away socket functions and make communication with server less of a headache.
-
-    Args:
-        server_addr (str): IPv4 address of the server
-        server_port (int): Port at which server is running
-        username (str): Username of this client's player
-    """
-
     def __init__(self, server_addr: str, server_port: int, username: str):
         self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.addr = server_addr

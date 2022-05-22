@@ -8,7 +8,7 @@ class Enemy(Entity):
         super().__init__(
             position=position,
             model="cube",
-            origin_y=-0.5,
+            origin_y=-.5,
             collider="box",
             texture="white_cube",
             color=color.color(0, 0, 1),
@@ -17,11 +17,11 @@ class Enemy(Entity):
         )
         self.gun = Entity(
             parent=self,
-            position=Vec3(0.55, 0.5, 0.6),
-            scale=Vec3(0.1, 0.2, 0.65),
+            position=Vec3(.55, .5, .6),
+            scale=Vec3(.1, .2, .65),
             model="cube",
             texture="white_cube",
-            color=color.color(0, 0, 0.4)
+            color=color.color(0, 0, .4)
         )
 
         self.name_tag = Text(
@@ -51,7 +51,7 @@ class Zombie(Entity):
         super().__init__(
             position=position,
             model="cube",
-            origin_y=-0.5,
+            origin_y=-.5,
             collider="box",
             texture="white_cube",
             color=color.color(0, 0, 1),
@@ -60,7 +60,7 @@ class Zombie(Entity):
 
         self.growl = Audio("zombie_growl")
         self.growl.loop = True
-        self.growl.volume = 0.5
+        self.growl.volume = .5
         self.growl.play()
 
         self.name_tag = Text(

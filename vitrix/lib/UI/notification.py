@@ -1,6 +1,6 @@
 import os
 import tkinter as tk
-from pathlib import Path
+from lib.paths import GamePaths
 
 def on_closing():
     os._exit(0)
@@ -8,9 +8,8 @@ def on_closing():
 def notify(title: str, msg: str,):
     popup = tk.Tk()
     popup.title(title)
-    path = Path(os.path.dirname(os.path.realpath(__file__))).parent
     try:
-        popup.iconbitmap(os.path.join(path, "assets", "logo.ico"))
+        popup.iconbitmap(os.path.join(GamePaths.static_dir, "logo.ico"))
     except:
         pass
     label = tk.Label(popup, text=msg)
