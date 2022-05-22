@@ -2,6 +2,7 @@ import os
 import sys
 import socket
 from lib.UI.notification import notify
+from lib.paths import GamePaths
 
 try:    # Check the internet connection before starting.
     socket.socket(socket.AF_INET, socket.SOCK_STREAM).connect(("8.8.8.8", 53))
@@ -85,17 +86,19 @@ while True:
         break
 
 
+window.title = "Vitrix - Multiplayer"
+window.icon = os.path.join(GamePaths.static_dir, "logo.ico")
+
 app = Ursina()
 window.borderless = False
-window.title = "Vitrix - Multiplayer"
 window.exit_button.visible = False
 window.fullscreen = True
 
 
 map = Map()
 sky = Entity(
-    model=os.path.join("assets", "models", "sphere.obj"),
-    texture=os.path.join("assets", "textures", "sky.png"),
+    model=os.path.join(GamePaths.models_dir, "sphere.obj"),
+    texture=os.path.join(GamePaths.textures_dir, "sky.png"),
     scale=9999,
     double_sided=True
 )

@@ -8,7 +8,11 @@ from lib.entities.enemy import Zombie
 from lib.items.aid_kit import AidKit
 from lib.items.ammo import Ammo
 
+from lib.paths import GamePaths
 from vitrix_engine.shaders.basic_lighting_shader import basic_lighting_shader
+
+window.title = "Vitrix - Singleplayer"
+window.icon = os.path.join(GamePaths.static_dir, "logo.ico")
 
 app = Ursina()
 # The inventory needs to load after ursina app()
@@ -18,7 +22,6 @@ window.borderless = False
 window.exit_button.visible = False
 window.fullscreen = True
 
-window.title = "Vitrix - Singleplayer"
 Entity.default_shader = basic_lighting_shader
 
 map = Map()
