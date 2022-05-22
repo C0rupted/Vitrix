@@ -20,6 +20,8 @@ import threading
 from vitrix_engine import *
 from vitrix_engine.shaders.basic_lighting_shader import basic_lighting_shader
 
+from lib.classes.settings import get_fov
+
 from lib.UI.chat import Chat
 from lib.classes.network import Network
 from lib.entities.map import Map
@@ -93,7 +95,7 @@ app = Ursina()
 window.borderless = False
 window.exit_button.visible = False
 window.fullscreen = True
-
+camera.fov = get_fov()
 
 map = Map()
 sky = Entity(

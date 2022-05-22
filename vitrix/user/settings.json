@@ -11,6 +11,6 @@
         "icon": "icon.png"
     },
     "gameplay_settings": {
-        "fov": "80"
+        "fov": "85"
     }
-} // End
+}
