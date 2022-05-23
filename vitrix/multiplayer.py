@@ -104,8 +104,6 @@ sky = Entity(
     scale=9999,
     double_sided=True
 )
-
-Text.default_font = os.path.join(GamePaths.static_dir, "font.ttf")
 Entity.default_shader = basic_lighting_shader
 
 player = Player(Vec3(0, 1, 0), n)
@@ -232,12 +230,14 @@ def input(key):
             player.pause_text.disable()
             player.exit_button.disable()
             fullscreen_button.disable()
+            player.crosshair.enable()
             player.paused = True
             player.on_enable()
         else:
             player.pause_text.enable()
             player.exit_button.enable()
             fullscreen_button.enable()
+            player.crosshair.disable()
             player.paused = False
             player.on_disable()
 

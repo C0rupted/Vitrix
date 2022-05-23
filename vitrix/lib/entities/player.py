@@ -79,9 +79,24 @@ class Player(FirstPersonController):
                         scale=2.5
                     )
 
+        self.dead_text = Text(
+                        text="You are dead!",
+                        origin=Vec2(0, 0),
+                        position=Vec2(0, .2),
+                        scale=3
+                    )
+
+        self.respawn_button = Button(
+                        text = "Respawn",
+                        scale=0.15,
+                        on_click=Func(self.respawn)
+        )
+
         self.pause_text.disable()
         self.reload_warning_text.disable()
         self.exit_button.disable()
+        self.dead_text.disable()
+        self.respawn_button.disable()
 
         self.health = 150
         self.healthbar = HealthBar(self.health)
@@ -230,33 +245,23 @@ class Player(FirstPersonController):
         self.rotation = 0
         self.camera_pivot.world_rotation_x = -45
         self.world_position = Vec3(0, 7, -35)
-        self.cursor.disable()
+        self.crosshair.disable()
 
-        self.dead_text = Text(
-            text="You are dead!",
-            color=color.rgb(0, 0, 0, 255),
-            origin=Vec2(0, 0),
-            position=Vec2(0, .2),
-            scale=3
-        )
-
-        self.respawn_button = Button(
-            text = "Respawn",
-            scale=0.15,
-            on_click=Sequence(Wait(.01), Func(self.respawn))
-        )
+        self.dead_text.enable()
+        self.respawn_button.enable()
 
         self.exit_button.position = Vec2(0, -.2)
+        self.exit_button.enable()
 
     def respawn(self):
         self.death_message_shown = False
         self.on_enable()
         self.gun = Pistol()
-        self.rotation = Vec3(0,0,0)
+        self.rotation = Vec3(0, 0, 0)
         self.camera_pivot.world_rotation_x = 0
-        self.world_position = Vec3(0,3,0)
+        self.world_position = Vec3(0, 3, 0)
         self.exit_button.position = Vec2(0, 0)
-        self.cursor.enable()
+        self.crosshair.enable()
         self.health = 150
         self.rounds_left = 5
         self.healthbar = HealthBar(self.health)

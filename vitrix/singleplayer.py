@@ -84,12 +84,14 @@ def input(key):
             player.pause_text.disable()
             player.exit_button.disable()
             fullscreen_button.disable()
+            player.crosshair.enable()
             player.paused = True
             player.on_enable()
         else:
             player.pause_text.enable()
             player.exit_button.enable()
             fullscreen_button.enable()
+            player.crosshair.disable()
             player.paused = False
             player.on_disable()
     
