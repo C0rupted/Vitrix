@@ -104,6 +104,8 @@ sky = Entity(
     scale=9999,
     double_sided=True
 )
+
+Text.default_font = os.path.join(GamePaths.static_dir, "font.ttf")
 Entity.default_shader = basic_lighting_shader
 
 player = Player(Vec3(0, 1, 0), n)

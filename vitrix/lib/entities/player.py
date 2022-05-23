@@ -76,7 +76,7 @@ class Player(FirstPersonController):
         self.rounds_counter = Text(
                         text="Rounds Left: 5",
                         position=Vec2(.5, .47),
-                        scale=2
+                        scale=2.5
                     )
 
         self.pause_text.disable()

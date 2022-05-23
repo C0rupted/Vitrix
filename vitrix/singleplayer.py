@@ -24,6 +24,7 @@ window.exit_button.visible = False
 window.fullscreen = True
 camera.fov = get_fov()
 
+Text.default_font = os.path.join(GamePaths.static_dir, "font.ttf")
 Entity.default_shader = basic_lighting_shader
 
 map = Map()
