@@ -1,7 +1,7 @@
 import json, os.path
 
 
-if os.path.realpath(__file__).split(os.path.sep)[-2] == 'vitrix':
+if os.getcwd().split(os.path.sep)[-1] == 'vitrix':
     settings_file = open("user/settings.json", "r")
 else:
     settings_file = open("vitrix/user/settings.json", "r")
