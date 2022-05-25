@@ -1,4 +1,5 @@
 import json, os.path
+from tkinter import S
 
 
 if os.getcwd().split(os.path.sep)[-1] == 'vitrix':
@@ -33,3 +34,21 @@ def set_fov(fov: int):
 
 def get_fov():
     return int(sread('gameplay_settings', 'fov'))
+
+#####Multiplayer Settings#####
+
+def get_icon():
+    return sread("multiplayer", "icon")
+
+def get_username():
+    return sread("multiplayer", "username")
+
+def get_window_height():
+    return sread("game_settings", "window_height")
+
+def get_window_width():
+    return sread("game_settings", "window_width")
+
+def get_shadows():
+    s = sread("gameplay_settings", "shadows")
+    return s

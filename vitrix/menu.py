@@ -175,8 +175,8 @@ loading_screen = LoadingWheel(enabled=False)
 window.exit_button.visible = False
 window.title = "Vitrix Menu"
 window.borderless = False
-default_width = 600  # would be migrated to settings.json
-default_height = 600
+default_width = settings.get_window_width()
+default_height = settings.get_window_height()
 window.size = (default_width, default_height)
 window.fullscreen = False
 
