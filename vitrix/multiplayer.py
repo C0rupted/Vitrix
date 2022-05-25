@@ -20,7 +20,7 @@ import threading
 from vitrix_engine import *
 from vitrix_engine.shaders.basic_lighting_shader import basic_lighting_shader
 
-from lib.classes.settings import get_fov
+from lib.classes.settings import get_fov, get_window_width, get_window_height, get_icon, get_username
 
 from lib.UI.chat import Chat
 from lib.classes.network import Network
@@ -44,12 +44,13 @@ from lib.classes.anticheat import *
 try:
     with open("data.txt", "r") as file:
         lines =  file.readlines()
-        username = lines[0].strip()
-        server_addr = lines[1].strip()
-        server_port = lines[2].strip()
+        username = get_username()
+        server_addr = lines[0].strip()
+        server_port = lines[1].strip()
 except FileNotFoundError:
     sys.exit(1)
 
+icon = get_icon()
 
 while True:
     print(username, " ", server_addr, " ", server_port)
@@ -94,6 +95,9 @@ window.icon = os.path.join(GamePaths.static_dir, "logo.ico")
 app = Ursina()
 window.borderless = False
 window.exit_button.visible = False
+default_width = get_window_width()
+default_height = get_window_height()
+window.size = (default_width, default_height)
 window.fullscreen = True
 camera.fov = get_fov()
 
