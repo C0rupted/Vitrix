@@ -1,29 +1,41 @@
 import os
 import platform
 import threading
-from ursina import *
+from vitrix_engine import *
+import lib.classes.settings as settings
+
+def buildexec(modulename,dir_path):
+    try:
+        if modulename == "mp":
+            os.system("python " + dir_path + "/multiplayer.py")
+        elif modulename =="sp":
+            os.system("python " + dir_path + "/singleplayer.py")
+        else:
+            pass
+    except:
+        pass # throws error: something wrong with os.system or the path
 
 
 def start_multiplayer():
     app.destroy()
-    if built == False:
-        os.system("python " + dir_path + "/multiplayer.py")
-    if built == True:
+    if built:
         if platform.system() == "Linux":
             os.system("sh multiplayer.sh")
         if platform.system() == "Windows":
             os.system("multiplayer.bat")
+    else:
+        buildexec("mp", dir_path)
     os._exit(0)
 
 def start_singleplayer():
     app.destroy()
-    if built == False:
-        os.system("python " + dir_path + "/singleplayer.py")
-    if built == True:
+    if built:
         if platform.system() == "Linux":
             os.system("sh singleplayer.sh")
         if platform.system() == "Windows":
             os.system("singleplayer.bat")
+    else:
+        buildexec("sp", dir_path)
     os._exit(0)
 
 
@@ -38,14 +50,18 @@ class LoadingWheel(Entity):
     def __init__(self, **kwargs):
         super().__init__()
         self.parent = camera.ui
-        self.point = Entity(parent=self, model=Circle(24, mode='point', thickness=.03), color=color.light_gray, y=.75, scale=2, texture='circle')
-        self.point2 = Entity(parent=self, model=Circle(12, mode='point', thickness=.03), color=color.light_gray, y=.75, scale=1, texture='circle')
+        self.point = Entity(parent=self, model=Circle(24, mode='point', thickness=.03),
+                            color=color.light_gray, y=.75, scale=2, texture='circle')
+        self.point2 = Entity(parent=self, model=Circle(12, mode='point', thickness=.03),
+                             color=color.light_gray, y=.75, scale=1, texture='circle')
 
         self.scale = .025
-        self.text_entity = Text(world_parent=self, text='loading...', origin=(0,1.5), color=color.light_gray)
+        self.text_entity = Text(world_parent=self, text='Loading...', origin=(0,1.5),
+                                color=color.light_gray)
         self.y = -.25
 
-        self.bg = Entity(parent=self, model='quad', scale_x=camera.aspect_ratio, color=color.black, z=1)
+        self.bg = Entity(parent=self, model='quad', scale_x=camera.aspect_ratio,
+                         color=color.black, z=1)
         self.bg.scale *= 400
 
         for key, value in kwargs.items():
@@ -90,39 +106,38 @@ def load_menu():
         e.parent = main_menu
         e.y = (-i-2) * button_spacing
         e.enabled = False
-    
 
-    singleplayer_btn = MenuButton(parent=load_menu, text="Singleplayer", 
+    singleplayer_btn = MenuButton(parent=load_menu, text="Singleplayer",
                                   on_click=Func(start_singleplayer), y=(i*button_spacing))
-    
-    multiplayer_btn = MenuButton(parent=load_menu, text="Multiplayer", 
+
+    multiplayer_btn = MenuButton(parent=load_menu, text="Multiplayer",
                                   on_click=Func(start_multiplayer), y=((i-1)*button_spacing))
 
-    load_menu.back_button = MenuButton(parent=load_menu, text='back', 
-                                       y=((-i-2)*button_spacing), 
-                                    on_click=Func(setattr, state_handler, 
+    load_menu.back_button = MenuButton(parent=load_menu, text='back',
+                                       y=((-i-2)*button_spacing),
+                                    on_click=Func(setattr, state_handler,
                                                   'state', 'main_menu'))
 
 
-    review_text = Text(parent=options_menu, x=.275, y=.25, text='Preview text', 
+    preview_text = Text(parent=options_menu, x=.275, y=.25, text='Preview text',
                        origin=(-.5,0))
     for t in [e for e in scene.entities if isinstance(e, Text)]:
         t.original_scale = t.scale
 
-    text_scale_slider = Slider(0, 2, default=1, step=.1, dynamic=True, text='Text Size:', 
-                            parent=options_menu, x=-.25)
-    def set_text_scale():
-        for t in [e for e in scene.entities if isinstance(e, Text) and hasattr(e, 'original_scale')]:
-            t.scale = t.original_scale * text_scale_slider.value
-    text_scale_slider.on_value_changed = set_text_scale
+    fov_slider = Slider(20, 130, default=settings.get_fov(), step=1 , dynamic=True, 
+                        text='FOV:', parent=options_menu)
+
+    def set_fov():
+        settings.set_fov(fov_slider.value)
+
+    fov_slider.on_value_changed = set_fov
 
 
-    options_back = MenuButton(parent=options_menu, text='Back', x=-.25, origin_x=-.5, 
+    options_back = MenuButton(parent=options_menu, text='Back', x=-.25, origin_x=-.5,
                             on_click=Func(setattr, state_handler, 'state', 'main_menu'))
 
-    for i, e in enumerate((text_scale_slider, options_back)):
+    for i, e in enumerate((fov_slider, options_back)):
         e.y = -i * button_spacing
-
 
 
     for menu in (main_menu, load_menu, options_menu):
@@ -130,11 +145,11 @@ def load_menu():
             for i, e in enumerate(menu.children):
                 e.original_x = e.x
                 e.x += .1
-                e.animate_x(e.original_x, delay=i*.05, duration=.1, 
+                e.animate_x(e.original_x, delay=i*.05, duration=.1,
                             curve=curve.out_quad) # type: ignore
 
                 e.alpha = 0
-                e.animate('alpha', .7, delay=i*.05, duration=.1, 
+                e.animate('alpha', .7, delay=i*.05, duration=.1,
                         curve=curve.out_quad) # type: ignore
 
                 if hasattr(e, 'text_entity'):
@@ -144,7 +159,7 @@ def load_menu():
         menu.on_enable = animate_in_menu
 
 
-    background = Entity(model='quad', texture='background', parent=camera.ui, 
+    background = Entity(model="cube", texture='background', parent=camera.ui,
                         scale=(camera.aspect_ratio), color=color.white, z=1)
 
 
@@ -157,18 +172,16 @@ def load_menu():
 
 app = Ursina()
 loading_screen = LoadingWheel(enabled=False)
-window.show_ursina_splash = False
 window.exit_button.visible = False
-window.title = "Vitrix"
+window.title = "Vitrix Menu"
 window.borderless = False
-window.size = (600, 600)
-
+default_width = 600  # would be migrated to settings.json
+default_height = 600
+window.size = (default_width, default_height)
+window.fullscreen = False
 
 loading_screen.enabled = True
-try:
-    threading.Thread(target=load_menu).start()
-except:
-    print('error starting thread', e)
+threading.Thread(target=load_menu).start()
 
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -178,5 +191,5 @@ else:
     built = True
 
 
-
-app.run()
+if __name__ == "__main__":
+    app.run(info=False)

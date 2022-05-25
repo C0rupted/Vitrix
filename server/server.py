@@ -1,13 +1,19 @@
 """
-Server script for hosting games
+Server version:     v1.0.0
 """
 
+import os
+import sys
 import socket
 import json
 import time
 import random
 import threading
 
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from vitrix.lib.classes.anticheat import *
+#from vitrix.lib.player import Player
 
 ADDR = "0.0.0.0"
 PORT = 26822
@@ -108,7 +114,7 @@ def main():
         new_id = generate_id(players, MAX_PLAYERS)
         conn.send(new_id.encode("utf8"))
         username = conn.recv(MSG_SIZE).decode("utf8")
-        new_player_info = {"socket": conn, "username": username, "position": (0, 1, 0), "rotation": 0, "health": 100}
+        new_player_info = {"socket": conn, "username": username, "position": (0, 1, 0), "rotation": 0, "health": 150}
 
 
         for player_id in players:
@@ -151,6 +157,9 @@ def main():
         msg_thread.start()
 
         print(f"New connection from {addr}, assigned ID: {new_id}...")
+
+        #check_speed(Player.speed)
+        #check_jump_height(Player.jump_height, 2.5)
 
 
 if __name__ == "__main__":

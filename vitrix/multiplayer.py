@@ -1,19 +1,45 @@
 import os
 import sys
 import socket
+from lib.UI.notification import notify
+from lib.paths import GamePaths
+
+try:    # Check the internet connection before starting.
+    socket.socket(socket.AF_INET, socket.SOCK_STREAM).connect(("8.8.8.8", 53))
+
+    print("Internet connection detected!")
+except:
+    notify("Vitrix - Internet connection error", """Sorry, Vitrix couldn't connect
+    to the internet. Check your
+    internet connection and try
+    again later.""")
+
+    os._exit(1)
+
 import threading
-import ursina
+from vitrix_engine import *
+from vitrix_engine.shaders.basic_lighting_shader import basic_lighting_shader
 
-from lib.notification import notify
-from lib.network import Network
-from lib.floor import Floor
-from lib.map import Map
-from lib.player import Player
-from lib.enemy import Enemy
-from lib.bullet import Bullet
+from lib.classes.settings import get_fov
 
+from lib.UI.chat import Chat
+from lib.classes.network import Network
+from lib.entities.map import Map
+from lib.entities.player import Player
+from lib.entities.enemy import Enemy
+from lib.entities.bullet import Bullet
 
-import lib.server_chooser as server_chooser
+if os.path.isfile("ib.cfg"):
+    if open("ib.cfg", "r").read() == "1":
+        print("You can't play multiplayer.")
+        print("Reason: Cheats")
+        notify("You can't play multiplayer.", "You have been banned\nReason: Cheats")
+        sys.exit(1)
+else:
+    pass
+
+import lib.UI.server_chooser
+from lib.classes.anticheat import *
 
 try:
     with open("data.txt", "r") as file:
@@ -22,7 +48,7 @@ try:
         server_addr = lines[1].strip()
         server_port = lines[2].strip()
 except FileNotFoundError:
-    exit()
+    sys.exit(1)
 
 
 while True:
@@ -41,54 +67,66 @@ while True:
     try:
         n.connect()
     except ConnectionRefusedError:
-        notify("Vitrix Error", 
+        notify("Vitrix Error",
                  "Connection refused! This can be because server hasn't started or has reached it's player limit.")
         error_occurred = True
     except socket.timeout:
-        notify("Vitrix Error", 
+        notify("Vitrix Error",
                  "Server took too long to respond, please try again later...")
         error_occurred = True
     except socket.gaierror:
-        notify("Vitrix Error", 
+        notify("Vitrix Error",
                  "The IP address you entered is invalid, please try again with a valid address...")
         error_occurred = True
     finally:
         n.settimeout(None)
 
     if error_occurred:
-        exit()
-    
+        sys.exit(1)
+
     if not error_occurred:
         break
 
 
-app = ursina.Ursina()
-ursina.window.borderless = False
-ursina.window.title = "Vitrix"
-ursina.window.exit_button.visible = False
+window.title = "Vitrix - Multiplayer"
+window.icon = os.path.join(GamePaths.static_dir, "logo.ico")
 
+app = Ursina()
+window.borderless = False
+window.exit_button.visible = False
+window.fullscreen = True
+camera.fov = get_fov()
 
-floor = Floor()
 map = Map()
-sky = ursina.Entity(
-    model="sphere",
-    texture=os.path.join("assets", "sky.png"),
+sky = Entity(
+    model=os.path.join(GamePaths.models_dir, "sphere.obj"),
+    texture=os.path.join(GamePaths.textures_dir, "sky.png"),
     scale=9999,
     double_sided=True
 )
-player = Player(ursina.Vec3(0, 1, 0))
+Entity.default_shader = basic_lighting_shader
 
-lock = True
+player = Player(Vec3(0, 1, 0), n)
+chat = Chat(n, username)
+
+def toggle_fullscreen():
+    if window.fullscreen:
+        window.fullscreen = False
+    else:
+        window.fullscreen = True
+
+fullscreen_button = Button(
+            text="Toggle Fullscreen",
+            position=Vec2(.2, 0),
+            scale=0.15,
+            enabled=False,
+            on_click=Func(toggle_fullscreen)
+        )
+fullscreen_button.fit_to_text()
+
 prev_pos = player.world_position
 prev_dir = player.world_rotation_y
 enemies = []
-
-pause_text = ursina.Text(
-                text="Paused",
-                enabled=False,
-                origin=ursina.Vec2(0, 0),
-                scale=3
-            )
 
 
 def receive():
@@ -107,8 +145,9 @@ def receive():
             enemy_id = info["id"]
 
             if info["joined"]:
-                new_enemy = Enemy(ursina.Vec3(*info["position"]), enemy_id, info["username"])
+                new_enemy = Enemy(Vec3(*info["position"]), enemy_id, info["username"])
                 new_enemy.health = info["health"]
+                chat.list.append(f"{info['username']} joined the game")
                 enemies.append(new_enemy)
                 continue
 
@@ -124,19 +163,20 @@ def receive():
 
             if info["left"]:
                 enemies.remove(enemy)
-                ursina.destroy(enemy)
+                destroy(enemy)
+                chat.list.append(f"{enemy.username} left the game")
                 continue
 
-            enemy.world_position = ursina.Vec3(*info["position"])
+            enemy.world_position = Vec3(*info["position"])
             enemy.rotation_y = info["rotation"]
 
         elif info["object"] == "bullet":
-            b_pos = ursina.Vec3(*info["position"])
+            b_pos = Vec3(*info["position"])
             b_dir = info["direction"]
             b_x_dir = info["x_direction"]
             b_damage = info["damage"]
             new_bullet = Bullet(b_pos, b_dir, b_x_dir, n, b_damage, slave=True)
-            ursina.destroy(new_bullet, delay=2)
+            destroy(new_bullet, delay=2)
 
         elif info["object"] == "health_update":
             enemy_id = info["id"]
@@ -155,6 +195,10 @@ def receive():
                 continue
 
             enemy.health = info["health"]
+            if isinstance(enemy, Player):
+                enemy.healthbar.value = enemy.health
+        elif info["object"] == "chat_message":
+            chat.list.append(info["message"])
 
 
 def update():
@@ -167,38 +211,43 @@ def update():
         prev_pos = player.world_position
         prev_dir = player.world_rotation_y
 
+        check_speed(player.speed)
+        check_jump_height(player.jump_height, 2.5)
+        check_health(player.health)
+
 
 def input(key):
-    global lock
-    global pause_text
-
-    if key == "tab":
-        if lock == False:
-            pause_text.enabled = False
-            lock = True
+    if key == "t" and not fullscreen_button.enabled:
+        if chat.enabled:
             player.on_enable()
+            chat.disable()
         else:
-            pause_text.enabled = True
-            lock = False
+            chat.enable()
             player.on_disable()
 
-    if key == "left mouse down" and player.health > 0:
-        if not player.gun.on_cooldown:
-            player.gun.on_cooldown = True
-            b_pos = player.position + ursina.Vec3(0, 2, 0)
-            ursina.Audio("pew").play()
-            bullet = Bullet(b_pos, player.world_rotation_y, -player.camera_pivot.world_rotation_x, n)
-            n.send_bullet(bullet)
-            ursina.destroy(bullet, delay=2)
-            ursina.invoke(setattr, player.gun, 'on_cooldown', False, delay=.50)
+    if key == ("tab" or "escape") and not chat.enabled:
+        if not player.paused:
+            player.pause_text.disable()
+            player.exit_button.disable()
+            fullscreen_button.disable()
+            player.crosshair.enable()
+            player.paused = True
+            player.on_enable()
+        else:
+            player.pause_text.enable()
+            player.exit_button.enable()
+            fullscreen_button.enable()
+            player.crosshair.disable()
+            player.paused = False
+            player.on_disable()
 
 
 def main():
     msg_thread = threading.Thread(target=receive, daemon=True)
     msg_thread.start()
-    app.run()
+    app.run(info=False)
 
 
 
 if __name__ == "__main__":
-    main()  
+    main()

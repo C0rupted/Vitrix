@@ -1,69 +1,107 @@
 import os
-import ursina
+from vitrix_engine import *
 
-from lib.floor import Floor
-from lib.map import Map
-from lib.player import Player
-from lib.enemy import Zombie
-from lib.bullet import Bullet
+from lib.entities.map import Map
+from lib.entities.player import Player
+from lib.entities.enemy import Zombie
 
+from lib.items.aid_kit import AidKit
+from lib.items.ammo import Ammo
 
+from lib.paths import GamePaths
+from vitrix_engine.shaders.basic_lighting_shader import basic_lighting_shader
+from lib.classes.settings import get_fov
 
-app = ursina.Ursina()
-ursina.window.borderless = False
-ursina.window.title = "Vitrix"
-ursina.window.exit_button.visible = False
+window.title = "Vitrix - Singleplayer"
+window.icon = os.path.join(GamePaths.static_dir, "logo.ico")
 
+app = Ursina()
+# The inventory needs to load after ursina app()
+#from lib.UI.inventory import *
 
-floor = Floor()
+window.borderless = False
+window.exit_button.visible = False
+window.fullscreen = True
+camera.fov = get_fov()
+
+Text.default_font = os.path.join(GamePaths.static_dir, "font.ttf")
+Entity.default_shader = basic_lighting_shader
+
 map = Map()
-sky = ursina.Entity(
-    model="sphere",
-    texture=os.path.join("assets", "sky.png"),
+sky = Entity(
+    model=os.path.join("assets", "models", "sphere.obj"),
+    texture=os.path.join("assets", "textures", "sky.png"),
     scale=9999,
     double_sided=True
 )
-player = Player(ursina.Vec3(0, 1, 0))
 
-lock = True
-quit = False
+def toggle_fullscreen():
+    if window.fullscreen:
+        window.fullscreen = False
+    else:
+        window.fullscreen = True
+
+fullscreen_button = Button(
+            text="Toggle Fullscreen",
+            position=Vec2(.2, 0),
+            scale=0.15,
+            enabled=False,
+            on_click=Func(toggle_fullscreen)
+        )
+fullscreen_button.fit_to_text()
+
+
+player = Player(Vec3(0, 1, 0))
+aid_kit = AidKit(Vec3(10, 1.4, 3))
+ammo = Ammo(Vec3(15, 1, 3))
+
 enemies = []
 
-pause_text = ursina.Text(
-                text="Paused",
-                enabled=False,
-                origin=ursina.Vec2(0, 0),
-                scale=3)
 
+#controls_dict={
+#    "tab":"Pause the Game",
+#    "L":"Release a zombie",
+#    "left-click":"Fire",
+#    "space": "Jump",
+#    "alt-f4":"Exit game",
+#    "1":"Switch ammo"
+#}
+#controls_text = Text(
+#                text= "".join(f"{key} = {value}\n" for key,value in controls_dict.items() ),
+#                origin=Vec2(2.8, -3),
+#                scale=1
+#                )
+#def cycleAmmo(bullet_tag):  # default bullet tag is int 1
+#    if bullet_tag == 1:
+#        return 2
+#    else:
+#        return 1
 
 
 def input(key):
-    global lock
-    global pause_text
-
-    if key == "tab" and player.health > 0:
-        if lock == False:
-            pause_text.enabled = False
-            lock = True
+    if key == ("tab" or "escape"):
+        if not player.paused:
+            player.pause_text.disable()
+            player.exit_button.disable()
+            fullscreen_button.disable()
+            player.crosshair.enable()
+            player.paused = True
             player.on_enable()
         else:
-            pause_text.enabled = True
-            lock = False
+            player.pause_text.enable()
+            player.exit_button.enable()
+            fullscreen_button.enable()
+            player.crosshair.disable()
+            player.paused = False
             player.on_disable()
-
+    
     if key == "l":
-        enemies.append(Zombie(ursina.Vec3(0, 1.5, 0), player))
+        enemies.append(Zombie(Vec3(0, 1.5, 0), player))
 
-    if key == "left mouse down" and player.health > 0:
-        if not player.gun.on_cooldown:
-            player.gun.on_cooldown = True
-            b_pos = player.position + ursina.Vec3(0, 2, 0)
-            ursina.Audio("pew").play()
-            bullet = Bullet(b_pos, player.world_rotation_y, -player.camera_pivot.world_rotation_x)
-            ursina.destroy(bullet, delay=2)
-            ursina.invoke(setattr, player.gun, 'on_cooldown', False, delay=.50)
 
+sun = DirectionalLight()
+sun.look_at(Vec3(1,-1,-1))
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(info=False)
