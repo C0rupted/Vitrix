@@ -50,13 +50,13 @@ class LoadingWheel(Entity):
     def __init__(self, **kwargs):
         super().__init__()
         self.parent = camera.ui
-        self.point = Entity(parent=self, model=Circle(24, mode='point', thickness=.03), 
+        self.point = Entity(parent=self, model=Circle(24, mode='point', thickness=.03),
                             color=color.light_gray, y=.75, scale=2, texture='circle')
         self.point2 = Entity(parent=self, model=Circle(12, mode='point', thickness=.03),
                              color=color.light_gray, y=.75, scale=1, texture='circle')
 
         self.scale = .025
-        self.text_entity = Text(world_parent=self, text='Loading...', origin=(0,1.5), 
+        self.text_entity = Text(world_parent=self, text='Loading...', origin=(0,1.5),
                                 color=color.light_gray)
         self.y = -.25
 
@@ -107,19 +107,19 @@ def load_menu():
         e.y = (-i-2) * button_spacing
         e.enabled = False
 
-    singleplayer_btn = MenuButton(parent=load_menu, text="Singleplayer", 
+    singleplayer_btn = MenuButton(parent=load_menu, text="Singleplayer",
                                   on_click=Func(start_singleplayer), y=(i*button_spacing))
-    
-    multiplayer_btn = MenuButton(parent=load_menu, text="Multiplayer", 
+
+    multiplayer_btn = MenuButton(parent=load_menu, text="Multiplayer",
                                   on_click=Func(start_multiplayer), y=((i-1)*button_spacing))
 
-    load_menu.back_button = MenuButton(parent=load_menu, text='back', 
-                                       y=((-i-2)*button_spacing), 
-                                    on_click=Func(setattr, state_handler, 
+    load_menu.back_button = MenuButton(parent=load_menu, text='back',
+                                       y=((-i-2)*button_spacing),
+                                    on_click=Func(setattr, state_handler,
                                                   'state', 'main_menu'))
 
 
-    preview_text = Text(parent=options_menu, x=.275, y=.25, text='Preview text', 
+    preview_text = Text(parent=options_menu, x=.275, y=.25, text='Preview text',
                        origin=(-.5,0))
     for t in [e for e in scene.entities if isinstance(e, Text)]:
         t.original_scale = t.scale
@@ -128,13 +128,13 @@ def load_menu():
 
     def set_fov():
         settings.set_fov(fov_slider.value)
-        
+
     fov_slider.on_value_changed = set_fov
 
 
-    options_back = MenuButton(parent=options_menu, text='Back', x=-.25, origin_x=-.5, 
+    options_back = MenuButton(parent=options_menu, text='Back', x=-.25, origin_x=-.5,
                             on_click=Func(setattr, state_handler, 'state', 'main_menu'))
-    
+
     for i, e in enumerate((fov_slider, options_back)):
         e.y = -i * button_spacing
 
@@ -144,11 +144,11 @@ def load_menu():
             for i, e in enumerate(menu.children):
                 e.original_x = e.x
                 e.x += .1
-                e.animate_x(e.original_x, delay=i*.05, duration=.1, 
+                e.animate_x(e.original_x, delay=i*.05, duration=.1,
                             curve=curve.out_quad) # type: ignore
 
                 e.alpha = 0
-                e.animate('alpha', .7, delay=i*.05, duration=.1, 
+                e.animate('alpha', .7, delay=i*.05, duration=.1,
                         curve=curve.out_quad) # type: ignore
 
                 if hasattr(e, 'text_entity'):
@@ -158,7 +158,7 @@ def load_menu():
         menu.on_enable = animate_in_menu
 
 
-    background = Entity(model="cube", texture='background', parent=camera.ui, 
+    background = Entity(model="cube", texture='background', parent=camera.ui,
                         scale=(camera.aspect_ratio), color=color.white, z=1)
 
 
