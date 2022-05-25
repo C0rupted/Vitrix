@@ -6,12 +6,12 @@ from lib.paths import GamePaths
 
 try:    # Check the internet connection before starting.
     socket.socket(socket.AF_INET, socket.SOCK_STREAM).connect(("8.8.8.8", 53))
-    
+
     print("Internet connection detected!")
 except:
-    notify("Vitrix - Internet connection error", """Sorry, Vitrix couldn't connect 
-    to the internet. Check your 
-    internet connection and try 
+    notify("Vitrix - Internet connection error", """Sorry, Vitrix couldn't connect
+    to the internet. Check your
+    internet connection and try
     again later.""")
 
     os._exit(1)
@@ -67,15 +67,15 @@ while True:
     try:
         n.connect()
     except ConnectionRefusedError:
-        notify("Vitrix Error", 
+        notify("Vitrix Error",
                  "Connection refused! This can be because server hasn't started or has reached it's player limit.")
         error_occurred = True
     except socket.timeout:
-        notify("Vitrix Error", 
+        notify("Vitrix Error",
                  "Server took too long to respond, please try again later...")
         error_occurred = True
     except socket.gaierror:
-        notify("Vitrix Error", 
+        notify("Vitrix Error",
                  "The IP address you entered is invalid, please try again with a valid address...")
         error_occurred = True
     finally:
@@ -83,7 +83,7 @@ while True:
 
     if error_occurred:
         sys.exit(1)
-    
+
     if not error_occurred:
         break
 
@@ -193,7 +193,7 @@ def receive():
 
             if not enemy:
                 continue
-            
+
             enemy.health = info["health"]
             if isinstance(enemy, Player):
                 enemy.healthbar.value = enemy.health
@@ -224,7 +224,7 @@ def input(key):
         else:
             chat.enable()
             player.on_disable()
-    
+
     if key == ("tab" or "escape") and not chat.enabled:
         if not player.paused:
             player.pause_text.disable()
