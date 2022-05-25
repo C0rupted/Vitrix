@@ -17,7 +17,7 @@ window.icon = os.path.join(GamePaths.static_dir, "logo.ico")
 
 app = Ursina()
 # The inventory needs to load after ursina app()
-from lib.UI.inventory import *
+#from lib.UI.inventory import *
 
 window.borderless = False
 window.exit_button.visible = False

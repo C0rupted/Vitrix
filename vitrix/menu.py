@@ -124,7 +124,8 @@ def load_menu():
     for t in [e for e in scene.entities if isinstance(e, Text)]:
         t.original_scale = t.scale
 
-    fov_slider = Slider(20, 130, default=settings.get_fov(), step=1 , dynamic=True, text='FOV:', parent=options_menu)
+    fov_slider = Slider(20, 130, default=settings.get_fov(), step=1 , dynamic=True, 
+                        text='FOV:', parent=options_menu)
 
     def set_fov():
         settings.set_fov(fov_slider.value)
