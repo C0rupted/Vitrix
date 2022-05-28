@@ -93,7 +93,7 @@ if operating_sys == "windows":
 
 shutil.copytree(join(dir_path, "vitrix"), join(build_path, "vitrix"), 
             ignore=shutil.ignore_patterns("__pycache__"))
-os.remove(f"{build_path}/src/.unbuilt")
+os.remove(f"{build_path}/vitrix/.unbuilt")
 
 pkg_name = f"Vitrix-vX.X.X-{operating_sys}"
 
