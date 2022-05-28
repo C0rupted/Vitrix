@@ -7,6 +7,7 @@ import subprocess
 
 from os.path import join
 
+sep = os.path.sep
 
 def run(command, output=1):
     proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, 
@@ -14,7 +15,7 @@ def run(command, output=1):
     if output == 1:
         while proc.poll() is None:
             temp = str(proc.stdout.readline()).split("'")
-            temp = temp[1].split("\\")
+            temp = temp[1].split(sep)
             print(temp[0])
     commandResult = proc.wait()
     if commandResult == 0:
@@ -93,7 +94,7 @@ if operating_sys == "windows":
 
 shutil.copytree(join(dir_path, "vitrix"), join(build_path, "vitrix"), 
             ignore=shutil.ignore_patterns("__pycache__"))
-os.remove(f"{build_path}/vitrix/.unbuilt")
+os.remove(f"{build_path}{sep}vitrix{sep}.unbuilt")
 
 pkg_name = f"Vitrix-vX.X.X-{operating_sys}"
 
