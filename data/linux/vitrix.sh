@@ -2,4 +2,4 @@
 
 DIR=$(dirname "$0")
 
-$DIR/python-env/bin/python3 $DIR/src/menu.py > log.txt
+$DIR/python-env/bin/python3 $DIR/vitrix/menu.py > log.txt
