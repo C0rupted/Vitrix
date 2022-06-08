@@ -10,7 +10,7 @@ from lib.items.ammo import Ammo
 
 from lib.paths import GamePaths
 from vitrix_engine.shaders.basic_lighting_shader import basic_lighting_shader
-from lib.classes.settings import get_fov, get_window_height, get_window_width, get_shadows
+from lib.classes.settings import *
 
 window.title = "Vitrix - Singleplayer"
 window.icon = os.path.join(GamePaths.static_dir, "logo.ico")
@@ -21,14 +21,15 @@ app = Ursina()
 
 window.borderless = False
 window.exit_button.visible = False
-default_width = get_window_width()
-default_height = get_window_height()
+default_width = sread('game_settings', 'window_width')
+default_height = sread('game_settings', 'window_height')
 window.size = (default_width, default_height)
 window.fullscreen = True
-camera.fov = get_fov()
+camera.fov = int(sread('gameplay_settings', 'fov'))
 
 Text.default_font = os.path.join(GamePaths.static_dir, "font.ttf")
-Entity.default_shader = basic_lighting_shader
+if sread('gameplay_settings', 'shadows') == "true":
+    Entity.default_shader = basic_lighting_shader
 
 map = Map()
 sky = Entity(

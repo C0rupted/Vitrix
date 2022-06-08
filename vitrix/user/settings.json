@@ -3,14 +3,13 @@
         "language": "en",
         "text_size": "1",
         "window_width": "600",
-        "window_height": "600",
-        "shadows": "true"
+        "window_height": "600"
     },
     "multiplayer": {
-        "username": "Player",
-        "icon": "icon.png"
+        "username": "Player"
     },
     "gameplay_settings": {
-        "fov": "85"
+        "fov": "85",
+        "shadows": "true"
     }
 }

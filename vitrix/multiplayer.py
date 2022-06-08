@@ -20,7 +20,7 @@ import threading
 from vitrix_engine import *
 from vitrix_engine.shaders.basic_lighting_shader import basic_lighting_shader
 
-from lib.classes.settings import get_fov, get_window_width, get_window_height, get_icon, get_username
+from lib.classes.settings import *
 
 from lib.UI.chat import Chat
 from lib.classes.network import Network
@@ -44,13 +44,11 @@ from lib.classes.anticheat import *
 try:
     with open("data.txt", "r") as file:
         lines =  file.readlines()
-        username = get_username()
-        server_addr = lines[0].strip()
-        server_port = lines[1].strip()
+        username = lines[0].strip()
+        server_addr = lines[1].strip()
+        server_port = lines[2].strip()
 except FileNotFoundError:
     sys.exit(1)
-
-icon = get_icon()
 
 while True:
     print(username, " ", server_addr, " ", server_port)
@@ -95,11 +93,11 @@ window.icon = os.path.join(GamePaths.static_dir, "logo.ico")
 app = Ursina()
 window.borderless = False
 window.exit_button.visible = False
-default_width = get_window_width()
-default_height = get_window_height()
+default_width = sread('game_settings', 'window_width')
+default_height = sread('game_settings', 'window_height')
 window.size = (default_width, default_height)
 window.fullscreen = True
-camera.fov = get_fov()
+camera.fov = int(sread('gameplay_settings', 'fov'))
 
 map = Map()
 sky = Entity(
@@ -108,7 +106,9 @@ sky = Entity(
     scale=9999,
     double_sided=True
 )
-Entity.default_shader = basic_lighting_shader
+
+if sread('gameplay_settings', 'shadows') == "true":
+    Entity.default_shader = basic_lighting_shader
 
 player = Player(Vec3(0, 1, 0), n)
 chat = Chat(n, username)
