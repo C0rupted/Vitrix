@@ -28,5 +28,5 @@ then simply run:
 apt/dnf/yum install net-tools
 ```
 and try again. On Windows, it is as simple as running, ```ipconfig /all``` and finding the section labeled: ```IPv4 Address: ```. By default, the
-server will used port ```26822```, if you would like to change it, simply edit line 13 ```server.py```, to ```PORT = <number>```. Be sure to replace the 
+server will used port ```26822```, if you would like to change it, simply edit line 19 ```server.py```, to ```PORT = <number>```. Be sure to replace the 
 ```<number>``` to the port number you would like.
