@@ -1,4 +1,4 @@
-import json, os.path
+import json, os
 
 if os.getcwd().split(os.path.sep)[-1] == 'vitrix':
     settings_path = "user/settings.json"
