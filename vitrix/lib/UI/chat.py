@@ -40,9 +40,14 @@ class Chat(Entity):
     def input(self, key):
         if key == "enter":
             #temp = self.prefix + self.text_field.text
-            self.network.send_message(self.prefix + self.text_field.text)
-            self.list.append(self.prefix + self.text_field.text)
-            self.text_field.text = ""
+            if not self.text_field.text[0] == "/": # if message is not a command
+                self.network.send_message(self.prefix + self.text_field.text)
+                self.list.append(self.prefix + self.text_field.text)
+                self.text_field.text = ""
+            else:
+                command = self.text_field.text[1:].split(" ")[0] # get command (ex: ban)
+                # print(command)
+                self.text_field.text = ""
 
     def enable(self):
         self.enabled = True
