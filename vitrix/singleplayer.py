@@ -10,7 +10,7 @@ from lib.items.ammo import Ammo
 
 from lib.paths import GamePaths
 from vitrix_engine.shaders.basic_lighting_shader import basic_lighting_shader
-from lib.classes.settings import *
+from lib.api.settings import *
 
 window.title = "Vitrix - Singleplayer"
 window.icon = os.path.join(GamePaths.static_dir, "logo.ico")
@@ -30,6 +30,8 @@ camera.fov = int(sread('gameplay_settings', 'fov'))
 Text.default_font = os.path.join(GamePaths.static_dir, "font.ttf")
 if sread('gameplay_settings', 'shadows') == "true":
     Entity.default_shader = basic_lighting_shader
+    sun = DirectionalLight()
+    sun.look_at(Vec3(1,-1,-1))
 
 map = Map()
 sky = Entity(
@@ -101,10 +103,6 @@ def input(key):
     
     if key == "l":
         enemies.append(Zombie(Vec3(0, 1.5, 0), player))
-
-
-sun = DirectionalLight()
-sun.look_at(Vec3(1,-1,-1))
 
 
 if __name__ == "__main__":

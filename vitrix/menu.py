@@ -2,7 +2,7 @@ import os
 import platform
 import threading
 from vitrix_engine import *
-import lib.classes.settings as settings
+from lib.api.settings import *
 
 def buildexec(modulename,dir_path):
     try:
@@ -80,11 +80,20 @@ class MenuButton(Button):
         for key, value in kwargs.items():
             setattr(self, key ,value)
 
-def back_settings(fov):
+def back_settings(fov: str):
     global state_handler
-    settings.swrite("gameplay_settings", "fov", str(fov))
+    swrite("gameplay_settings", "fov", str(fov))
     setattr(state_handler, 'state', 'main_menu')
 
+def toggle_shaders():
+    global shaders_button
+    button = shaders_button
+    if sread("gameplay_settings", "shadows") == "true":
+        swrite("gameplay_settings", "shadows", "false")
+        button.text_entity.text = "Shadows: Off"
+    else:
+        swrite("gameplay_settings", "shadows", "true")
+        button.text_entity.text = "Shadows: On"
 
 def load_menu():
     global state_handler
@@ -130,16 +139,20 @@ def load_menu():
     for t in [e for e in scene.entities if isinstance(e, Text)]:
         t.original_scale = t.scale
 
-    fov_slider = Slider(20, 130, default=int(settings.sread("gameplay_settings", "fov")), step=1 , dynamic=True, 
-                        text='FOV:', parent=options_menu)
+    fov_slider = Slider(20, 130, default=int(sread("gameplay_settings", "fov")), step=1, dynamic=True, 
+                        text='FOV:   ', parent=options_menu)
+    if sread("gameplay_settings", "shadows") == "true":
+        button_text = "Shadows: On"
+    else:
+        button_text = "Shadows: Off"
 
-    def set_fov():
-        settings.set_fov(fov_slider.value)
+    global shaders_button
+    shaders_button = Button(text=button_text, scale=0.15, parent=options_menu, on_click=Func(toggle_shaders))
 
     options_back = MenuButton(parent=options_menu, text='Back', x=-.25, origin_x=-.5,
                             on_click=Func(back_settings, str(fov_slider.value)))
 
-    for i, e in enumerate((fov_slider, options_back)):
+    for i, e in enumerate((fov_slider, shaders_button, options_back)):
         e.y = -i * button_spacing
 
 
@@ -178,8 +191,8 @@ loading_screen = LoadingWheel(enabled=False)
 window.exit_button.visible = False
 window.title = "Vitrix - Menu"
 window.borderless = False
-default_width = settings.sread("game_settings", "window_width")
-default_height = settings.sread("game_settings", "window_height")
+default_width = sread("game_settings", "window_width")
+default_height = sread("game_settings", "window_height")
 window.size = (default_width, default_height)
 window.fullscreen = False
 

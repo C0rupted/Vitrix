@@ -1,5 +1,5 @@
 from vitrix_engine import *
-from lib.classes.network import Network
+from lib.api.network import Network
 
 class Chat(Entity):
     def __init__(self, network: Network, username: str, **kwargs):

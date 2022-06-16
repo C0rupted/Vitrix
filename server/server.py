@@ -12,7 +12,7 @@ import threading
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from vitrix.lib.classes.anticheat import *
+from vitrix.lib.api.anticheat import *
 #from vitrix.lib.player import Player
 
 ADDR = "0.0.0.0"

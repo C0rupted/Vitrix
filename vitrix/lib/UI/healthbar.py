@@ -1,5 +1,3 @@
-import math
-from turtle import position
 from vitrix_engine import *
 from lib.paths import GamePaths
 

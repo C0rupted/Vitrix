@@ -6,7 +6,6 @@ from lib.paths import GamePaths
 
 try:    # Check the internet connection before starting.
     socket.socket(socket.AF_INET, socket.SOCK_STREAM).connect(("8.8.8.8", 53))
-
     print("Internet connection detected!")
 except:
     notify("Vitrix - Internet connection error", """Sorry, Vitrix couldn't connect
@@ -20,10 +19,10 @@ import threading
 from vitrix_engine import *
 from vitrix_engine.shaders.basic_lighting_shader import basic_lighting_shader
 
-from lib.classes.settings import *
+from lib.api.settings import *
 
 from lib.UI.chat import Chat
-from lib.classes.network import Network
+from lib.api.network import Network
 from lib.entities.map import Map
 from lib.entities.player import Player
 from lib.entities.enemy import Enemy
@@ -39,7 +38,7 @@ else:
     pass
 
 import lib.UI.server_chooser
-from lib.classes.anticheat import *
+from lib.api.anticheat import *
 
 try:
     with open("data.txt", "r") as file:
