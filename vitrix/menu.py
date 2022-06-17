@@ -1,8 +1,15 @@
-import os
-import platform
-import threading
+import os, platform, threading, requests
 from vitrix_engine import *
 from lib.api.settings import *
+
+def get_last_version():
+    try:
+        r = requests.get("https://raw.githubusercontent.com/ShadityZ/Vitrix/dev/vitrix/version.txt")
+        return r.text
+    except:
+        return "unknown"
+
+print(get_last_version())
 
 def buildexec(modulename,dir_path):
     try:
