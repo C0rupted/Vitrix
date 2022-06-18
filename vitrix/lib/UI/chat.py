@@ -45,9 +45,10 @@ class Chat(Entity):
                 self.list.append(self.prefix + self.text_field.text)
                 self.text_field.text = ""
             else:
-                command = self.text_field.text[1:].split(" ")[0] # get command (ex: ban)
-                # print(command)
+                type = self.text_field.text[1:].split()[0] # get command (ex: ban)
+                user = self.text_field.text[1:].split()[1] # get user (ex: RandomUser1234)
                 self.text_field.text = ""
+                self.network.send_command(type, user)
 
     def enable(self):
         self.enabled = True

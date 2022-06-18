@@ -63,7 +63,11 @@ while True:
     error_occurred = False
 
     try:
-        n.connect()
+        succeeded = n.connect()
+        if not succeeded:
+            notify("Vitrix Error",
+                 "Sorry, but it appears as you are banned from this server!")
+            sys.exit(1)
     except ConnectionRefusedError:
         notify("Vitrix Error",
                  "Connection refused! This can be because server hasn't started or has reached it's player limit.")

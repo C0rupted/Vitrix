@@ -1,5 +1,5 @@
 """
-Server version:     v1.0.0
+Server version:     v1.1.0
 """
 
 import os
@@ -13,7 +13,6 @@ import threading
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from vitrix.lib.api.anticheat import *
-#from vitrix.lib.player import Player
 
 ADDR = "0.0.0.0"
 PORT = 26822
@@ -27,6 +26,31 @@ s.listen(MAX_PLAYERS)
 
 
 players = {}
+
+
+def ban_user(user: str):
+    blacklist_file = open("blacklist.json", "r")
+    blacklist = json.loads(blacklist_file.read())
+    blacklist["banned_users"].append(user)
+    with open("blacklist.json", "w") as file:
+        json.dump(blacklist, file)
+
+
+def is_moderator(user: str):
+    moderators_file = open("moderators.json", "r")
+    mods = json.loads(moderators_file.read())["moderators"]
+    if user in mods:
+        return True
+    else:
+        return False
+
+def is_banned(user: str):
+    blacklist_file = open("blacklist.json", "r")
+    blacklist = json.loads(blacklist_file.read())["banned_users"]
+    if user in blacklist:
+        return True
+    else:
+        return False
 
 
 def generate_id(player_list: dict, max_players: int):
@@ -76,12 +100,14 @@ def handle_messages(identifier: str):
             print(e)
             continue
 
-        print(f"Received message from player {username} with ID {identifier}")
-
         if msg_json["object"] == "player":
             players[identifier]["position"] = msg_json["position"]
             players[identifier]["rotation"] = msg_json["rotation"]
             players[identifier]["health"] = msg_json["health"]
+
+        if msg_json["object"] == "command":
+            if msg_json["type"] == "ban" and is_moderator(msg_json["author"]):
+                ban_user(msg_json["target"])
 
         for player_id in players:
             if player_id != identifier:
@@ -114,52 +140,54 @@ def main():
         new_id = generate_id(players, MAX_PLAYERS)
         conn.send(new_id.encode("utf8"))
         username = conn.recv(MSG_SIZE).decode("utf8")
-        new_player_info = {"socket": conn, "username": username, "position": (0, 1, 0), "rotation": 0, "health": 150}
+        if is_banned(username):
+            conn.send("False".encode("utf8"))
+        else:
+            conn.send("True".encode("utf8"))
+            new_player_info = {"socket": conn, "username": username, "position": (0, 1, 0), "rotation": 0, "health": 150}
 
 
-        for player_id in players:
-            if player_id != new_id:
-                player_info = players[player_id]
-                player_conn: socket.socket = player_info["socket"]
-                try:
-                    player_conn.send(json.dumps({
-                        "id": new_id,
-                        "object": "player",
-                        "username": new_player_info["username"],
-                        "position": new_player_info["position"],
-                        "health": new_player_info["health"],
-                        "joined": True,
-                        "left": False
-                    }).encode("utf8"))
-                except OSError:
-                    pass
+            for player_id in players:
+                if player_id != new_id:
+                    player_info = players[player_id]
+                    player_conn: socket.socket = player_info["socket"]
+                    try:
+                        player_conn.send(json.dumps({
+                            "id": new_id,
+                            "object": "player",
+                            "username": new_player_info["username"],
+                            "position": new_player_info["position"],
+                            "health": new_player_info["health"],
+                            "joined": True,
+                            "left": False
+                        }).encode("utf8"))
+                    except OSError:
+                        pass
 
-        for player_id in players:
-            if player_id != new_id:
-                player_info = players[player_id]
-                try:
-                    conn.send(json.dumps({
-                        "id": player_id,
-                        "object": "player",
-                        "username": player_info["username"],
-                        "position": player_info["position"],
-                        "health": player_info["health"],
-                        "joined": True,
-                        "left": False
-                    }).encode("utf8"))
-                    time.sleep(0.1)
-                except OSError:
-                    pass
+            for player_id in players:
+                if player_id != new_id:
+                    player_info = players[player_id]
+                    try:
+                        conn.send(json.dumps({
+                            "id": player_id,
+                            "object": "player",
+                            "username": player_info["username"],
+                            "position": player_info["position"],
+                            "health": player_info["health"],
+                            "joined": True,
+                            "left": False
+                        }).encode("utf8"))
+                        time.sleep(0.1)
+                    except OSError:
+                        pass
 
-        players[new_id] = new_player_info
+            players[new_id] = new_player_info
 
-        msg_thread = threading.Thread(target=handle_messages, args=(new_id,), daemon=True)
-        msg_thread.start()
+            msg_thread = threading.Thread(target=handle_messages, args=(new_id,), daemon=True)
+            msg_thread.start()
 
-        print(f"New connection from {addr}, assigned ID: {new_id}...")
+            print(f"New connection from {addr}, assigned ID: {new_id}")
 
-        #check_speed(Player.speed)
-        #check_jump_height(Player.jump_height, 2.5)
 
 
 if __name__ == "__main__":
