@@ -28,7 +28,7 @@ window.fullscreen = True
 camera.fov = int(sread('gameplay_settings', 'fov'))
 
 Text.default_font = os.path.join(GamePaths.static_dir, "font.ttf")
-if sread('gameplay_settings', 'shadows') == "true":
+if sread('gameplay_settings', 'shadows') == "True":
     Entity.default_shader = basic_lighting_shader
     sun = DirectionalLight()
     sun.look_at(Vec3(1,-1,-1))

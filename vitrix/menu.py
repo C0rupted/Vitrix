@@ -96,10 +96,10 @@ def toggle_shaders():
     global shaders_button
     button = shaders_button
     if sread("gameplay_settings", "shadows") == "true":
-        swrite("gameplay_settings", "shadows", "false")
+        swrite("gameplay_settings", "shadows", "False")
         button.text_entity.text = "Shadows: Off"
     else:
-        swrite("gameplay_settings", "shadows", "true")
+        swrite("gameplay_settings", "shadows", "True")
         button.text_entity.text = "Shadows: On"
 
 def load_menu():
