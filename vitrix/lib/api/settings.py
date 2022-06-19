@@ -1,11 +1,12 @@
 import json, os
 
-if os.getcwd().split(os.path.sep)[-1] == 'vitrix':
+try:
     settings_path = "user/settings.json"
-else:
+    settings_file = open("vitrix/user/settings.json", "r")
+except:
     settings_path = "vitrix/user/settings.json"
+    settings_file = open("user/settings.json", "r")
 
-settings_file = open("vitrix/user/settings.json", "r")
 settings = json.loads(settings_file.read()) # dict
 
 # read the json settings file
