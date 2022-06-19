@@ -1,12 +1,12 @@
-import json, os.path
+import json
 
-
-if os.getcwd().split(os.path.sep)[-1] == 'vitrix':
+try:
     settings_file = open("user/settings.json", "r")
-else:
+except:
     settings_file = open("vitrix/user/settings.json", "r")
 
 settings = json.loads(settings_file.read()) # dict
+
 
 # read the json settings file
 def sread(a: str, b: str): # sread('gameplay_settings', 'fov')
