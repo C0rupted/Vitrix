@@ -1,6 +1,4 @@
-import os
-import sys
-import socket
+import os, sys, socket
 from lib.UI.notification import notify
 from lib.paths import GamePaths
 
@@ -102,19 +100,13 @@ window.size = (default_width, default_height)
 window.fullscreen = True
 camera.fov = int(sread('gameplay_settings', 'fov'))
 
-map = Map()
-sky = Entity(
-    model=os.path.join(GamePaths.models_dir, "sphere.obj"),
-    texture=os.path.join(GamePaths.textures_dir, "sky.png"),
-    scale=9999,
-    double_sided=True
-)
-
-if sread('gameplay_settings', 'shadows') == "true":
+Text.default_font = os.path.join(GamePaths.static_dir, "font.ttf")
+if sread('gameplay_settings', 'shadows') == "True":
     Entity.default_shader = basic_lighting_shader
+    sun = DirectionalLight()
+    sun.look_at(Vec3(1,-1,-1))
 
-player = Player(Vec3(0, 1, 0), n)
-chat = Chat(n, username)
+map = Map()
 
 def toggle_fullscreen():
     if window.fullscreen:
@@ -130,6 +122,10 @@ fullscreen_button = Button(
             on_click=Func(toggle_fullscreen)
         )
 fullscreen_button.fit_to_text()
+
+
+player = Player(Vec3(0, 1, 0), n)
+chat = Chat(n, username)
 
 prev_pos = player.world_position
 prev_dir = player.world_rotation_y
