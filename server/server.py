@@ -2,21 +2,22 @@
 Server version:     v1.1.0
 """
 
-import os
-import sys
-import socket
-import json
-import time
-import random
-import threading
+"""
+"properties" file:
+line 1: MAX_PLAYERS
+"""
+
+import os,sys,socket,json,time,random,threading
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+properties = open(f"{os.path.dirname(os.path.realpath(__file__))}/properties", 'r').split("\n")
 
 from vitrix.lib.api.anticheat import *
 
 ADDR = "0.0.0.0"
 PORT = 26822
-MAX_PLAYERS = 10
+MAX_PLAYERS = int(properties[0])
 MSG_SIZE = 2048
 
 
@@ -29,7 +30,7 @@ players = {}
 
 
 def ban_user(user: str):
-    blacklist_file = open("blacklist.json", "r")
+    blacklist_file = open(f"{os.path.dirname(os.path.realpath(__file__))}/blacklist.json", "r")
     blacklist = json.loads(blacklist_file.read())
     blacklist["banned_users"].append(user)
     with open("blacklist.json", "w") as file:
@@ -37,7 +38,7 @@ def ban_user(user: str):
 
 
 def is_moderator(user: str):
-    moderators_file = open("moderators.json", "r")
+    moderators_file = open(f"{os.path.dirname(os.path.realpath(__file__))}/moderators.json", "r")
     mods = json.loads(moderators_file.read())["moderators"]
     if user in mods:
         return True
@@ -45,7 +46,7 @@ def is_moderator(user: str):
         return False
 
 def is_banned(user: str):
-    blacklist_file = open("blacklist.json", "r")
+    blacklist_file = open(f"{os.path.dirname(os.path.realpath(__file__))}/blacklist.json", "r")
     blacklist = json.loads(blacklist_file.read())["banned_users"]
     if user in blacklist:
         return True
