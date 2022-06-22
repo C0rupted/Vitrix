@@ -140,9 +140,6 @@ def load_menu():
                                     on_click=Func(setattr, state_handler,
                                                   'state', 'main_menu'))
 
-
-    preview_text = Text(parent=options_menu, x=.275, y=.25, text='Preview text',
-                       origin=(-.5,0))
     for t in [e for e in scene.entities if isinstance(e, Text)]:
         t.original_scale = t.scale
 
