@@ -24,6 +24,12 @@ class Map(Entity):
         )
         self.collider = MeshCollider(self)
         self.crate_one = Crate(position=Vec3(10, 1, -5))
+        self.sky = Entity(
+            model=os.path.join(GamePaths.models_dir, "sphere.obj"),
+            texture=os.path.join(GamePaths.textures_dir, "sky.png"),
+            scale=9999,
+            double_sided=True
+        )
 
         # Floor
         dark1 = True

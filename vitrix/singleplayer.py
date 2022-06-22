@@ -34,12 +34,6 @@ if sread('gameplay_settings', 'shadows') == "True":
     sun.look_at(Vec3(1,-1,-1))
 
 map = Map()
-sky = Entity(
-    model=os.path.join("assets", "models", "sphere.obj"),
-    texture=os.path.join("assets", "textures", "sky.png"),
-    scale=9999,
-    double_sided=True
-)
 
 def toggle_fullscreen():
     if window.fullscreen:
