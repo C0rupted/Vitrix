@@ -1,6 +1,6 @@
 import os, sys, socket
 from lib.UI.notification import notify
-from lib.paths import GamePaths
+from vitrix.lib.data import GamePaths
 
 try:    # Check the internet connection before starting.
     socket.socket(socket.AF_INET, socket.SOCK_STREAM).connect(("8.8.8.8", 53))

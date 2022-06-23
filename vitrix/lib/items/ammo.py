@@ -1,5 +1,5 @@
 from vitrix_engine import *
-from lib.paths import GamePaths
+from vitrix.lib.data import GamePaths
 import random
 
 class Ammo(Entity):

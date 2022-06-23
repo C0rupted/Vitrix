@@ -1,7 +1,7 @@
 import os
 from vitrix_engine import *
 
-from lib.paths import GamePaths
+from vitrix.lib.data import GamePaths
 from lib.entities.crate import Crate
 
 

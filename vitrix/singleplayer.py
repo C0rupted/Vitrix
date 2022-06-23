@@ -8,7 +8,7 @@ from lib.entities.enemy import Zombie
 from lib.items.aid_kit import AidKit
 from lib.items.ammo import Ammo
 
-from lib.paths import GamePaths
+from vitrix.lib.data import GamePaths
 from vitrix_engine.shaders.basic_lighting_shader import basic_lighting_shader
 from lib.api.settings import *
 

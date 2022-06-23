@@ -8,6 +8,7 @@ from lib.entities.bullet import Bullet
 from lib.entities.crate import Crate
 from lib.entities.enemy import Zombie, Enemy
 from lib.UI.healthbar import HealthBar
+#from lib.UI.inventory import Inventory
 from lib.UI.crosshair import Crosshair
 from lib.weapons.hammer import Hammer
 from lib.weapons.pistol import Pistol
@@ -15,7 +16,6 @@ from lib.weapons.sword import Sword
 from lib.weapons.battleaxe import BattleAxe
 from lib.items.aid_kit import AidKit
 from lib.items.ammo import Ammo
-# from lib.UI.inventory import inventory
 
 
 class Player(FirstPersonController):
@@ -163,23 +163,6 @@ class Player(FirstPersonController):
 
         if key == "r" and self.gun.enabled:
             threading.Thread(target=self.reload).start()
-
-        # Inventory key access
-
-        #if key == 'i':
-        #    if not self.inventory_opened:
-        #       _inventory = inventory()
-        #       inventory_opened = True
-        #    else:
-        #       _inventory = None
-        #       inventory_opened = False
-        #
-        #    if self.lock == False:
-        #        self.lock = True
-        #        self.on_enable()
-        #    else:
-        #        self.lock = False
-        #        self.on_disable()
 
         if key == "left mouse down" and self.health > 0:
             if not self.gun.on_cooldown and self.gun.enabled:
