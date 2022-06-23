@@ -6,6 +6,9 @@ class GamePaths:
     sounds_dir = os.path.join("assets", "sounds")
     static_dir = os.path.join("assets", "static")
 
+    server_dir = os.path.join("..", "server")
+
+
 class Items:
     textures_path = os.path.join(GamePaths.textures_dir, "inventory")
     first_aid_kit = {
