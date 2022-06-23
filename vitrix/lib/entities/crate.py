@@ -2,7 +2,7 @@ import os
 from vitrix_engine import *
 import random
 
-from vitrix.lib.data import GamePaths
+from lib.data import GamePaths
 
 
 class Crate(Entity):

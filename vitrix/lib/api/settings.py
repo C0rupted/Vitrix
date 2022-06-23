@@ -1,4 +1,4 @@
-import json, os
+import json
 
 try:
     settings_path = "user/settings.json"

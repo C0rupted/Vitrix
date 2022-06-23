@@ -8,7 +8,7 @@ from lib.entities.enemy import Zombie
 from lib.items.aid_kit import AidKit
 from lib.items.ammo import Ammo
 
-from vitrix.lib.data import GamePaths
+from lib.data import GamePaths
 from vitrix_engine.shaders.basic_lighting_shader import basic_lighting_shader
 from lib.api.settings import *
 
@@ -25,7 +25,6 @@ default_width = sread('game_settings', 'window_width')
 default_height = sread('game_settings', 'window_height')
 window.size = (default_width, default_height)
 window.fullscreen = True
-camera.fov = int(sread('gameplay_settings', 'fov'))
 
 Text.default_font = os.path.join(GamePaths.static_dir, "font.ttf")
 if sread('gameplay_settings', 'shadows') == "True":
@@ -55,6 +54,8 @@ player = Player(Vec3(0, 1, 0))
 aid_kit = AidKit(Vec3(10, 1.4, 3))
 ammo = Ammo(Vec3(15, 1, 3))
 
+camera.fov = int(sread('gameplay_settings', 'fov'))
+
 enemies = []
 
 
@@ -80,19 +81,19 @@ enemies = []
 
 def input(key):
     if key == ("tab" or "escape"):
-        if not player.paused:
+        if player.paused:
             player.pause_text.disable()
             player.exit_button.disable()
             fullscreen_button.disable()
             player.crosshair.enable()
-            player.paused = True
+            player.paused = False
             player.on_enable()
         else:
             player.pause_text.enable()
             player.exit_button.enable()
             fullscreen_button.enable()
             player.crosshair.disable()
-            player.paused = False
+            player.paused = True
             player.on_disable()
     
     if key == "l":

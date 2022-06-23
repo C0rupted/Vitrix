@@ -1,6 +1,6 @@
 import os, sys, socket
 from lib.UI.notification import notify
-from vitrix.lib.data import GamePaths
+from lib.data import GamePaths
 
 try:    # Check the internet connection before starting.
     socket.socket(socket.AF_INET, socket.SOCK_STREAM).connect(("8.8.8.8", 53))
@@ -98,7 +98,6 @@ default_width = sread('game_settings', 'window_width')
 default_height = sread('game_settings', 'window_height')
 window.size = (default_width, default_height)
 window.fullscreen = True
-camera.fov = int(sread('gameplay_settings', 'fov'))
 
 Text.default_font = os.path.join(GamePaths.static_dir, "font.ttf")
 if sread('gameplay_settings', 'shadows') == "True":
@@ -126,6 +125,8 @@ fullscreen_button.fit_to_text()
 
 player = Player(Vec3(0, 1, 0), n)
 chat = Chat(n, username)
+
+camera.fov = int(sread('gameplay_settings', 'fov'))
 
 prev_pos = player.world_position
 prev_dir = player.world_rotation_y
@@ -220,28 +221,30 @@ def update():
 
 
 def input(key):
-    if key == "t" and not fullscreen_button.enabled:
+    if key == "t" and not fullscreen_button.enabled and chat.text_field.text == "":
         if chat.enabled:
             player.on_enable()
+            player.paused = False
             chat.disable()
         else:
             chat.enable()
+            player.paused = True
             player.on_disable()
 
     if key == ("tab" or "escape") and not chat.enabled:
-        if not player.paused:
+        if player.paused:
             player.pause_text.disable()
             player.exit_button.disable()
             fullscreen_button.disable()
             player.crosshair.enable()
-            player.paused = True
+            player.paused = False
             player.on_enable()
         else:
             player.pause_text.enable()
             player.exit_button.enable()
             fullscreen_button.enable()
             player.crosshair.disable()
-            player.paused = False
+            player.paused = True
             player.on_disable()
 
 

@@ -11,7 +11,7 @@ import os,sys,socket,json,time,random,threading
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-properties = open(f"{os.path.dirname(os.path.realpath(__file__))}/properties", 'r').split("\n")
+properties = open("properties", 'r').read().split("\n")
 
 from vitrix.lib.api.anticheat import *
 

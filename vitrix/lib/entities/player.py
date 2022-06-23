@@ -8,7 +8,6 @@ from lib.entities.bullet import Bullet
 from lib.entities.crate import Crate
 from lib.entities.enemy import Zombie, Enemy
 from lib.UI.healthbar import HealthBar
-#from lib.UI.inventory import Inventory
 from lib.UI.crosshair import Crosshair
 from lib.weapons.hammer import Hammer
 from lib.weapons.pistol import Pistol
@@ -16,6 +15,7 @@ from lib.weapons.sword import Sword
 from lib.weapons.battleaxe import BattleAxe
 from lib.items.aid_kit import AidKit
 from lib.items.ammo import Ammo
+# from lib.UI.inventory import inventory
 
 
 class Player(FirstPersonController):
@@ -103,7 +103,6 @@ class Player(FirstPersonController):
         self.crosshair = Crosshair()
 
         self.rounds_left = 5
-        self.paused = False
         self.shots_left = 5
         self.reach = 6
         self.death_message_shown = False
@@ -132,6 +131,9 @@ class Player(FirstPersonController):
         self.rounds_counter.text = "Rounds Left: " + str(self.rounds_left)
 
     def input(self, key):
+        if self.paused:
+            return
+
         if key == "space":
             self.jump()
 

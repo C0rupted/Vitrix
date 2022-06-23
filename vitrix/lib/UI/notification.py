@@ -1,6 +1,6 @@
 import os
 import tkinter as tk
-from vitrix.lib.data import GamePaths
+from lib.data import GamePaths
 
 def on_closing():
     os._exit(0)

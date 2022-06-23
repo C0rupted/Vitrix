@@ -1,5 +1,5 @@
 from vitrix_engine import *
-from vitrix.lib.data import GamePaths
+from lib.data import GamePaths
 
 
 class HealthBar(Entity):

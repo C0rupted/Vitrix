@@ -2,7 +2,7 @@ from vitrix_engine import *
 import os
 
 from lib.entities.enemy import Enemy, Zombie
-from vitrix.lib.data import GamePaths
+from lib.data import GamePaths
 
 
 class Bullet(Entity):

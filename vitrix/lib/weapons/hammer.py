@@ -1,6 +1,6 @@
 import os
 from vitrix_engine import *
-from vitrix.lib.data import GamePaths
+from lib.data import GamePaths
 
 class Hammer(Entity):
     def __init__(self):

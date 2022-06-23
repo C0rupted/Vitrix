@@ -1,6 +1,5 @@
 from vitrix_engine import *
-from vitrix.lib.data import GamePaths
-import random
+from lib.data import GamePaths
 
 class Ammo(Entity):
     def __init__(self, position: tuple):
