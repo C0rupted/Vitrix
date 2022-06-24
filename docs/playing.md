@@ -11,6 +11,7 @@ Vitrix itself doesn't have a controls setting menu just yet, but the feature is 
 | Tab _or_ Esc | The tab key helps you escape the mouse grab, freeing your cursor to let you close the window, or do other things.  |
 | Left-click   | The left mouse button is binded to the function of shooting, using your gun.                                       |
 | L            | The L key is a control specific to singleplayer. It summons a Zombie, that chases and attacks you, draining health!|
+| T            | Open the chat (multiplayer only)                                                                                   |
 
 Obviously, just learning the controls isn't enough. You also need to learn to use strategies and learn to act smart on the battlefield, however, I'll leave that to you. 
 
