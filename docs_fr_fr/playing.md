@@ -11,6 +11,7 @@ Vitrix n'a pas encore de menu de changement de contrôles, mais ça devrait arri
 | Tab _or_ Éch | Les touches tabulation et échap vous permettent de mettre le jeu en pause.                                         |
 | Clic gauche  | Le clic gauche sert à tirer.                                                                                       |
 | L            | La touche L est spécifique au mode "Un joueur". Elle fait apparaître un Zombie, il te chasse et t'attaques, t'enlevant de la vie !|
+| T            | Ouvre le chat (multijoueur seulement)                                                                              |
 
 Évidemment, apprendre les contrôles n'est pas suffisant. Vous devez créér des stratégies et agir inteligemment sur le champ de bataille, cependant, je vous laisse tout ça.
 
