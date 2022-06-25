@@ -63,7 +63,7 @@ while True:
     try:
         succeeded = n.connect()
         if not succeeded:
-            notify("Vitrix Error",
+            notify("You've been banned!",
                  "Sorry, but it appears as you are banned from this server!")
             sys.exit(1)
     except ConnectionRefusedError:
@@ -141,9 +141,20 @@ def receive():
             print(e)
             continue
 
+        if info == "kicked":
+            app.destroy()
+            notify("You were kicked!", "It seems that a server moderator kicked you from the server")
+            sys.exit(1)
+        
+        if info == "banned":
+            app.destroy()
+            notify("You've been banned!", "Sorry, but it appears as you are banned from this server!")
+            sys.exit(1)
+
         if not info:
-            print("Server has stopped! Exiting...")
-            sys.exit()
+            app.destroy()
+            notify("Vitrix Error", "The server was shut down and you were kicked. Sorry for the inconvenience.")
+            sys.exit(1)
 
         if info["object"] == "player":
             enemy_id = info["id"]

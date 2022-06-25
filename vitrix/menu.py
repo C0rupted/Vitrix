@@ -9,9 +9,8 @@ def get_last_version():
     except:
         return "unknown"
 
-print(get_last_version())
 
-def buildexec(modulename,dir_path):
+def buildexec(modulename, dir_path):
     try:
         if modulename == "mp":
             os.system("python " + dir_path + "/multiplayer.py")
@@ -20,7 +19,7 @@ def buildexec(modulename,dir_path):
         else:
             pass
     except:
-        pass # throws error: something wrong with os.system or the path
+        pass
 
 
 def start_multiplayer():

@@ -27,6 +27,8 @@ s.listen(MAX_PLAYERS)
 
 
 players = {}
+kicked_users = []
+recently_banned_users = []
 
 
 def ban_user(user: str):
@@ -35,6 +37,7 @@ def ban_user(user: str):
     blacklist["banned_users"].append(user)
     with open("blacklist.json", "w") as file:
         json.dump(blacklist, file)
+    recently_banned_users.append(user)
 
 
 def is_moderator(user: str):
@@ -78,6 +81,13 @@ def handle_messages(identifier: str):
     username = client_info["username"]
 
     while True:
+        if username in recently_banned_users:
+            conn.send("banned".encode("utf8"))
+            break
+        if username in kicked_users:
+            conn.send("kicked".encode("utf8"))
+            break
+
         try:
             msg = conn.recv(MSG_SIZE)
         except ConnectionResetError:
@@ -109,6 +119,8 @@ def handle_messages(identifier: str):
         if msg_json["object"] == "command":
             if msg_json["type"] == "ban" and is_moderator(msg_json["author"]):
                 ban_user(msg_json["target"])
+            if msg_json["type"] == "kick" and is_moderator(msg_json["author"]):
+                kicked_users.append(msg_json["target"])
 
         for player_id in players:
             if player_id != identifier:
@@ -130,6 +142,12 @@ def handle_messages(identifier: str):
 
     print(f"Player {username} with ID {identifier} has left the game...")
     del players[identifier]
+
+    if username in kicked_users:
+        kicked_users.remove(username)
+    if username in recently_banned_users:
+        recently_banned_users.remove(username)
+
     conn.close()
 
 
