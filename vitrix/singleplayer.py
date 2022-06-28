@@ -24,7 +24,7 @@ window.exit_button.visible = False
 default_width = sread('game_settings', 'window_width')
 default_height = sread('game_settings', 'window_height')
 window.size = (default_width, default_height)
-window.fullscreen = True
+# window.fullscreen = True
 
 Text.default_font = os.path.join(GamePaths.static_dir, "font.ttf")
 if sread('gameplay_settings', 'shadows') == "True":
