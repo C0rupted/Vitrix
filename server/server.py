@@ -9,9 +9,12 @@ line 1: MAX_PLAYERS
 
 import os,sys,socket,json,time,random,threading
 
+script_path = os.path.dirname(os.path.abspath(__file__))
+print(script_path)
+
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-properties = open("properties", 'r').read().split("\n")
+properties = open(f"{script_path}/properties", 'r').read().split("\n")
 
 from vitrix.lib.api.anticheat import *
 

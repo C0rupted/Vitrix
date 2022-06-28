@@ -1,6 +1,4 @@
-import os
-import time
-import threading
+import os, time, threading
 from vitrix_engine import *
 from vitrix_engine.prefabs.first_person_controller import FirstPersonController
 
@@ -55,7 +53,7 @@ class Player(FirstPersonController):
         self.holding = "gun"
 
         self.pause_text = Text(
-                    ignore_paused=True,
+                        ignore_paused=True,
                         text="Paused",
                         enabled=False,
                         position=Vec2(0, .3),
