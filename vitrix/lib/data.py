@@ -10,7 +10,4 @@ class GamePaths:
 
 
 class Items:
-    textures_path = os.path.join(GamePaths.textures_dir, "inventory")
-    first_aid_kit = {
-        "texture": os.path.join(textures_path, "")
-    }
+    nonstackable_items = ["pistol", "hammer", "sword", "battleaxe"]

@@ -5,6 +5,7 @@ from vitrix_engine.prefabs.first_person_controller import FirstPersonController
 from lib.entities.bullet import Bullet
 from lib.entities.crate import Crate
 from lib.entities.enemy import Zombie, Enemy
+from lib.UI.inventory import Inventory
 from lib.UI.healthbar import HealthBar
 from lib.UI.crosshair import Crosshair
 from lib.weapons.hammer import Hammer
@@ -13,7 +14,7 @@ from lib.weapons.sword import Sword
 from lib.weapons.battleaxe import BattleAxe
 from lib.items.aid_kit import AidKit
 from lib.items.ammo import Ammo
-# from lib.UI.inventory import inventory
+
 
 
 class Player(FirstPersonController):
@@ -40,17 +41,17 @@ class Player(FirstPersonController):
         self.pew = Audio("pew", autoplay=False)
         self.pew.volume = 0.2
 
-        self.gun = Pistol()
+        self.inventory = Inventory()
+        self.pistol = Pistol()
         self.hammer = Hammer()
         self.sword = Sword()
-        self.axe = BattleAxe()
+        self.battleaxe = BattleAxe()
 
+        self.pistol.disable()
         self.hammer.disable()
         self.sword.disable()
-        self.axe.disable()
-
-        self.item_order = ["gun", "hammer", "sword", "axe"]
-        self.holding = "gun"
+        self.battleaxe.disable()
+        self.inventory.append("hammer")
 
         self.pause_text = Text(
                         ignore_paused=True,
@@ -100,6 +101,7 @@ class Player(FirstPersonController):
         self.healthbar = HealthBar(self.health)
         self.crosshair = Crosshair()
 
+        self.holding = 1
         self.rounds_left = 5
         self.shots_left = 5
         self.reach = 6
@@ -129,7 +131,7 @@ class Player(FirstPersonController):
         self.rounds_counter.text = "Rounds Left: " + str(self.rounds_left)
 
     def input(self, key):
-        if self.paused:
+        if self.paused and not self.inventory.shown:
             return
 
         if key == "space":
@@ -142,35 +144,32 @@ class Player(FirstPersonController):
             else:
                 self.thirdperson = True
                 camera.z = -8
+        
+        if key == "1" or key == "2" or key == "3" or key == "4" or key == "5":
+            self.holding = int(key)
 
-        if key == "f": # Switch item held
-            if self.gun.enabled:
-                self.gun.disable()
-                self.hammer.enable()
-                self.crosshair.set_melee()
-            elif self.hammer.enabled:
-                self.hammer.disable()
-                self.sword.enable()
-                self.crosshair.set_melee()
-            elif self.sword.enabled:
-                self.sword.disable()
-                self.axe.enable()
-                self.crosshair.set_melee()
-            else:
-                self.axe.disable()
-                self.gun.enable()
-                self.crosshair.set_ranged()
-
-        if key == "r" and self.gun.enabled:
+        if key == "r" and self.pistol.enabled:
             threading.Thread(target=self.reload).start()
 
+        if key == "e":
+            if self.inventory.shown:
+                self.on_enable()
+                self.paused = False
+                self.inventory.position = (-.28, -.4)
+                self.inventory.shown = False
+            else:
+                self.on_disable()
+                self.paused = True
+                self.inventory.position = (-.28, -.2)
+                self.inventory.shown = True
+
         if key == "left mouse down" and self.health > 0:
-            if not self.gun.on_cooldown and self.gun.enabled:
+            if not self.pistol.on_cooldown and self.pistol.enabled:
                 if self.shots_left <= 0 and self.speed == 7:
                     self.reload_warning_text.enable()
                     threading.Thread(target=self.hide_reload_warning).start()
                     return
-                self.gun.on_cooldown = True
+                self.pistol.on_cooldown = True
                 bullet_pos = self.position + Vec3(0, 2, 0)
                 self.pew.play()
                 if not self.singleplayer:
@@ -182,8 +181,8 @@ class Player(FirstPersonController):
                                     -self.camera_pivot.world_rotation_x)
                 self.shots_left -= 1
                 destroy(bullet, delay=2)
-                invoke(setattr, self.gun, 'on_cooldown', False, delay=.25)
-            elif self.sword.enabled or self.axe.enabled:
+                invoke(setattr, self.pistol, 'on_cooldown', False, delay=.25)
+            elif self.sword.enabled or self.battleaxe.enabled:
                 slash = Audio("swing")
                 slash.play()
                 hit_info = raycast(self.world_position + Vec3(0, 2, 0), 
@@ -203,7 +202,9 @@ class Player(FirstPersonController):
             try:
                 for entity in hit_info.entities:
                     if isinstance(hit_info.entity, Crate) and self.hammer.enabled:
-                        print(hit_info.entity.contents)
+                        for item in hit_info.entity.contents:
+                            if not item == "nothing":
+                                self.inventory.append(item)
                         destroy(hit_info.entity)
                     if isinstance(hit_info.entity, AidKit):
                         print("Healing...")
@@ -222,7 +223,7 @@ class Player(FirstPersonController):
 
         Audio("death").play() # Play death sound
 
-        destroy(self.gun)
+        destroy(self.pistol)
         destroy(self.healthbar.icon)
         destroy(self.healthbar)
         self.rotation = 0
@@ -239,7 +240,7 @@ class Player(FirstPersonController):
     def respawn(self):
         self.death_message_shown = False
         self.on_enable()
-        self.gun = Pistol()
+        self.pistol = Pistol()
         self.rotation = Vec3(0, 0, 0)
         self.camera_pivot.world_rotation_x = 0
         self.world_position = Vec3(0, 3, 0)
@@ -268,7 +269,26 @@ class Player(FirstPersonController):
 
         self.rounds_counter.text = "Rounds Left: " + str(self.rounds_left)
 
+    def disable_all_weapons(self):
+        self.pistol.disable()
+        self.hammer.disable()
+        self.sword.disable()
+        self.battleaxe.disable()
+
     def update(self):
+        item_id = self.inventory.items[0][self.holding-1][0]
+        self.disable_all_weapons()
+        if item_id == "pistol":
+            self.pistol.enable()
+        elif item_id == "hammer":
+            self.hammer.enable()
+        elif item_id == "sword":
+            self.sword.enable()
+        elif item_id == "battleaxe":
+            self.battleaxe.enable()
+        else:
+            pass
+
         if self.y < -10:
             self.position = Vec3(0, 2, 0)
 

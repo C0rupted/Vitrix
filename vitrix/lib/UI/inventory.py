@@ -1,5 +1,5 @@
 from vitrix_engine import *
-#from lib.paths import GamePaths
+from lib.data import GamePaths, Items
 
 class Inventory(Entity):
     def __init__(self):
@@ -10,9 +10,11 @@ class Inventory(Entity):
             texture_scale = (5, 3),
             scale = (.5, .3),
             origin = (-.5, .5),
-            position = (-.3,.4),
-            color = color.color(0, 0, .1, .9),
+            position = (-.28, -.4),
+            color = color.color(0, 0, .1),
             )
+        self.shader = None
+        self.shown = False
         
         self.items = [
             [["empty", 0], ["empty", 0], ["empty", 0], ["empty", 0], ["empty", 0]],
@@ -50,8 +52,8 @@ class Inventory(Entity):
         return False
 
 
-    def append(self, id: str, amount: int):
-        if self.find_item(id) != False:
+    def append(self, id: str, amount: int = 1):
+        if self.find_item(id) != False and not (id in Items.nonstackable_items):
             column, row = self.find_item(id)
             self.items[column][row][1] += amount
             icon = self.entities[column][row]
@@ -68,12 +70,12 @@ class Inventory(Entity):
 
             icon = Draggable(
                 parent = self,
-                model = 'quad',
-                texture = id,
+                model = os.path.join(GamePaths.models_dir, "cube.obj"),
+                texture = os.path.join(GamePaths.textures_dir, "items", f"{id}.png"),
                 color = color.white,
                 scale_x = 1/self.texture_scale[0],
                 scale_y = 1/self.texture_scale[1],
-                origin = (-.5,.5),
+                origin = (-.5, .5),
                 x = row * 1/self.texture_scale[0],
                 y = -column * 1/self.texture_scale[1],
                 z = -.5,
@@ -111,28 +113,3 @@ class Inventory(Entity):
             icon.drop = drop
 
             self.entities[column][row] = icon
-
-
-
-if __name__ == '__main__':
-    app = Ursina()
-    inventory = Inventory()
-
-    def add_item():
-        inventory.append(random.choice(["gun", "first_aid_kit", "first_aid_kit", "first_aid_kit", 
-                                        "first_aid_kit"]), 1)
-
-    add_item_button = Button(
-        scale = (.1,.1),
-        x = -.5,
-        color = color.lime.tint(-.25),
-        text = '+',
-        tooltip = Tooltip('Add random item'),
-        on_click = add_item
-        )
-
-    bg = Entity(parent=camera.ui, model='quad', texture='shore', scale_x=camera.aspect_ratio, z=1)
-
-    window.exit_button.visible = False
-    window.fps_counter.enabled = False
-    app.run()

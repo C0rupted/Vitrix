@@ -16,7 +16,8 @@ class Crate(Entity):
             texture=os.path.join(GamePaths.textures_dir, "crate.png"),
         )
         
-        items_list = ["gun", "first_aid_kit", "first_aid_kit", "first_aid_kit", "first_aid_kit"]
+        items_list = ["pistol", "pistol", "pistol", "pistol", "sword", "sword", "battleaxe", "nothing", 
+                      "nothing", "nothing", "nothing", "nothing", "nothing"]
 
         self.contents = []
 
