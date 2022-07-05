@@ -1,11 +1,13 @@
 import json
+import os.path
 
-try:
-    settings_path = "user/settings.json"
-    settings_file = open("vitrix/user/settings.json", "r")
-except:
+if not os.path.isdir("user"):
     settings_path = "vitrix/user/settings.json"
+    settings_file = open("vitrix/user/settings.json", "r")
+else:
+    settings_path = "user/settings.json"
     settings_file = open("user/settings.json", "r")
+
 
 settings = json.loads(settings_file.read()) # dict
 
