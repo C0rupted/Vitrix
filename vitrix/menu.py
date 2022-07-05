@@ -189,10 +189,10 @@ def load_menu():
         e.enabled = True
 
 
+window.title = "Vitrix - Menu"
 app = Ursina()
 loading_screen = LoadingWheel(enabled=False)
 window.exit_button.visible = False
-window.title = "Vitrix - Menu"
 window.borderless = False
 default_width = sread("game_settings", "window_width")
 default_height = sread("game_settings", "window_height")
