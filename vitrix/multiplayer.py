@@ -26,15 +26,6 @@ from lib.entities.player import Player
 from lib.entities.enemy import Enemy
 from lib.entities.bullet import Bullet
 
-if os.path.isfile("ib.cfg"):
-    if open("ib.cfg", "r").read() == "1":
-        print("You can't play multiplayer.")
-        print("Reason: Cheats")
-        notify("You can't play multiplayer.", "You have been banned\nReason: Cheats")
-        sys.exit(1)
-else:
-    pass
-
 import lib.UI.server_chooser
 from lib.api.anticheat import *
 
