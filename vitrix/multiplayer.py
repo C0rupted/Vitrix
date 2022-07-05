@@ -90,6 +90,13 @@ default_height = sread('game_settings', 'window_height')
 window.size = (default_width, default_height)
 # window.fullscreen = True
 
+try:
+    from colorama import Fore
+    print("\n" + Fore.CYAN + "Toggle fullscreen with F11 to get better performances" + Fore.RESET)
+except:
+    print("Please install colorama to see colorized text")
+    print("Toggle fullscreen with F11 to get better performances")
+
 Text.default_font = os.path.join(GamePaths.static_dir, "font.ttf")
 if sread('gameplay_settings', 'shadows') == "True":
     Entity.default_shader = basic_lighting_shader
