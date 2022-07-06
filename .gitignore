@@ -11,8 +11,6 @@ vitrix_engine.egg-info/
 venvs-config/
 data.txt
 build/
-server/blacklist.json
-server/moderators.json
 dist/
 test/
 ib.cfg
