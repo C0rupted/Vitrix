@@ -1,6 +1,5 @@
 from vitrix_engine import *
 from lib.data import GamePaths
-import random
 
 class AidKit(Entity):
     def __init__(self, position: tuple):
@@ -13,4 +12,3 @@ class AidKit(Entity):
         )
 
         self.collider = MeshCollider(self)
-        self.health_restore = random.randint(50, 80) # amount of health to give to player

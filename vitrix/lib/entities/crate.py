@@ -17,7 +17,7 @@ class Crate(Entity):
         )
         
         items_list = ["pistol", "pistol", "pistol", "pistol", "sword", "sword", "battleaxe", "nothing", 
-                      "nothing", "nothing", "nothing", "nothing", "nothing"]
+                      "nothing", "nothing"]
 
         self.contents = []
 

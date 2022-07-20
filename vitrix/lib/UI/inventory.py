@@ -1,3 +1,4 @@
+from numpy import identity
 from vitrix_engine import *
 from lib.data import GamePaths, Items
 
@@ -46,7 +47,7 @@ class Inventory(Entity):
             x = 0
             for item in items:
                 if item[0] == id:
-                    return y, x
+                    return y, x, item[1]
                 x += 1
             y += 1
         return False
@@ -54,7 +55,7 @@ class Inventory(Entity):
 
     def append(self, id: str, amount: int = 1):
         if self.find_item(id) != False and not (id in Items.nonstackable_items):
-            column, row = self.find_item(id)
+            column, row, temp = self.find_item(id)
             self.items[column][row][1] += amount
             icon = self.entities[column][row]
             name = id.replace('_', ' ').title()
@@ -113,3 +114,24 @@ class Inventory(Entity):
             icon.drop = drop
 
             self.entities[column][row] = icon
+
+    def remove(self, id: str, amount: int = 1):
+        try:
+            column, row, temp = self.find_item(id)
+        except:
+            return False
+        print(self.items[column][row][1] - amount)
+        if (self.items[column][row][1] - amount) <= 0:
+            self.items[column][row][0] = "empty"
+            self.items[column][row][1] = 0
+            destroy(self.entities[column][row])
+            self.entities[column][row] = None
+            return
+        
+        self.items[column][row][1] -= amount
+        icon = self.entities[column][row]
+        name = id.replace('_', ' ').title()
+        icon.tooltip = Tooltip(f"{name} x1")
+
+        self.entities[column][row] = icon
+

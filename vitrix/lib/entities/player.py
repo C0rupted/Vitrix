@@ -1,4 +1,4 @@
-import os, time, threading
+import os, time, random, threading
 from vitrix_engine import *
 from vitrix_engine.prefabs.first_person_controller import FirstPersonController
 
@@ -65,17 +65,16 @@ class Player(FirstPersonController):
                             enabled=False,
                             scale=2)
 
+        self.no_more_ammo_text = Text(
+                            text="Out of Ammo!",
+                            enabled=False,
+                            scale=2)
+
         self.exit_button = Button(
                     ignore_paused=True,
                         text = "Quit Game",
                         scale=0.15,
                         on_click=Sequence(Wait(.01), Func(os._exit, 0))
-                    )
-
-        self.rounds_counter = Text(
-                        text="Rounds Left: 5",
-                        position=Vec2(.5, .47),
-                        scale=2.5
                     )
 
         self.dead_text = Text(
@@ -102,7 +101,6 @@ class Player(FirstPersonController):
         self.crosshair = Crosshair()
 
         self.holding = 1
-        self.rounds_left = 5
         self.shots_left = 5
         self.reach = 6
         self.death_message_shown = False
@@ -115,20 +113,23 @@ class Player(FirstPersonController):
         time.sleep(1)
         self.reload_warning_text.disable()
 
+    def hide_no_more_ammo_text(self):
+        time.sleep(1)
+        self.no_more_ammo_text.disable()
+
     def reload(self):
-        self.speed = 3
-        if self.rounds_left <= 0:
-            self.speed = 7
-            self.rounds_counter.text = "Rounds Left: 0"
+        if self.inventory.find_item("ammo") == False:
+            self.no_more_ammo_text.enable()
+            threading.Thread(target=self.hide_no_more_ammo_text).start()
             return
 
+        self.inventory.remove("ammo")
+        self.speed = 3
         Audio("reload.wav")
         time.sleep(3)
         self.shots_left = 5
         self.speed = 7
 
-        self.rounds_left -= 1
-        self.rounds_counter.text = "Rounds Left: " + str(self.rounds_left)
 
     def input(self, key):
         if self.paused and not self.inventory.shown:
@@ -197,24 +198,26 @@ class Player(FirstPersonController):
 
 
         if key == "right mouse down":
+            item_id = self.inventory.items[0][self.holding-1][0]
+            if item_id == "first_aid_kit":
+                self.restore_health(random.randint(50, 80))
+                self.inventory.remove("first_aid_kit")
+
             hit_info = raycast(self.world_position + Vec3(0, 2, 0), 
                                self.camera_pivot.forward, self.reach, ignore=(self,))
-            try:
-                for entity in hit_info.entities:
-                    if isinstance(hit_info.entity, Crate) and self.hammer.enabled:
-                        for item in hit_info.entity.contents:
-                            if not item == "nothing":
-                                self.inventory.append(item)
-                        destroy(hit_info.entity)
-                    if isinstance(hit_info.entity, AidKit):
-                        print("Healing...")
-                        self.restore_health(hit_info.entity.health_restore)
-                        destroy(hit_info.entity)
-                    if isinstance(hit_info.entity, Ammo):
-                        self.restore_rounds(5)
-                        destroy(hit_info.entity)
-            except:
-                pass
+            for entity in hit_info.entities:
+                if isinstance(hit_info.entity, Crate) and self.hammer.enabled:
+                    for item in hit_info.entity.contents:
+                        if not item == "nothing":
+                            self.inventory.append(item, 2)
+                    destroy(hit_info.entity)
+                if isinstance(hit_info.entity, AidKit):
+                    destroy(hit_info.entity)
+                    self.inventory.append("first_aid_kit")
+                if isinstance(hit_info.entity, Ammo):
+                    destroy(hit_info.entity)
+                    self.inventory.append("ammo")
+
 
     def death(self):
         self.death_message_shown = True
@@ -247,7 +250,6 @@ class Player(FirstPersonController):
         self.exit_button.position = Vec2(0, 0)
         self.crosshair.enable()
         self.health = 150
-        self.rounds_left = 5
         self.healthbar = HealthBar(self.health)
         self.respawn_button.disable()
         self.dead_text.disable()
@@ -260,14 +262,6 @@ class Player(FirstPersonController):
             self.health += amount
 
         self.healthbar.value = self.health    
-
-    def restore_rounds(self, amount: int):
-        if self.rounds_left + amount > 15:
-            self.rounds_left = 15
-        else:
-            self.rounds_left += amount
-
-        self.rounds_counter.text = "Rounds Left: " + str(self.rounds_left)
 
     def disable_all_weapons(self):
         self.pistol.disable()
