@@ -31,7 +31,7 @@
 
 <br><br>
 
-![Vitrix 1.2.0 Singleplayer development version](https://user-images.githubusercontent.com/89737965/176665804-9019f8ee-487f-460a-8540-4fc192d73042.png)
+![Vitrix 1.2.0 Singleplayer development version](https://github.com/ShadityZ/Vitrix/raw/dev/screenshot.png)
 
     
 <br>
