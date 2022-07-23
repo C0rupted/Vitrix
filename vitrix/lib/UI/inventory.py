@@ -85,6 +85,10 @@ class Inventory(Entity):
 
             icon.tooltip = Tooltip(f"{name} x1")
             icon.tooltip.background.color = color.color(0, 0, 0, .8)
+            icon.org_x = row,
+            icon.org_y = column,
+            icon.new_x = None,
+            icon.new_y = None,
 
             def drag():
                 icon.org_pos = (icon.x, icon.y)
@@ -93,6 +97,22 @@ class Inventory(Entity):
             def drop():
                 icon.x = int((icon.x + (icon.scale_x/2)) * 5) / 5
                 icon.y = int((icon.y - (icon.scale_y/2)) * 3) / 3
+                #icon.org_x = int(int(str(icon.org_pos[0])[2])/2)
+                icon.new_x = int(int(str(icon.x)[2])/2)
+
+                #try:
+                #    icon.org_y = int(int(str(icon.org_pos[1])[3])/3)
+                #except:
+                #    icon.org_y = int(int(str(icon.org_pos[1])[2])/3)
+
+                try:
+                    icon.new_y = int(int(str(icon.y)[3])/3)
+                except:
+                    icon.new_y = int(int(str(icon.y)[2])/3)
+
+
+
+
                 icon.z += .01
 
                 if icon.x < 0 or icon.x >= 1 or icon.y > 0 or icon.y <= -1:
@@ -133,4 +153,24 @@ class Inventory(Entity):
         icon.tooltip = Tooltip(f"{name} x1")
 
         self.entities[column][row] = icon
+    
+    def update(self):
+        for row in self.entities:
+            for item in row:
+                try:
+                    if (item.new_x != (None,)) and (item.new_y != (None,)):
+                        org_item = self.items[item.org_y[0]][item.org_x[0]]
+                        self.items[item.org_y[0]][item.org_x[0]] = ["empty", 0]
+
+                        item.org_x = item.new_x
+                        item.org_y = item.new_y
+
+                        self.items[item.org_y][item.org_x] = org_item
+
+                        item.new_x = None
+                        item.new_y = None
+
+                        print(self.items)
+                except:
+                    pass
 
