@@ -12,8 +12,8 @@ from lib.weapons.hammer import Hammer
 from lib.weapons.pistol import Pistol
 from lib.weapons.sword import Sword
 from lib.weapons.battleaxe import BattleAxe
-from lib.items.aid_kit import AidKit
-from lib.items.ammo import Ammo
+from lib.items.aid_kit import AidKit, AidKitInHand
+from lib.items.ammo import Ammo, AmmoInHand
 
 
 
@@ -42,6 +42,8 @@ class Player(FirstPersonController):
         self.pew.volume = 0.2
 
         self.inventory = Inventory()
+        self.aidkit = AidKitInHand()
+        self.ammo = AmmoInHand()
         self.pistol = Pistol()
         self.hammer = Hammer()
         self.sword = Sword()
@@ -199,9 +201,10 @@ class Player(FirstPersonController):
 
         if key == "right mouse down":
             item_id = self.inventory.items[0][self.holding-1][0]
-            if item_id == "first_aid_kit":
+            if item_id == "aid_kit":
                 self.restore_health(random.randint(50, 80))
-                self.inventory.remove("first_aid_kit")
+                self.inventory.remove("aid_kit")
+                return
 
             hit_info = raycast(self.world_position + Vec3(0, 2, 0), 
                                self.camera_pivot.forward, self.reach, ignore=(self,))
@@ -213,7 +216,7 @@ class Player(FirstPersonController):
                     destroy(hit_info.entity)
                 if isinstance(hit_info.entity, AidKit):
                     destroy(hit_info.entity)
-                    self.inventory.append("first_aid_kit")
+                    self.inventory.append("aid_kit")
                 if isinstance(hit_info.entity, Ammo):
                     destroy(hit_info.entity)
                     self.inventory.append("ammo")
@@ -268,6 +271,8 @@ class Player(FirstPersonController):
         self.hammer.disable()
         self.sword.disable()
         self.battleaxe.disable()
+        self.aidkit.disable()
+        self.ammo.disable()
 
     def update(self):
         item_id = self.inventory.items[0][self.holding-1][0]
@@ -280,6 +285,10 @@ class Player(FirstPersonController):
             self.sword.enable()
         elif item_id == "battleaxe":
             self.battleaxe.enable()
+        elif item_id == "aid_kit":
+            self.aidkit.enable()
+        elif item_id == "ammo":
+            self.ammo.enable()
         else:
             pass
 

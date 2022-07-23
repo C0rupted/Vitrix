@@ -120,7 +120,6 @@ class Inventory(Entity):
             column, row, temp = self.find_item(id)
         except:
             return False
-        print(self.items[column][row][1] - amount)
         if (self.items[column][row][1] - amount) <= 0:
             self.items[column][row][0] = "empty"
             self.items[column][row][1] = 0
