@@ -65,5 +65,8 @@ A: Indeed! Navigate to the directory “/Vitrix/vitrix/lib/classes” and access
 Q: What are the metrics that Vitrix uses to access whether a player is cheating or not? 
 A: If user speed within the game is not within a deemed “normal” range, they will be kicked out of the game’s multiplayer session by a function call named “perform_quit()”. If the jump height integer wise does not match up with the original source code’s jump height, they will also be removed from the game. Artificial manipulated levels of player health exceeding 150 also indicate that the player is cheating which results in an automatic disconnect for the game. 
 
+Q: What are the consequences of a player cheating/how does the anticheat python script handle improper/irregular user behavior
+A: Through the invocation of the "perform_quit()" function, the player is disconnected from the sever.
+
 <br>
 <h4>You can find out everything you else you need to know in the <a href="https://github.com/ShadityZ/Vitrix/blob/docs-development/docs/mainpage.md">Official Vitrix Documentation</a>!</h4>
