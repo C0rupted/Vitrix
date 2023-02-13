@@ -68,5 +68,15 @@ A: If user speed within the game is not within a deemed “normal” range, they
 Q: What are the consequences of a player cheating/how does the anticheat python script handle improper/irregular user behavior
 A: Through the invocation of the "perform_quit()" function, the player is disconnected from the sever.
 
+Item Functionality: 
+
+Q: What does the first aid kit do/how does it function within the game? 
+A: The first aid kit randomly restorces between 50 to 80 health. This is represented in the aid_kit.py file found in the directory "Vitrix/vitrix/lib/items/aid_kit.py" where the class attribute "health_restore" is initlized to a random value between 50 and 80 through the "random.randint(50, 80)" function which is derriven from the random library in python. 
+
+User Interface: 
+
+Q: Where are U.I. related scripts located? 
+A: Within the directory "Vitrix/vitrix/lib/UI/"
+
 <br>
 <h4>You can find out everything you else you need to know in the <a href="https://github.com/ShadityZ/Vitrix/blob/docs-development/docs/mainpage.md">Official Vitrix Documentation</a>!</h4>
