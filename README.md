@@ -35,7 +35,7 @@
 
     
 <br>
-Everybody knows lots of diffent FPS shooter games, from Fortnite to CS:GO, the list is longly tiresome. So, what's any different about Vitrix? Well first of all, it has a really cool name. Second of all, it is open-source! No more sneaky malware in your closed-source applications, because the code of Vitrix is fully open and accessible to the community! Well? What are you waiting for? Go ahead and download it if you haven't already, and dive into a world of Vitrix fun!
+Everybody knows lots of diffent FPS shooter games, from Fortnite to CS2, the list is longly tiresome. So, what's any different about Vitrix? Well first of all, it has a really cool name. Second of all, it is open-source! No more sneaky malware in your closed-source applications, because the code of Vitrix is fully open and accessible to the community! Well? What are you waiting for? Go ahead and download it if you haven't already, and dive into a world of Vitrix fun!
 
 =======
 Frequently Asked Questions (FAQ): 
